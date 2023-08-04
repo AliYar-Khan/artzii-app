@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import {
-  EyeInvisibleFilled,
-  EyeFilled,
-} from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { EyeInvisibleFilled, EyeFilled } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import "../../utils/style.css";
 import {
@@ -16,16 +13,28 @@ import GoogleIcon from "../../assets/google.png";
 import Header from "../Header";
 import Theme from "../../constants/theme";
 import { useNavigate } from "react-router-dom";
+import { client } from "../../apiClient/apiClient";
 
 const Signup = () => {
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    const data = JSON.stringify({
+      email: values.email,
+      password: values.password,
+    });
+    client.post("/api/users/", data).then((response) => {
+      console.log("====================================");
+      console.log("response data --->>>", response.data);
+      console.log("====================================");
+    });
   };
+
   const navigate = useNavigate();
 
   const handleNavigation = () => {
     navigate("/dashboard");
   };
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   return (
