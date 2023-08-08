@@ -1,33 +1,23 @@
 // controllers/UserController.js
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 // Create a new user
 exports.createUser = async (req, res) => {
-  console.log("====================================");
-  console.log("inside create user func");
-  console.log("====================================");
   try {
-    const {
-      name,
-      address,
-      city,
-      state,
-      country,
-      zipCode,
-      phoneNumber,
-      email,
-      password,
-    } = req.body;
+    console.log("====================================");
+    console.log("req.body --->>>", req.body);
+    console.log("====================================");
     const user = new User({
-      name,
-      address,
-      city,
-      state,
-      country,
-      zipCode,
-      phoneNumber,
-      email,
-      password,
+      name: req.body.name || "",
+      address: req.body.address || "",
+      city: req.body.city || "",
+      state: req.body.state || "",
+      country: req.body.country || "",
+      zipCode: req.body.zipCode || "",
+      phoneNumber: req.body.phoneNumber || "",
+      email: req.body.email,
+      password: req.body.password,
     });
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     user.password = await bcrypt.hash(user.password, salt);
@@ -92,4 +82,45 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: "Failed to delete the user" });
   }
 };
-//
+
+exports.loginUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    console.log("====================================");
+    console.log("user --->>>", user);
+    console.log("====================================");
+    if (!user) {
+      return res.status(401).json({ message: "Invalid username" });
+    }
+    const matched = await bcrypt.compare(req.body.password, user.password);
+    console.log("====================================");
+    console.log("matched --->>", matched);
+    console.log("====================================");
+    if (!matched) {
+      return res.status(401).json({ message: "Invalid password" });
+    } else {
+      const token = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
+        expiresIn: "8h",
+      });
+      console.log("====================================");
+      console.log("token ---->>>", token);
+      console.log("====================================");
+      return res.json({
+        success: true,
+        token: token,
+        user: {
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          address: user.address,
+          city: user.city,
+          country: user.country,
+          state: user.state,
+          zipCode: user.zipCode,
+        },
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

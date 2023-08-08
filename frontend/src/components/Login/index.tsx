@@ -13,10 +13,34 @@ import GoogleIcon from "../../assets/google.png";
 import Header from "../Header";
 import { useNavigate } from "react-router-dom";
 import Theme from "../../constants/theme";
+import { client } from "../../apiClient/apiClient";
+import { useStores } from "src/store/rootStore";
 
 const Login = () => {
+  const store = useStores();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    const data = JSON.stringify({
+      email: values.username,
+      password: values.password,
+    });
+
+    client
+      .post("/api/users/login", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(async (response) => {
+        console.log("====================================");
+        console.log("response.data.user ---->>>", response.data.user);
+        console.log("====================================");
+        if (response.data.success === true) {
+          await store.authStore.update("authToken", response.data.token);
+          await store.authStore.update("user", response.data.user);
+          handleNavigation();
+        }
+      });
   };
   const navigate = useNavigate();
 
@@ -69,7 +93,10 @@ const Login = () => {
               suffix={
                 showPassword ? (
                   <EyeInvisibleFilled
-                    style={{ color: `${Theme.GREY_COLOR}`, background: `${Theme.WHITE_COLOR} !important` }}
+                    style={{
+                      color: `${Theme.GREY_COLOR}`,
+                      background: `${Theme.WHITE_COLOR} !important`,
+                    }}
                     onClick={handleClickShowPassword}
                   />
                 ) : (
@@ -101,10 +128,15 @@ const Login = () => {
 
           <Form.Item>
             <Grids>
-              <LoginButton onClick={handleNavigation}>Login</LoginButton>
+              <LoginButton type="submit">Login</LoginButton>
               <SignUpPara>
                 Need an account?{" "}
-                <a href="/signup" className="signupButton">
+                <a
+                  href="https://artziii.com/pricing-3/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="signupButton"
+                >
                   sign-up here
                 </a>
               </SignUpPara>

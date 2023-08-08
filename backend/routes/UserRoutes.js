@@ -9,6 +9,9 @@ router.post("/", UserController.createUser);
 // Get all users
 router.get("/", auth, UserController.getAllUsers);
 
+//login a user
+router.post("/login", UserController.loginUser);
+
 // Get a specific user by ID
 router.get("/:id", UserController.getUserById);
 

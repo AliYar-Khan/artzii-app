@@ -3,11 +3,16 @@ import "./App.css";
 import AppRoutes from "./routes";
 import { BrowserRouter } from "react-router-dom";
 
+import RootStore from "./store/rootStore";
+import { Provider } from "mobx-react";
+
 const App = () => {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <Provider store={RootStore}>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </Provider>
   );
 };
 

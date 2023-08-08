@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { EyeInvisibleFilled, EyeFilled } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import "../../utils/style.css";
@@ -18,15 +18,15 @@ import { client } from "../../apiClient/apiClient";
 const Signup = () => {
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
-    const data = JSON.stringify({
-      email: values.email,
-      password: values.password,
-    });
-    client.post("/api/users/", data).then((response) => {
-      console.log("====================================");
-      console.log("response data --->>>", response.data);
-      console.log("====================================");
-    });
+    // const data = JSON.stringify({
+    //   email: values.username,
+    //   password: values.password,
+    // });
+    // client
+    //   .post("/api/users/", data, {
+    //     headers: { "Content-Type": "application/json" },
+    //   })
+    //   .then((response) => {});
   };
 
   const navigate = useNavigate();
