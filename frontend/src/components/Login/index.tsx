@@ -33,7 +33,7 @@ const Login = () => {
       })
       .then(async (response) => {
         console.log("====================================");
-        console.log("response.data.user ---->>>", response.data.user);
+        console.log("response.data.user --->>", response.data.user);
         console.log("====================================");
         if (response.data.success === true) {
           await store.authStore.update("authToken", response.data.token);
