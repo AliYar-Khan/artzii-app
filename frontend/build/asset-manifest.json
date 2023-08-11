@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e0978bcb.css",
+    "main.js": "/static/js/main.ab3bf134.js",
+    "static/js/787.a2dbc004.chunk.js": "/static/js/787.a2dbc004.chunk.js",
+    "static/media/HEROBANNER.png": "/static/media/HEROBANNER.33b73322979a6b12a737.png",
+    "static/media/Art.png": "/static/media/Art.d3f048532c68d6f63b9d.png",
+    "static/media/blueprint-icons-20.eot?": "/static/media/blueprint-icons-20.bffd23e04c9d82b1df2a.eot",
+    "static/media/blueprint-icons-20.ttf?": "/static/media/blueprint-icons-20.a36deb14ebebc58471c0.ttf",
+    "static/media/blueprint-icons-16.eot?": "/static/media/blueprint-icons-16.fde8cacb8868288ed9d1.eot",
+    "static/media/blueprint-icons-16.ttf?": "/static/media/blueprint-icons-16.eb652aad9a929d252b80.ttf",
+    "static/media/SFrame.png": "/static/media/SFrame.3bf74fab470c8b187216.png",
+    "static/media/AFrame.png": "/static/media/AFrame.e1be2d1ac61051be2dbc.png",
+    "static/media/DFrame.png": "/static/media/DFrame.ab2347c22288d5edb54d.png",
+    "static/media/blueprint-icons-20.woff?": "/static/media/blueprint-icons-20.d0a17caff38cb32c7131.woff",
+    "static/media/blueprint-icons-16.woff?": "/static/media/blueprint-icons-16.869b8978b3bcfa884f8e.woff",
+    "static/media/blueprint-icons-20.woff2?": "/static/media/blueprint-icons-20.5dc21856f85f91c945a1.woff2",
+    "static/media/blueprint-icons-16.woff2?": "/static/media/blueprint-icons-16.5a0658c2b025e421ebc2.woff2",
+    "static/media/artzLogo.png": "/static/media/artzLogo.d153103ac3cbf52802e9.png",
+    "index.html": "/index.html",
+    "main.e0978bcb.css.map": "/static/css/main.e0978bcb.css.map",
+    "main.ab3bf134.js.map": "/static/js/main.ab3bf134.js.map",
+    "787.a2dbc004.chunk.js.map": "/static/js/787.a2dbc004.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e0978bcb.css",
+    "static/js/main.ab3bf134.js"
+  ]
+}
