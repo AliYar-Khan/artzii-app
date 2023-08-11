@@ -2,6 +2,7 @@
   "name": "book-creator",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-regular-svg-icons": "^6.3.0",
@@ -60,7 +61,6 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-draft-wysiwyg": "^1.13.4",
     "@types/react-router-dom": "^5.3.3",
-    "@types/styled-components": "^5.1.26",
-    "dotenv-webpack": "^8.0.1"
+    "@types/styled-components": "^5.1.26"
   }
 }

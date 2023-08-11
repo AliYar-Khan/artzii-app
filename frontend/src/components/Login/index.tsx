@@ -26,7 +26,7 @@ const Login = () => {
     });
 
     client
-      .post("/api/users/login", data, {
+      .post("/users/login", data, {
         headers: {
           "Content-Type": "application/json",
         },
