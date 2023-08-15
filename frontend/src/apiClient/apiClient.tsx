@@ -8,5 +8,5 @@ console.log(
 console.log("====================================");
 
 export const client = axios.create({
-  baseURL: "/api",
+  baseURL: "http://localhost:5000/api",
 });
