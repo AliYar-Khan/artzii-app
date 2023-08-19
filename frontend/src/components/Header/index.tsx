@@ -10,19 +10,20 @@ import {
   BellIcon,
   SettingsIcon,
 } from "./style";
-import logo from '../../assets/artzLogo.png';
-import avatarImg from '../../assets/avatarImg.png';
+import logo from "../../assets/artzLogo.png";
+// import avatarImg from '../../assets/avatarImg.png';
+import accountIcon from "../../assets/accountIcon.png";
 import { useLocation } from "react-router-dom";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "antd";
 
 type Props = {
-  handleSettingsClick: () =>  void;
+  handleSettingsClick: () => void;
   handleUpgradeClick: () => void;
-}
+};
 
-const Header = ({handleSettingsClick, handleUpgradeClick}:Props) => {
+const Header = ({ handleSettingsClick, handleUpgradeClick }: Props) => {
   const location = useLocation();
   const channelPath = location.pathname;
   return (
@@ -35,15 +36,21 @@ const Header = ({handleSettingsClick, handleUpgradeClick}:Props) => {
           <Right>
             <UpgradeButton onClick={handleUpgradeClick}>Upgrade</UpgradeButton>
             <BellIcon>
-              <FontAwesomeIcon icon={solid("bell")} style={{ width: "17px", backgroundColor: "white" }} />
+              <FontAwesomeIcon
+                icon={solid("bell")}
+                style={{ width: "17px", backgroundColor: "white" }}
+              />
             </BellIcon>
             <SettingsIcon onClick={handleSettingsClick}>
-              <FontAwesomeIcon icon={solid("gear")} style={{ width: "17px", backgroundColor: "white" }} />
+              <FontAwesomeIcon
+                icon={solid("gear")}
+                style={{ width: "17px", backgroundColor: "white" }}
+              />
             </SettingsIcon>
             <AvatarIcon>
               <Avatar
                 size={{ xs: 24, sm: 32, md: 46, lg: 46, xl: 46, xxl: 46 }}
-                src={avatarImg}
+                src={accountIcon}
               />
             </AvatarIcon>
           </Right>

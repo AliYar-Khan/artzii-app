@@ -5,7 +5,7 @@ import { PolotnoContainer, SidePanelWrap, WorkspaceWrap } from "polotno";
 import { observer } from "mobx-react-lite";
 import { SectionTab } from "polotno/side-panel";
 import { SizeSection } from "polotno/side-panel";
-import {SizePanel} from 'polotno/side-panel/size-panel'
+import { SizePanel } from "polotno/side-panel/size-panel";
 import { Toolbar } from "polotno/toolbar/toolbar";
 import { ZoomButtons } from "polotno/toolbar/zoom-buttons";
 import { SidePanel } from "polotno/side-panel";
@@ -18,18 +18,18 @@ import { TemplatesPanel } from "polotno/side-panel/templates-panel";
 import { Workspace } from "polotno/canvas/workspace";
 import BgIcon from "../../assets/bgicon.png";
 import bgColor from "../../assets/bgiconcolor.png";
-import CharacterIcon from "../../assets/Characterblack.png";
-import CharacterColor from "../../assets/characterColor.png";
-import AnimalIcon from "../../assets/Animalblack.png";
-import AnimalColor from "../../assets/AnimalColor.png";
-import PropsIcon from "../../assets/Propsblack.png";
-import PropsColor from "../../assets/PropsColor.png";
+import ObjectIcon from "../../assets/objectsIcon.png";
+import ObjectColor from "../../assets/objectColor.png";
+import PhotoIcon from "../../assets/photosIcon.png";
+import PhotoColor from "../../assets/photosColor.png";
+import UploadIcon from "../../assets/uploadBlack.png";
+import uploadColor from "../../assets/uploadColor.png";
 import TextIcon from "../../assets/Textblack.png";
 import TextColor from "../../assets/TextColor.png";
-import TemplateIcon from "../../assets/templateicon.png";
+import TemplateIcon from "../../assets/templatesIcon.png";
 import TemplateColor from "../../assets/templateColor.png";
-import PagesColor from '../../assets/pagescolor.png';
-import PagesIcon from '../../assets/pagesicon.png';
+import SizingIcon from "../../assets/sizingIcon.png";
+import SizingColor from "../../assets/sizingColor.png";
 import { DownloadButton } from "polotno/toolbar/download-button";
 import "../../utils/style.css";
 
@@ -97,18 +97,18 @@ const Designer = () => {
       <SectionTab {...props}>
         {props.active ? (
           <img
-            src={CharacterColor}
+            src={ObjectColor}
             alt="character"
             style={{ background: "white", width: "36px" }}
           />
         ) : (
           <img
-            src={CharacterIcon}
+            src={ObjectIcon}
             alt="character"
             style={{ background: "white", width: "36px" }}
           />
         )}
-        <p style={{ background: "white", fontSize: "12px" }}>Characters</p>
+        <p style={{ background: "white", fontSize: "12px" }}>Objects</p>
       </SectionTab>
     ),
     // we need observer to update component automatically on any store changes
@@ -127,18 +127,18 @@ const Designer = () => {
       <SectionTab {...props}>
         {props.active ? (
           <img
-            src={AnimalColor}
+            src={PhotoColor}
             alt="animals"
             style={{ background: "white", width: "36px" }}
           />
         ) : (
           <img
-            src={AnimalIcon}
+            src={PhotoIcon}
             alt="animals"
             style={{ background: "white", width: "36px" }}
           />
         )}
-        <p style={{ background: "white", fontSize: "12px" }}>Animals</p>
+        <p style={{ background: "white", fontSize: "12px" }}>Photos</p>
       </SectionTab>
     ),
     // we need observer to update component automatically on any store changes
@@ -156,11 +156,11 @@ const Designer = () => {
     Tab: (props: any) => (
       <SectionTab {...props}>
         {props.active ? (
-          <img src={PropsColor} alt="props" style={{ background: "white" }} />
+          <img src={uploadColor} alt="props" style={{ background: "white" }} />
         ) : (
-          <img src={PropsIcon} alt="props" style={{ background: "white" }} />
+          <img src={UploadIcon} alt="props" style={{ background: "white" }} />
         )}
-        <p style={{ background: "white", fontSize: "12px" }}>Props</p>
+        <p style={{ background: "white", fontSize: "12px" }}>Upload</p>
       </SectionTab>
     ),
     // we need observer to update component automatically on any store changes
@@ -220,7 +220,7 @@ const Designer = () => {
             style={{ background: "white", width: "36px" }}
           />
         )}
-        <p style={{ background: "white", fontSize: "12px" }}>Cover</p>
+        <p style={{ background: "white", fontSize: "12px" }}>Templates</p>
       </SectionTab>
     ),
     // we need observer to update component automatically on any store changes
@@ -239,18 +239,18 @@ const Designer = () => {
       <SectionTab {...props}>
         {props.active ? (
           <img
-            src={PagesColor}
+            src={SizingColor}
             alt="text"
             style={{ background: "white", width: "36px" }}
           />
         ) : (
           <img
-            src={PagesIcon}
+            src={SizingIcon}
             alt="text"
             style={{ background: "white", width: "36px" }}
           />
         )}
-        <p style={{ background: "white", fontSize: "12px" }}>Pages</p>
+        <p style={{ background: "white", fontSize: "12px" }}>Sizing</p>
       </SectionTab>
     ),
     // we need observer to update component automatically on any store changes
@@ -274,7 +274,7 @@ const Designer = () => {
     customSection4,
     customSection5,
     customSection6,
-    customSection7
+    customSection7,
   ];
 
   // const customs = [
