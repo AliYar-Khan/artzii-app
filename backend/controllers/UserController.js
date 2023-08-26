@@ -2,12 +2,10 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
-    console.log("====================================");
-    console.log("req.body --->>>", req.body);
-    console.log("====================================");
     const user = new User({
       name: req.body.name || "",
       address: req.body.address || "",
@@ -24,10 +22,82 @@ exports.createUser = async (req, res) => {
     await user.save();
     res.status(201).json(user);
   } catch (error) {
-    console.log("====================================");
-    console.log("error --->>", error);
-    console.log("====================================");
-    res.status(500).json({ error: "Failed to create a new user" });
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.googleSignIn = async (req, res) => {
+  if (req.query.gat) {
+    axios
+      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${req.query.gat}`,
+        },
+      })
+      .then(async (response) => {
+        const name = `${response.data.given_name} ${response.data.family_name}`;
+        const email = response.data.email;
+
+        const alreadyExist = await User.findOne({ email });
+        if (alreadyExist) {
+          const token = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
+            expiresIn: "8h",
+          });
+          return res.status(200).json({
+            success: true,
+            token: token,
+            user: {
+              name: alreadyExist.name,
+              email: alreadyExist.email,
+              phoneNumber: alreadyExist.phoneNumber,
+              address: alreadyExist.address,
+              city: alreadyExist.city,
+              country: alreadyExist.country,
+              state: alreadyExist.state,
+              zipCode: alreadyExist.zipCode,
+            },
+          });
+        } else {
+          const newUser = new User({
+            name: name || "",
+            address: "",
+            city: "",
+            state: "",
+            country: "",
+            zipCode: "",
+            phoneNumber: "",
+            email: email,
+            password: "",
+          });
+          await newUser.save();
+          const token = jwt.sign(
+            { id: newUser.id },
+            process.env.JWTPRIVATEKEY,
+            {
+              expiresIn: "8h",
+            }
+          );
+          return res.status(200).json({
+            success: true,
+            token: token,
+            user: {
+              name: newUser.name,
+              email: newUser.email,
+              phoneNumber: newUser.phoneNumber,
+              address: newUser.address,
+              city: newUser.city,
+              country: newUser.country,
+              state: newUser.state,
+              zipCode: newUser.zipCode,
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        return res.status(404).json({ message: error.message });
+      });
+  } else {
+    return res.status(404).json({ message: "Invalid Account" });
   }
 };
 
@@ -86,25 +156,16 @@ exports.deleteUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    console.log("====================================");
-    console.log("user --->>>", user);
-    console.log("====================================");
     if (!user) {
       return res.status(401).json({ message: "Invalid username" });
     }
     const matched = await bcrypt.compare(req.body.password, user.password);
-    console.log("====================================");
-    console.log("matched --->>", matched);
-    console.log("====================================");
     if (!matched) {
       return res.status(401).json({ message: "Invalid password" });
     } else {
       const token = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
         expiresIn: "8h",
       });
-      console.log("====================================");
-      console.log("token ---->>>", token);
-      console.log("====================================");
       return res.json({
         success: true,
         token: token,

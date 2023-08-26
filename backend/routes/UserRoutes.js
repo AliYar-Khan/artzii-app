@@ -12,6 +12,8 @@ router.get("/", auth, UserController.getAllUsers);
 //login a user
 router.post("/login", UserController.loginUser);
 
+router.post("/googleSignIn", UserController.googleSignIn);
+
 // Get a specific user by ID
 router.get("/:id", UserController.getUserById);
 

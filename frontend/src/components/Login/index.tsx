@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Checkbox, Form, Input } from "antd";
 import "../../utils/style.css";
+import { useGoogleLogin } from "@react-oauth/google";
 import {
   Container,
   GoogleSigninBtn,
@@ -18,6 +19,7 @@ import { useStores } from "src/store/rootStore";
 
 const Login = () => {
   const store = useStores();
+  const [googleClicked, setGoogleClicked] = useState(false);
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
     const data = JSON.stringify({
@@ -31,18 +33,38 @@ const Login = () => {
           "Content-Type": "application/json",
         },
       })
-      .then(async (response) => {
-        console.log("====================================");
-        console.log("response.data.user --->>", response.data.user);
-        console.log("====================================");
-        if (response.data.success === true) {
-          await store.authStore.update("authToken", response.data.token);
-          await store.authStore.update("user", response.data.user);
-          handleNavigation();
+      .then(
+        async (response: {
+          data: { user: any; success: boolean; token: any };
+        }) => {
+          if (response.data.success === true) {
+            await store.authStore.update("authToken", response.data.token);
+            await store.authStore.update("user", response.data.user);
+            handleNavigation();
+          }
         }
-      });
+      );
   };
   const navigate = useNavigate();
+
+  const handleGoogleLoginSuccess = (tokenResponse: { access_token: any }) => {
+    const accessToken = tokenResponse.access_token;
+
+    client
+      .post("/users/googleSignIn?gat=" + accessToken)
+      .then(
+        async (response: {
+          data: { user: any; success: boolean; token: any };
+        }) => {
+          if (response.data.success === true) {
+            await store.authStore.update("authToken", response.data.token);
+            await store.authStore.update("user", response.data.user);
+            handleNavigation();
+          }
+        }
+      );
+  };
+  const login = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
 
   const handleNavigation = () => {
     navigate("/dashboard");
@@ -65,7 +87,12 @@ const Login = () => {
         >
           <Form.Item>
             <Grids>
-              <GoogleSigninBtn>
+              <GoogleSigninBtn
+                onClick={() => {
+                  setGoogleClicked(true);
+                  login();
+                }}
+              >
                 <img
                   src={GoogleIcon}
                   alt="google icon"
@@ -78,13 +105,23 @@ const Login = () => {
 
           <Form.Item
             name="username"
-            rules={[{ required: true, message: "Please input your Username!" }]}
+            rules={[
+              {
+                required: !googleClicked,
+                message: "Please input your Username!",
+              },
+            ]}
           >
             <Input placeholder="email" className="inputField" />
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
+            rules={[
+              {
+                required: !googleClicked,
+                message: "Please input your Password!",
+              },
+            ]}
           >
             <Input
               type={showPassword ? "text" : "password"}
