@@ -12,8 +12,12 @@ import StoryAnswers from "../components/StoryAnswers";
 import ArtPrompt from "../components/ArtPrompt";
 import ArtPainting from "../components/ArtPainting";
 import StoryEditor from "../components/StoryEditor";
+import { useStores } from "src/store/rootStore";
+import { Navigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
+  const store = useStores();
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const [activeSideBar, setActiveSideBar] = useState(true);
   const [activeSettings, setActiveSettings] = useState(1);
@@ -25,12 +29,14 @@ const Dashboard = () => {
     setActiveSideBar(true);
     // bodyElement.style.backgroundColor = 'red';
   };
-  useEffect(()=>{
-    if(activeTab === 2){
+
+  useEffect(() => {
+    if (activeTab === 2) {
       document.body.style.backgroundColor = "white";
     }
     document.body.style.backgroundColor = "#F8FBFF";
-  },[activeTab])
+  }, [activeTab]);
+
   const handleSettingsClick = () => {
     setActiveTab(0);
     setActiveSideBar(false);
@@ -69,12 +75,16 @@ const Dashboard = () => {
     setActiveNavigation(4);
   };
 
+  if (!store.authStore.authToken) {
+    return <Navigate to="/" replace />;
+  }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 1:
         return <Home />;
       case 2:
-        return <Designer />;
+        return <Designer designId={null} />;
       case 3:
         return <Stories handleNavigation={handleStoryNavigation} />;
       case 4:
@@ -98,17 +108,18 @@ const Dashboard = () => {
   const renderNavigations = () => {
     switch (activeNavigation) {
       case 1:
-        return <StoryAnswers handleEditorNavigation={handleEditorNavigation}/>;
+        return <StoryAnswers handleEditorNavigation={handleEditorNavigation} />;
       case 2:
         return <ArtPrompt handleArtPainting={handleArtPaintNavigation} />;
       case 3:
-        return <StoryEditor/>;
+        return <StoryEditor />;
       case 4:
         return <ArtPainting />;
       default:
         return null;
     }
   };
+
   return (
     <>
       <Header

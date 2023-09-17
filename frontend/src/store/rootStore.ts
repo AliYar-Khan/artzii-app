@@ -1,8 +1,8 @@
 import React from "react";
 import AuthStore from "./authStore";
-
 export default class RootStore {
   authStore: any;
+  designStore: any;
   constructor() {
     this.authStore = new AuthStore();
   }

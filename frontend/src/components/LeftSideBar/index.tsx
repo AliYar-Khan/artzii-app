@@ -5,6 +5,7 @@ import { Sidebar } from "./style";
 import "../../utils/style.css";
 import Arrow from "../../assets/arrow.png";
 import { useNavigate } from "react-router-dom";
+import { useStores } from "src/store/rootStore";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 library.add(faArrowRightFromBracket);
@@ -21,10 +22,11 @@ const LeftSideBar = ({
   renderTabContent,
   handleTabClick,
 }: SidebarProps) => {
-
+  const store = useStores();
   const navigate = useNavigate();
 
-  const handleNavigation = () => {
+  const handleNavigation = async () => {
+    await store.authStore.clear();
     navigate("/");
   };
 

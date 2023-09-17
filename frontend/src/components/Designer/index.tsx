@@ -1,10 +1,11 @@
 /* eslint-disable no-labels */
-import React, { useState } from "react";
-import { Container, SaveButton } from "./style";
+import React, { useState, useEffect } from "react";
+import { Container, SaveButton, InputContainer } from "./style";
 import { PolotnoContainer, SidePanelWrap, WorkspaceWrap } from "polotno";
 import { observer } from "mobx-react-lite";
 import { SectionTab } from "polotno/side-panel";
 import { SizeSection } from "polotno/side-panel";
+
 import { SizePanel } from "polotno/side-panel/size-panel";
 import { Toolbar } from "polotno/toolbar/toolbar";
 import { ZoomButtons } from "polotno/toolbar/zoom-buttons";
@@ -41,14 +42,20 @@ import { StoreProps, createStore } from "polotno/model/store";
 import RightSideBar from "../RightSidebar";
 import UploadModal from "../UploadModal";
 import { Store } from "antd/es/form/interface";
+import { client } from "../../apiClient/apiClient";
+import { useStores } from "src/store/rootStore";
+import { ToastContainer, toast } from "react-toastify";
 
-const store = createStore({
+const storePolotno = createStore({
   key: "xztVISt8d-Jmh7imOFAM",
   showCredit: true,
 });
-const page = store.addPage();
+const page = storePolotno.addPage();
 
-const Designer = () => {
+const Designer = (props: { designId: any }) => {
+  const store = useStores();
+  const [designId, setDesignId] = useState(props.designId);
+  const designName: any = React.useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
 
@@ -59,7 +66,7 @@ const Designer = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const pg = store;
+  const pg = storePolotno;
 
   const customSection: any = {
     name: "custom1",
@@ -286,17 +293,114 @@ const Designer = () => {
     setIsModalOpen(true);
   };
 
+  const handlePages = () => {
+    pg.addPage();
+  };
+
+  const handleSave = () => {
+    try {
+      const jsonObject = {
+        name: designName.current.value,
+        ...storePolotno.toJSON(),
+      };
+      if (!designId) {
+        client
+          .post("/design/", JSON.stringify(jsonObject), {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": store.authStore.authToken,
+            },
+          })
+          .then(
+            async (response: {
+              data: { success: boolean; designId: string };
+            }) => {
+              console.log("====================================");
+              console.log("response.data -->>", response.data);
+              console.log("====================================");
+              if (response.data.success === true) {
+                setDesignId(response.data.designId);
+                toast.success("Saved successfully!", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              } else {
+                toast.error("Something went wrong !", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              }
+            }
+          );
+      } else {
+        client
+          .put(`/design/${designId}`, JSON.stringify(jsonObject), {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": store.authStore.authToken,
+            },
+          })
+          .then(
+            async (response: {
+              data: { success: boolean; designId: string };
+            }) => {
+              console.log("====================================");
+              console.log("response.data -->>", response.data);
+              console.log("====================================");
+              if (response.data.success === true) {
+                setDesignId(response.data.designId);
+                toast.success("Updated successfully!", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              } else {
+                toast.error("Something went wrong !", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              }
+            }
+          )
+          .catch((err) => {
+            console.log("====================================");
+            console.log("err updating design --->>", err);
+            console.log("====================================");
+            toast.error("Something went wrong !", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          });
+      }
+    } catch (err: any) {
+      toast.error(err.message, {
+        position: toast.POSITION.TOP_LEFT,
+      });
+    }
+  };
+
   const ActionControls = ({ store }: Store) => {
     return (
       <>
         <DownloadButton store={store} />
-        <SaveButton>Save</SaveButton>
+        <SaveButton onClick={handleSave}>Save</SaveButton>
+        <InputContainer
+          ref={designName}
+          placeholder="untitled"
+          type="text"
+        ></InputContainer>
       </>
     );
   };
 
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <PolotnoContainer
         style={{
           width: "90vw",
@@ -306,20 +410,16 @@ const Designer = () => {
         }}
       >
         <SidePanelWrap>
-          <SidePanel
-            store={store}
-            sections={Sections}
-            defaultSection="custom1"
-          />
+          <SidePanel store={pg} sections={Sections} defaultSection="custom1" />
         </SidePanelWrap>
         <WorkspaceWrap>
           <Toolbar
-            store={store}
+            store={pg}
             downloadButtonEnabled
             components={{ ActionControls }}
           />
-          <Workspace store={store} />
-          <ZoomButtons store={store} />
+          <Workspace store={pg} />
+          <ZoomButtons store={pg} />
         </WorkspaceWrap>
       </PolotnoContainer>
       <UploadModal
@@ -328,10 +428,9 @@ const Designer = () => {
         handleCancel={handleCancel}
       />
       <RightSideBar
+        store={pg}
         handleUpload={handleUpload}
-        handlePages={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        handlePages={handlePages}
         handleCover={handleCover}
       />
     </Container>

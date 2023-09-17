@@ -12,12 +12,29 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
+  store: any;
   handleUpload: any;
   handlePages: () => void;
   handleCover: () => void;
-}
+};
 
-const RightSideBar = ({handleUpload, handlePages, handleCover}:Props) => {
+type Page = {
+  background: string;
+  bleed: number;
+  children: any[];
+  custom: any;
+  duration: number;
+  height: any;
+  id: string;
+  width: any;
+};
+
+const RightSideBar = ({
+  store,
+  handleUpload,
+  handlePages,
+  handleCover,
+}: Props) => {
   return (
     <Sidebar>
       <CoverButton onClick={handleCover}>Cover</CoverButton>

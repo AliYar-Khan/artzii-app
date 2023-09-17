@@ -93,11 +93,11 @@ export const AddPageButton2 = styled.div`
 `;
 
 export const WaterMarkRemover = styled.div`
-    width: 116px;
-    height: 20px;
-    margin-right: 200px;
-    background: #E8E8E8;
-    position: absolute;
-    left: -116px;
-    bottom: 95px;
-`
+  width: 116px;
+  height: 20px;
+  margin-right: 200px;
+  background: #e8e8e8;
+  position: absolute;
+  left: -116px;
+  bottom: 95px;
+`;

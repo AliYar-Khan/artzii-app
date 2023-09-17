@@ -2,6 +2,7 @@ require("dotenv").config();
 const cors = require("cors");
 var express = require("express");
 const userRoutes = require("./routes/UserRoutes");
+const designerRoutes = require("./routes/DesignRoutes");
 const connection = require("./config/db");
 const PORT = process.env.PORT;
 var app = express();
@@ -15,7 +16,7 @@ app.use(
       "Content-Type",
       "Authorization",
       "Origin",
-      "x-access-token",
+      "x-auth-token",
       "X-Requested-With",
       "Accept",
       "Access-Control-Allow-Headers",
@@ -31,6 +32,7 @@ app.get("/", function (req, res) {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/design", designerRoutes);
 
 app.listen(PORT, function () {
   console.log(`Artzii backend listening on port ${PORT}!`);

@@ -40,9 +40,13 @@ exports.googleSignIn = async (req, res) => {
 
         const alreadyExist = await User.findOne({ email });
         if (alreadyExist) {
-          const token = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
-            expiresIn: "8h",
-          });
+          const token = jwt.sign(
+            { id: alreadyExist.id },
+            process.env.JWTPRIVATEKEY,
+            {
+              expiresIn: "8h",
+            }
+          );
           return res.status(200).json({
             success: true,
             token: token,
@@ -94,10 +98,10 @@ exports.googleSignIn = async (req, res) => {
         }
       })
       .catch((error) => {
-        return res.status(404).json({ message: error.message });
+        return res.status(404).json({ success: false, message: error.message });
       });
   } else {
-    return res.status(404).json({ message: "Invalid Account" });
+    return res.status(404).json({ success: false, message: "Invalid Account" });
   }
 };
 
@@ -157,11 +161,15 @@ exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid username" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid username" });
     }
     const matched = await bcrypt.compare(req.body.password, user.password);
     if (!matched) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid password" });
     } else {
       const token = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
         expiresIn: "8h",
@@ -182,6 +190,6 @@ exports.loginUser = async (req, res) => {
       });
     }
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };

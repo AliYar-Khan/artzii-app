@@ -12,15 +12,23 @@ import {
 } from "./style";
 import GoogleIcon from "../../assets/google.png";
 import Header from "../Header";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Theme from "../../constants/theme";
 import { client } from "../../apiClient/apiClient";
 import { useStores } from "src/store/rootStore";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Login = () => {
   const store = useStores();
   const [googleClicked, setGoogleClicked] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
   const onFinish = (values: any) => {
+    if (googleClicked) return;
     console.log("Received values of form: ", values);
     const data = JSON.stringify({
       email: values.username,
@@ -35,15 +43,42 @@ const Login = () => {
       })
       .then(
         async (response: {
-          data: { user: any; success: boolean; token: any };
+          data: { user: any; success: boolean; message: string; token: any };
         }) => {
           if (response.data.success === true) {
             await store.authStore.update("authToken", response.data.token);
             await store.authStore.update("user", response.data.user);
-            handleNavigation();
+            toast.success("Logged in success. Redirecting", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+            setTimeout(() => {
+              handleNavigation();
+            }, 2000);
+          } else {
+            console.log("====================================");
+            console.log("response.data --->>", response.data);
+            console.log("====================================");
+            toast.error(response.data.message, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
           }
         }
-      );
+      )
+      .catch((error) => {
+        console.log("====================================");
+        console.log("error --->>>", error.response.data.message);
+        console.log("====================================");
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
   };
   const navigate = useNavigate();
 
@@ -69,20 +104,34 @@ const Login = () => {
   const handleNavigation = () => {
     navigate("/dashboard");
   };
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  if (store.authStore.authToken) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Header
         handleSettingsClick={handleNavigation}
         handleUpgradeClick={handleNavigation}
       />
       <Container>
         <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
+          name="google_login"
+          className="google-form"
+          onFinish={() => {}}
           style={{ backgroundColor: "white" }}
         >
           <Form.Item>
@@ -102,7 +151,14 @@ const Login = () => {
               </GoogleSigninBtn>
             </Grids>
           </Form.Item>
-
+        </Form>
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          style={{ backgroundColor: "white" }}
+        >
           <Form.Item
             name="username"
             rules={[
