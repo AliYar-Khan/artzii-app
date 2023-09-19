@@ -82,15 +82,25 @@ const Dashboard = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 1:
-        return <Home />;
+        return <Home setActiveTab={setActiveTab} />;
       case 2:
-        return <Designer designId={null} />;
+        return <Designer setActiveTab={setActiveTab} />;
       case 3:
-        return <Stories handleNavigation={handleStoryNavigation} />;
+        return (
+          <Stories
+            handleNavigation={handleStoryNavigation}
+            setActiveTab={setActiveTab}
+          />
+        );
       case 4:
-        return <AiArt handleNavigation={handleArtNavigation} />;
+        return (
+          <AiArt
+            handleNavigation={handleArtNavigation}
+            setActiveTab={setActiveTab}
+          />
+        );
       default:
-        return <Home />;
+        return <Home setActiveTab={setActiveTab} />;
     }
   };
 

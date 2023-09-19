@@ -45,6 +45,7 @@ import { Store } from "antd/es/form/interface";
 import { client } from "../../apiClient/apiClient";
 import { useStores } from "src/store/rootStore";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const storePolotno = createStore({
   key: "xztVISt8d-Jmh7imOFAM",
@@ -52,9 +53,8 @@ const storePolotno = createStore({
 });
 const page = storePolotno.addPage();
 
-const Designer = (props: { designId: any }) => {
+const Designer = (props: { setActiveTab: any }) => {
   const store = useStores();
-  const [designId, setDesignId] = useState(props.designId);
   const designName: any = React.useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
@@ -303,7 +303,7 @@ const Designer = (props: { designId: any }) => {
         name: designName.current.value,
         ...storePolotno.toJSON(),
       };
-      if (!designId) {
+      if (!store.designStore.designId) {
         client
           .post("/design/", JSON.stringify(jsonObject), {
             headers: {
@@ -319,25 +319,43 @@ const Designer = (props: { designId: any }) => {
               console.log("response.data -->>", response.data);
               console.log("====================================");
               if (response.data.success === true) {
-                setDesignId(response.data.designId);
+                store.designStore.updateDesignId(response.data.designId);
                 toast.success("Saved successfully!", {
-                  position: toast.POSITION.TOP_RIGHT,
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
                 });
               } else {
                 toast.error("Something went wrong !", {
-                  position: toast.POSITION.TOP_RIGHT,
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
                 });
               }
             }
           );
       } else {
         client
-          .put(`/design/${designId}`, JSON.stringify(jsonObject), {
-            headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": store.authStore.authToken,
-            },
-          })
+          .put(
+            `/design/${store.designStore.designId}`,
+            JSON.stringify(jsonObject),
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": store.authStore.authToken,
+              },
+            }
+          )
           .then(
             async (response: {
               data: { success: boolean; designId: string };
@@ -346,13 +364,27 @@ const Designer = (props: { designId: any }) => {
               console.log("response.data -->>", response.data);
               console.log("====================================");
               if (response.data.success === true) {
-                setDesignId(response.data.designId);
+                store.designStore.updateDesignId(response.data.designId);
                 toast.success("Updated successfully!", {
-                  position: toast.POSITION.TOP_RIGHT,
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
                 });
               } else {
                 toast.error("Something went wrong !", {
-                  position: toast.POSITION.TOP_RIGHT,
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
                 });
               }
             }
@@ -362,16 +394,109 @@ const Designer = (props: { designId: any }) => {
             console.log("err updating design --->>", err);
             console.log("====================================");
             toast.error("Something went wrong !", {
-              position: toast.POSITION.TOP_RIGHT,
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
             });
           });
       }
     } catch (err: any) {
       toast.error(err.message, {
-        position: toast.POSITION.TOP_LEFT,
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
       });
     }
   };
+
+  useEffect(() => {
+    if (store.designStore.designId !== "") {
+      client
+        .get(`/design/${store.designStore.designId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": store.authStore.authToken,
+          },
+        })
+        .then(async (response) => {
+          console.log("====================================");
+          console.log("response of geting design --->", response);
+          console.log("====================================");
+          if (response.data.success === true) {
+            pg.loadJSON(response.data.design);
+            designName.current.value = response.data.design.name;
+          } else {
+            if (response.status === 401) {
+              toast.error("Token Expired. Login Again!", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+              await store.logout();
+              setTimeout(() => {
+                window.location.href = "/";
+              }, 1000);
+            } else {
+              toast.error(response.data.error, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            }
+          }
+        })
+        .catch(async (err) => {
+          if (err.response.status === 401) {
+            toast.error("Token Expired. Login Again!", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            await store.logout();
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1000);
+          } else {
+            toast.error(err.response.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store.designStore.designId]);
 
   const ActionControls = ({ store }: Store) => {
     return (

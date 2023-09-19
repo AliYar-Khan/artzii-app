@@ -20,9 +20,10 @@ import { examplePrompts } from "../../services/ExamplePrompts";
 
 type Props = {
   handleNavigation: () => void;
+  setActiveTab: any;
 };
 
-const AiArt = ({ handleNavigation }: Props) => {
+const AiArt = ({ handleNavigation, setActiveTab }: Props) => {
   return (
     <Container>
       <MessageContainer>
@@ -53,7 +54,10 @@ const AiArt = ({ handleNavigation }: Props) => {
             <CardContainer>
               <Heading>{item.content}</Heading>
               <CloneIcon onClick={handleNavigation}>
-                <FontAwesomeIcon icon={item.icon} style={{ width: "17px", background:"white" }} />
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  style={{ width: "17px", background: "white" }}
+                />
               </CloneIcon>
             </CardContainer>
           ))}
@@ -65,7 +69,10 @@ const AiArt = ({ handleNavigation }: Props) => {
             <CardContainer>
               <Heading>{item.content}</Heading>
               <CloneIcon onClick={handleNavigation}>
-                <FontAwesomeIcon icon={item.icon} style={{ width: "17px", background:"white" }} />
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  style={{ width: "17px", background: "white" }}
+                />
               </CloneIcon>
             </CardContainer>
           ))}

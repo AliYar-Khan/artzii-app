@@ -10,9 +10,9 @@ module.exports = (req, res, next) => {
       req.user = decoded;
       next();
     } else {
-      res.status(403).send({ tokenInvalid: true, message: "Token expired." });
+      res.status(401).send({ tokenInvalid: true, message: "Token expired." });
     }
   } catch (error) {
-    res.status(400).send("Invalid token");
+    res.status(401).send({ tokenInvalid: true, message: "Invalid token" });
   }
 };

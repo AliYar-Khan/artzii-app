@@ -38,7 +38,8 @@ class AuthStore {
   }
 
   async clear() {
-    await AsyncStorage.clear();
+    await AsyncStorage.removeItem("authToken");
+    await AsyncStorage.removeItem("user");
     this.authToken = null;
     this.user = {};
   }

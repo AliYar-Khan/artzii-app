@@ -4,6 +4,9 @@ const designSchema = mongoose.Schema({
   name: {
     type: String,
   },
+  userId: {
+    type: String,
+  },
   pages: {
     type: [mongoose.Schema.Types.Mixed],
   },

@@ -49,7 +49,14 @@ const Login = () => {
             await store.authStore.update("authToken", response.data.token);
             await store.authStore.update("user", response.data.user);
             toast.success("Logged in success. Redirecting", {
-              position: toast.POSITION.TOP_RIGHT,
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
             });
             setTimeout(() => {
               handleNavigation();
@@ -91,10 +98,25 @@ const Login = () => {
         async (response: {
           data: { user: any; success: boolean; token: any };
         }) => {
+          console.log("====================================");
+          console.log("googleSignIn ------>>>>", response);
+          console.log("====================================");
           if (response.data.success === true) {
             await store.authStore.update("authToken", response.data.token);
             await store.authStore.update("user", response.data.user);
-            handleNavigation();
+            toast.success("Logged in success. Redirecting", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            setTimeout(() => {
+              handleNavigation();
+            }, 2000);
           }
         }
       );
@@ -113,7 +135,7 @@ const Login = () => {
     <>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
