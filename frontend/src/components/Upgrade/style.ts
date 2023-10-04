@@ -45,7 +45,6 @@ export const Flex2 = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-left: 35px;
 `;
 export const AccessButton = styled.button`
   cursor: pointer;
@@ -63,7 +62,6 @@ export const AccessButton = styled.button`
   color: ${Theme.BLACK_COLOR};
   width: -webkit-fill-available;
   width: -moz-available;
-  margin-top: 15px;
   margin-bottom: 15px;
 `;
 
@@ -94,45 +92,53 @@ export const Billed = styled.div`
   margin-right: auto;
   margin-top: -35px;
 `;
-export const MonthlyHeading = styled.h1<{color:string}>`
+export const MonthlyHeading = styled.h1<{ color: string }>`
   font-size: 16px;
   margin-right: 15px;
-  color: ${(prop)=> prop.color}
+  color: ${(prop) => prop.color};
 `;
 
-export const AnnualHeading = styled.h1<{color:string}>`
+export const AnnualHeading = styled.h1<{ color: string }>`
   font-size: 16px;
   margin-left: 15px;
-  color: ${(prop)=> prop.color}
+  color: ${(prop) => prop.color};
 `;
 
 export const CardHeading = styled.h1`
-    font-size: 30px;
-    text-align: center;
-    background-color: white;
+  font-size: 30px;
+  text-align: center;
+  background-color: white;
 `;
 export const CardDescription = styled.h3`
-    text-align: center;
-    background-color: white;
-    color: rgba(0, 0, 0, 0.25);
-    font-size: 16px;
+  text-align: center;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 16px;
 `;
 export const PricingImage = styled.img`
-    width: 100px;
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: white;
+  width: 100px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
 `;
 
 export const CardFeatures = styled.p`
-    display: flex;
-    align-items: center;
-    background-color: white;
-`
+  display: flex;
+  align-items: center;
+  background-color: white;
+`;
 export const CurrentPlanHeading = styled.p`
-    font-size: 12px;
-    text-align: center;
-    margin-top: 30px;
-    transform: rotate(-8.8deg);
+  font-size: 12px;
+  text-align: center;
+  margin-top: 30px;
+  transform: rotate(-8.8deg);
+`;
+
+export const AnnualPrice = styled.p`
+  font-size: 12px;
+  text-align: center;
+  font-family: Poppins;
+  font-style: italic;
+  color: #121212;
 `;

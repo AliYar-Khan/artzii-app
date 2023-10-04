@@ -10,12 +10,14 @@ type User = {
   country: string;
   state: string;
   zipCode: string;
+  subscriptions: any;
 };
 
 class AuthStore {
   authToken!: string | null;
   user!: User | {};
   navigation: any;
+  initialize: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -25,6 +27,7 @@ class AuthStore {
     this.authToken = await AsyncStorage.getItem("authToken");
     this.user =
       (await JSON.parse((await AsyncStorage.getItem("user")) || "{}")) || null;
+    this.initialize = true;
   }
 
   async update(field: string, value: any) {

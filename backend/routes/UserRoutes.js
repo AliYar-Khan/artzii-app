@@ -15,7 +15,7 @@ router.post("/login", UserController.loginUser);
 router.post("/googleSignIn", UserController.googleSignIn);
 
 // Get a specific user by ID
-router.get("/:id", UserController.getUserById);
+router.get("/:id", auth, UserController.getUserById);
 
 // Update a user by ID
 router.put("/:id", auth, UserController.updateUser);

@@ -1,5 +1,6 @@
 // controllers/UserController.js
 const User = require("../models/User");
+const Payment = require("../models/Payment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
@@ -28,78 +29,98 @@ exports.createUser = async (req, res) => {
 
 exports.googleSignIn = async (req, res) => {
   if (req.query.gat) {
-    axios
-      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: {
-          Authorization: `Bearer ${req.query.gat}`,
-        },
-      })
-      .then(async (response) => {
-        const name = `${response.data.given_name} ${response.data.family_name}`;
-        const email = response.data.email;
+    try {
+      axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: {
+            Authorization: `Bearer ${req.query.gat}`,
+          },
+        })
+        .then(async (response) => {
+          const name = `${response.data.given_name} ${response.data.family_name}`;
+          const email = response.data.email;
 
-        const alreadyExist = await User.findOne({ email });
-        if (alreadyExist) {
-          const token = jwt.sign(
-            { id: alreadyExist.id },
-            process.env.JWTPRIVATEKEY,
-            {
-              expiresIn: "8h",
-            }
-          );
-          return res.status(200).json({
-            success: true,
-            token: token,
-            user: {
-              name: alreadyExist.name,
-              email: alreadyExist.email,
-              phoneNumber: alreadyExist.phoneNumber,
-              address: alreadyExist.address,
-              city: alreadyExist.city,
-              country: alreadyExist.country,
-              state: alreadyExist.state,
-              zipCode: alreadyExist.zipCode,
-            },
-          });
-        } else {
-          const newUser = new User({
-            name: name || "",
-            address: "",
-            city: "",
-            state: "",
-            country: "",
-            zipCode: "",
-            phoneNumber: "",
-            email: email,
-            password: "",
-          });
-          await newUser.save();
-          const token = jwt.sign(
-            { id: newUser.id },
-            process.env.JWTPRIVATEKEY,
-            {
-              expiresIn: "8h",
-            }
-          );
-          return res.status(200).json({
-            success: true,
-            token: token,
-            user: {
-              name: newUser.name,
-              email: newUser.email,
-              phoneNumber: newUser.phoneNumber,
-              address: newUser.address,
-              city: newUser.city,
-              country: newUser.country,
-              state: newUser.state,
-              zipCode: newUser.zipCode,
-            },
-          });
-        }
-      })
-      .catch((error) => {
-        return res.status(404).json({ success: false, message: error.message });
-      });
+          const alreadyExist = await User.findOne({ email });
+          if (alreadyExist) {
+            const payments = await Payment.find({
+              userId: alreadyExist.id,
+              "subscription.status": { ne: "expired" },
+            });
+            const subs = payments.map((item) => {
+              const { subscriptionId, sessionId, ...newSub } =
+                item.subscription;
+              item.subscription = newSub;
+              return item;
+            });
+            const token = jwt.sign(
+              { id: alreadyExist.id },
+              process.env.JWTPRIVATEKEY,
+              {
+                expiresIn: "8h",
+              }
+            );
+            return res.status(200).json({
+              success: true,
+              token: token,
+              user: {
+                id: alreadyExist.id,
+                name: alreadyExist.name,
+                email: alreadyExist.email,
+                phoneNumber: alreadyExist.phoneNumber,
+                address: alreadyExist.address,
+                city: alreadyExist.city,
+                country: alreadyExist.country,
+                state: alreadyExist.state,
+                zipCode: alreadyExist.zipCode,
+                subscriptions: subs,
+              },
+            });
+          } else {
+            const newUser = new User({
+              name: name || "",
+              address: "",
+              city: "",
+              state: "",
+              country: "",
+              zipCode: "",
+              phoneNumber: "",
+              email: email,
+              password: "",
+            });
+            const savedUser = await newUser.save();
+            const token = jwt.sign(
+              { id: savedUser.id },
+              process.env.JWTPRIVATEKEY,
+              {
+                expiresIn: "8h",
+              }
+            );
+            return res.status(200).json({
+              success: true,
+              token: token,
+              user: {
+                id: savedUser.id,
+                name: savedUser.name,
+                email: savedUser.email,
+                phoneNumber: savedUser.phoneNumber,
+                address: savedUser.address,
+                city: savedUser.city,
+                country: savedUser.country,
+                state: savedUser.state,
+                zipCode: savedUser.zipCode,
+                subscriptions: [],
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          return res
+            .status(404)
+            .json({ success: false, message: error.message });
+        });
+    } catch (error) {
+      return res.status(404).json({ success: false, message: error.message });
+    }
   } else {
     return res.status(404).json({ success: false, message: "Invalid Account" });
   }
@@ -118,7 +139,27 @@ exports.getAllUsers = async (req, res) => {
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(201).json(user);
+    const payments = await Payment.find({
+      userId: alreadyExist.id,
+      "subscription.status": { ne: "expired" },
+    });
+    const subs = payments.map((item) => {
+      const { subscriptionId, sessionId, ...newSub } = item.subscription;
+      item.subscription = newSub;
+      return item;
+    });
+    const userWithSub = {
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      address: user.address,
+      city: user.city,
+      country: user.country,
+      state: user.state,
+      zipCode: user.zipCode,
+      subscriptions: subs,
+    };
+    res.status(201).json({ success: true, user: userWithSub });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

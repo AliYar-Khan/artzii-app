@@ -44,23 +44,6 @@ const Home = (props: any) => {
       .then(async (response) => {
         if (response.data.success === true) {
           setDesigns(response.data.designs);
-        } else {
-          if (response.status === 401) {
-            toast.error("Token Expired. Login Again!", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
-            await store.logout();
-            setTimeout(() => {
-              window.location.href = "/";
-            }, 1000);
-          }
         }
       })
       .catch(async (err) => {

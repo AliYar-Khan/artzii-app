@@ -6,7 +6,9 @@ export default class RootStore {
   designStore: any;
   constructor() {
     this.authStore = new AuthStore();
+    this.authStore.init();
     this.designStore = new DesignStore();
+    this.designStore.init();
   }
 
   async logout() {
