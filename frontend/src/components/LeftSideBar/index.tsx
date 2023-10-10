@@ -42,7 +42,10 @@ const LeftSideBar = ({
                 className={`tab ${
                   tab.id === activeTab ? "active" : "nonactive"
                 }`}
-                onClick={() => handleTabClick(tab.id)}
+                onClick={async () => {
+                  await store.designStore.clear();
+                  handleTabClick(tab.id);
+                }}
               >
                 <img
                   src={tab.id === activeTab ? tab.icon1 : tab.icon2}

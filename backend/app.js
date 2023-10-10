@@ -4,6 +4,7 @@ var express = require("express");
 const userRoutes = require("./routes/UserRoutes");
 const designerRoutes = require("./routes/DesignRoutes");
 const paymentRoutes = require("./routes/PaymentRoutes");
+const aiRoutes = require("./routes/AIRoutes");
 const connection = require("./config/db");
 const PORT = process.env.PORT;
 var app = express();
@@ -47,6 +48,7 @@ app.get("/", function (req, res) {
 app.use("/api/users", userRoutes);
 app.use("/api/design", designerRoutes);
 app.use("/api/payment-stripe", paymentRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.listen(PORT, function () {
   console.log(`Artzii backend listening on port ${PORT}!`);

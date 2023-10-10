@@ -27,7 +27,6 @@ const Dashboard = () => {
   const handleTabClick = (tabId: number) => {
     setActiveTab(tabId);
     setActiveSideBar(true);
-    // bodyElement.style.backgroundColor = 'red';
   };
 
   useEffect(() => {

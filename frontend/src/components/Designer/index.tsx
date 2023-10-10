@@ -420,7 +420,7 @@ const Designer = (props: { setActiveTab: any }) => {
   };
 
   useEffect(() => {
-    if (store.designStore.designId !== "") {
+    if (store.designStore.designId) {
       client
         .get(`/design/${store.designStore.designId}`, {
           headers: {
@@ -494,6 +494,9 @@ const Designer = (props: { setActiveTab: any }) => {
             });
           }
         });
+    } else {
+      pg.clear();
+      pg.addPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.designStore.designId]);

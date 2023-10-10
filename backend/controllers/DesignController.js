@@ -18,22 +18,9 @@ exports.getDesign = async (req, res) => {
   try {
     const designId = req.params.id;
     const design = await Design.findOne({ _id: designId });
-    console.log("====================================");
-    console.log(
-      "req.user.id , design.userId -===>>>>",
-      req.user.id,
-      design.userId
-    );
-    console.log("====================================");
     if (req.user.id === design.userId) {
-      console.log("====================================");
-      console.log("true");
-      console.log("====================================");
       res.status(200).json({ success: true, design: design });
     } else {
-      console.log("====================================");
-      console.log("false");
-      console.log("====================================");
       res.status(200).json({ success: false, message: "Not valid" });
     }
   } catch (error) {
@@ -41,9 +28,40 @@ exports.getDesign = async (req, res) => {
   }
 };
 
-exports.updateDesign = async (req, res) => {};
+exports.updateDesign = async (req, res) => {
+  try {
+    const designId = req.params.id;
+    console.log("====================================");
+    console.log("design id --->", designId);
+    console.log("====================================");
+    const design = await Design.findById(designId);
+    console.log("====================================");
+    console.log("design found --->", design.id);
+    console.log("====================================");
+    for (const key in req.body) {
+      if (design[key]) {
+        console.log("====================================");
+        console.log(`updating: ${key}`);
+        console.log("====================================");
+        design[key] = req.body[key];
+      }
+    }
+    await design.save();
+    res.status(200).json({ success: true, message: "Design Updated" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
-exports.deleteDesign = async (req, res) => {};
+exports.deleteDesign = async (req, res) => {
+  try {
+    const designId = req.params.id;
+    await Design.deleteOne({ _id: designId });
+    res.status(200).json({ success: true, message: "Design deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 exports.getAllDesign = async (req, res) => {
   try {
