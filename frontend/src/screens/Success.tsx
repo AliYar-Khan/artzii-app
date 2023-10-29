@@ -17,19 +17,21 @@ const Success = () => {
   console.log("====================================");
 
   useEffect(() => {
-    if (!initialized.current) {
+    if (!initialized.current && parsed) {
       initialized.current = true;
+      let url = "";
+      if (!parsed.aicredits) {
+        url = "/payment-stripe/payment-success";
+      } else {
+        url = "/payment-stripe/payment-success-credits";
+      }
       client
-        .post(
-          "/payment-stripe/payment-success",
-          JSON.stringify({ credits: parsed.aicredits }),
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": store.authStore.authToken,
-            },
-          }
-        )
+        .post(url, JSON.stringify({ credits: parsed.aicredits }), {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": store.authStore.authToken,
+          },
+        })
         .then((response) => {
           if (response.status === 200 && response.data.success) {
             setTimeout(() => {
@@ -61,7 +63,7 @@ const Success = () => {
           });
         });
     }
-  }, []);
+  }, [parsed]);
 
   if (store.authStore.initialize && !store.authStore.authToken) {
     return <Navigate to="/" replace />;

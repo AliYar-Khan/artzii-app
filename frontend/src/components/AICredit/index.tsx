@@ -48,14 +48,11 @@ const AICredit = () => {
         },
       })
       .then((response) => {
-        if (response.status === 200) {
-          console.log("====================================");
-          console.log(
-            "response of subscription --->>>",
-            response.data.session.url
-          );
-          console.log("====================================");
-          window.location = response.data.session.url;
+        console.log("====================================");
+        console.log("response of subscription --->>>", response);
+        console.log("====================================");
+        if (response && response.status === 200) {
+          window.location = response.data.url;
         }
       })
       .catch(async (err) => {

@@ -77,7 +77,7 @@ const stripeSessionForPackagesUpgradeOrDowngrade = async (
   }
 };
 
-const stripeSessionForAICredits = async (planId, quantity) => {
+const stripeSessionForAICredits = async (quantity) => {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -97,7 +97,7 @@ const stripeSessionForAICredits = async (planId, quantity) => {
       success_url: "http://localhost:3000/success?aicredits=true",
       cancel_url: "http://localhost:3000/cancel?aicredits=false",
     });
-    return session.url;
+    return session;
   } catch (error) {
     return error;
   }
@@ -201,6 +201,10 @@ exports.paymentSuccess = async (req, res) => {
           subscriptionId
         );
 
+        console.log("====================================");
+        console.log("subscription ---->>", subscription);
+        console.log("====================================");
+
         let planId = subscription.plan.id;
         let planType = "";
         if (subscription.plan.amount === 11988) {
@@ -227,7 +231,6 @@ exports.paymentSuccess = async (req, res) => {
         payment.subscription.status = "paid";
         payment.subscription.sessionId = "";
         payment.subscription.planId = planId;
-        payment.subscription.planType = planType;
         payment.subscription.subscriptionId = subscriptionId;
         payment.subscription.startDate = startDate;
         payment.subscription.willExpireOn = endDate;
@@ -236,39 +239,85 @@ exports.paymentSuccess = async (req, res) => {
         payment.subscription.itemId = subscription.items.data[0].id;
         payment.markModified("subscription");
         await payment.save();
+        return res.status(200).json({
+          success: true,
+          message: "Payment Successfull",
+          package: payment.subscription.planType,
+        });
       } catch (error) {
         return res.status(503).json({ success: false, error: error.message });
       }
     } else {
-      planType = "ai-credits";
+      return res
+        .status(200)
+        .json({ success: false, message: "Payment Unsuccessfull" });
+    }
+    // } else {
+    //   planType = "ai-credits";
+    //   const startDate = DateTime.now().toLocaleString("YYYY-MM-DD");
+    //   const endDate = DateTime.now()
+    //     .plus({ days: 365 })
+    //     .toLocaleString("YYYY-MM-DD");
+    // payment.subscription.sessionId = "";
+    // payment.subscription.status = "paid";
+    // payment.subscription.planId = "";
+    // payment.subscription.planType = planType;
+    // payment.subscription.startDate = startDate;
+    // payment.subscription.willExpireOn = endDate;
+    // payment.subscription.durationInDays = 365;
+    // payment.markModified("subscription");
+    // await payment.save();
+    // }
+    // const subscriptionUser = await client.get(req.user.id);
+    // console.log("====================================");
+    // console.log("redis subscriptionUser --->", subscriptionUser);
+    // console.log("====================================");
+    // await client.set(
+    //   req.user.id,
+    //   JSON.stringify({
+    //     ...payment.subscription,
+    //   })
+    // );
+
+    // return res
+    //   .status(200)
+    //   .json({ success: true, message: "Payment Successfull" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.paymentSuccessCredits = async (req, res) => {
+  try {
+    var payment = await Payment.findOne({ userId: req.user.id }, null, {
+      sort: {
+        _id: -1,
+      },
+    });
+
+    const session = await stripe.checkout.sessions.retrieve(
+      payment.subscription.sessionId
+    );
+    console.log("====================================");
+    console.log("session --->", session.payment_status);
+    console.log("====================================");
+    if (session.payment_status === "paid") {
       const startDate = DateTime.now().toLocaleString("YYYY-MM-DD");
       const endDate = DateTime.now()
         .plus({ days: 365 })
         .toLocaleString("YYYY-MM-DD");
       payment.subscription.sessionId = "";
       payment.subscription.status = "paid";
-      payment.subscription.planId = "";
-      payment.subscription.planType = planType;
       payment.subscription.startDate = startDate;
       payment.subscription.willExpireOn = endDate;
       payment.subscription.durationInDays = 365;
       payment.markModified("subscription");
       await payment.save();
+      return res.status(200).json({
+        success: true,
+        message: "Payment Successfull",
+      });
     }
-    const subscriptionUser = await client.get(req.user.id);
-    console.log("====================================");
-    console.log("redis subscriptionUser --->", subscriptionUser);
-    console.log("====================================");
-    await client.set(
-      req.user.id,
-      JSON.stringify({
-        ...payment.subscription,
-      })
-    );
-
-    return res
-      .status(200)
-      .json({ success: true, message: "Payment Successfull" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -278,7 +327,7 @@ exports.buyAICredits = async (req, res) => {
   try {
     const credits = req.body.noOfCredits;
     const user = req.user;
-    const session = await stripeSessionForAICredits(ai_credit_test, credits);
+    const session = await stripeSessionForAICredits(credits);
     const payment = new Payment({
       userId: user.id,
       subscription: {
@@ -293,7 +342,7 @@ exports.buyAICredits = async (req, res) => {
       },
     });
     await payment.save();
-    return res.json({ session });
+    return res.json({ url: session.url });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

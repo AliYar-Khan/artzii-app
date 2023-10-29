@@ -22,6 +22,12 @@ router.post("/buy-credits-session", auth, PaymentStripeController.buyAICredits);
 // check payment
 router.post("/payment-success", auth, PaymentStripeController.paymentSuccess);
 
+router.post(
+  "/payment-success-credits",
+  auth,
+  PaymentStripeController.paymentSuccessCredits
+);
+
 // cancel subscription
 router.post(
   "/cancel-subscription",
