@@ -6,14 +6,18 @@ const stripe = require("stripe")(process.env.STRIPE_TEST_PRIVATE_KEY);
 const { DateTime, Duration } = require("luxon");
 const { createClient } = require("redis");
 
-const [pro, business] = [
-  "price_1NtcIbF5tWWOGM6IKDsRwONI",
-  "price_1NtcJXF5tWWOGM6ILBfCtJ5o",
+const [lite, pro, business, ai_credit] = [
+  "price_1O2EtpF5tWWOGM6I0szZirTo",
+  "price_1O2EwjF5tWWOGM6IizCUqvut",
+  "price_1O2Ep3F5tWWOGM6IXCusa2VB",
+  "price_1O2FB9F5tWWOGM6Iey4mojug",
 ];
 
-const [pro_test, business_test] = [
-  "price_1Nx9PuF5tWWOGM6IJX58DSun",
-  "price_1Nx9QTF5tWWOGM6IU05iQbyX",
+const [lite_test, pro_test, business_test, ai_credit_test] = [
+  "price_1O6Ug9F5tWWOGM6IzVp5TkjE",
+  "price_1O6UhkF5tWWOGM6I6QiscDcM",
+  "price_1O6UirF5tWWOGM6IwkI73sK1",
+  "price_1O6UjtF5tWWOGM6IUWYbv6lk",
 ];
 exports.addCustomer = async (req, res) => {
   try {
@@ -27,7 +31,7 @@ exports.addCustomer = async (req, res) => {
   }
 };
 
-const stripeSession = async (planId) => {
+const stripeSessionForPackages = async (planId) => {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -41,7 +45,59 @@ const stripeSession = async (planId) => {
       success_url: "http://localhost:3000/success",
       cancel_url: "http://localhost:3000/cancel",
     });
+
     return session;
+  } catch (error) {
+    return error;
+  }
+};
+
+const stripeSessionForPackagesUpgradeOrDowngrade = async (
+  newPlanId,
+  payment
+) => {
+  try {
+    const session = await stripe.subscriptions.update(
+      payment.subscription.subscriptionId,
+      {
+        items: [
+          {
+            id: payment.subscription.itemId,
+          },
+          {
+            plan: newPlanId,
+          },
+        ],
+        proration_behavior: "always_invoice",
+      }
+    );
+    return session;
+  } catch (error) {
+    return error;
+  }
+};
+
+const stripeSessionForAICredits = async (planId, quantity) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "AI-credits",
+            },
+            unit_amount: 4,
+          },
+          quantity: quantity,
+        },
+      ],
+      success_url: "http://localhost:3000/success?aicredits=true",
+      cancel_url: "http://localhost:3000/cancel?aicredits=false",
+    });
+    return session.url;
   } catch (error) {
     return error;
   }
@@ -52,16 +108,21 @@ exports.subscribe = async (req, res) => {
     const { planPrice } = req.body;
     const user = req.user;
     let planId = null;
-    console.log("====================================");
-    console.log("planPrice, typeof --->>", planPrice, typeof planPrice);
-    console.log("====================================");
-    if (planPrice === 24) {
+    let planType = "";
+    if (planPrice == "9.99") {
+      planId = lite_test;
+      planType = "lite";
+    } else if (planPrice == "23.99") {
       planId = pro_test;
-    } else {
+      planType = "pro";
+    } else if (planPrice == "47.99") {
       planId = business_test;
+      planType = "business";
     }
-    const session = await stripeSession(planId);
-
+    console.log("====================================");
+    console.log("planPrice --->", planPrice);
+    console.log("====================================");
+    const session = await stripeSessionForPackages(planId);
     console.log("====================================");
     console.log("session --->", session);
     console.log("====================================");
@@ -70,15 +131,47 @@ exports.subscribe = async (req, res) => {
       subscription: {
         sessionId: session.id,
         status: "",
-        planId: "",
-        planType: "",
+        planId: planId,
+        planType: planType,
         startDate: "",
         willExpireOn: "",
         durationInDays: "",
       },
     });
     await payment.save();
-    return res.json({ session });
+    return res.json({ url: session.url });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.upgradeOrDowngrade = async (req, res) => {
+  try {
+    const { planPrice } = req.body;
+    const user = req.user;
+    let planId = null;
+    let planType = "";
+    if (planPrice == "9.99") {
+      planId = lite_test;
+      planType = "lite";
+    } else if (planPrice == "23.99") {
+      planId = pro_test;
+      planType = "pro";
+    } else if (planPrice == "47.99") {
+      planId = business_test;
+      planType = "business";
+    }
+
+    let subscription = await Payment.findOne({
+      userId: req.user.id,
+      "subscription.status": { $nin: ["expired", "cancelled"] },
+    });
+    const session = await stripeSessionForPackagesUpgradeOrDowngrade(
+      planId,
+      subscription
+    );
+
+    return res.json({ url: session.url });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -98,20 +191,23 @@ exports.paymentSuccess = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(
       payment.subscription.sessionId
     );
-    if (session.payment_status === "paid") {
+    console.log("====================================");
+    console.log("session --->", session);
+    console.log("====================================");
+    if (session.payment_status === "paid" && session.subscription) {
       const subscriptionId = session.subscription;
       try {
         const subscription = await stripe.subscriptions.retrieve(
           subscriptionId
         );
-        console.log("====================================");
-        console.log("subscription --->", subscription);
-        console.log("====================================");
+
         let planId = subscription.plan.id;
         let planType = "";
-        if (subscription.plan.amount === 28800) {
+        if (subscription.plan.amount === 11988) {
+          planType = "lite";
+        } else if (subscription.plan.amount === 28788) {
           planType = "pro";
-        } else if (subscription.plan.amount === 57600) {
+        } else if (subscription.plan.amount === 57588) {
           planType = "business";
         }
 
@@ -136,72 +232,68 @@ exports.paymentSuccess = async (req, res) => {
         payment.subscription.startDate = startDate;
         payment.subscription.willExpireOn = endDate;
         payment.subscription.durationInDays = durationInDays;
-
+        payment.subscription.customer = subscription.customer;
+        payment.subscription.itemId = subscription.items.data[0].id;
         payment.markModified("subscription");
         await payment.save();
-        const subscriptionUser = await client.get(req.user.id);
-        if (!subscriptionUser) {
-          if (planType === "pro") {
-            await client.set(
-              req.user.id,
-              JSON.stringify({
-                ...payment.subscription,
-                aiStoriesRequestsPerMonth: 100,
-                aiArtRequestsPerMonth: 500,
-              })
-            );
-          } else {
-            await client.set(
-              req.user.id,
-              JSON.stringify({
-                ...payment.subscription,
-                aiStoriesRequestsPerMonth: 200,
-                aiArtRequestsPerMonth: 1000,
-              })
-            );
-          }
-        } else {
-          var object = JSON.parse(subscriptionUser);
-          if (object instanceof Array) {
-            if (planType === "pro") {
-              object.push({
-                ...payment.subscription,
-                aiStoriesRequestsPerMonth: 100,
-                aiArtRequestsPerMonth: 500,
-              });
-            } else {
-              object.push({
-                ...payment.subscription,
-                aiStoriesRequestsPerMonth: 200,
-                aiArtRequestsPerMonth: 1000,
-              });
-            }
-            await client.set(req.user.id, JSON.stringify(object));
-          } else if (object instanceof Object) {
-            var array = [{ ...object }];
-            if (planType === "pro") {
-              array.push({
-                ...payment.subscription,
-                aiStoriesRequestsPerMonth: 100,
-                aiArtRequestsPerMonth: 500,
-              });
-            } else {
-              array.push({
-                ...payment.subscription,
-                aiStoriesRequestsPerMonth: 200,
-                aiArtRequestsPerMonth: 1000,
-              });
-            }
-            await client.set(req.user.id, JSON.stringify(array));
-          }
-        }
-        return res
-          .status(200)
-          .json({ success: true, message: "Payment Successfull" });
       } catch (error) {
         return res.status(503).json({ success: false, error: error.message });
       }
+    } else {
+      planType = "ai-credits";
+      const startDate = DateTime.now().toLocaleString("YYYY-MM-DD");
+      const endDate = DateTime.now()
+        .plus({ days: 365 })
+        .toLocaleString("YYYY-MM-DD");
+      payment.subscription.sessionId = "";
+      payment.subscription.status = "paid";
+      payment.subscription.planId = "";
+      payment.subscription.planType = planType;
+      payment.subscription.startDate = startDate;
+      payment.subscription.willExpireOn = endDate;
+      payment.subscription.durationInDays = 365;
+      payment.markModified("subscription");
+      await payment.save();
     }
+    const subscriptionUser = await client.get(req.user.id);
+    console.log("====================================");
+    console.log("redis subscriptionUser --->", subscriptionUser);
+    console.log("====================================");
+    await client.set(
+      req.user.id,
+      JSON.stringify({
+        ...payment.subscription,
+      })
+    );
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Payment Successfull" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.buyAICredits = async (req, res) => {
+  try {
+    const credits = req.body.noOfCredits;
+    const user = req.user;
+    const session = await stripeSessionForAICredits(ai_credit_test, credits);
+    const payment = new Payment({
+      userId: user.id,
+      subscription: {
+        sessionId: session.id,
+        status: "",
+        planId: "",
+        noOfCredits: credits,
+        planType: "credits",
+        startDate: "",
+        willExpireOn: "",
+        durationInDays: "",
+      },
+    });
+    await payment.save();
+    return res.json({ session });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -209,7 +301,7 @@ exports.paymentSuccess = async (req, res) => {
 
 exports.cancelSubscription = async (req, res) => {
   try {
-    const payment = Payment.findOne({
+    const payment = await Payment.findOne({
       userId: req.user.id,
       "subscription.status": { $nin: ["expired", "cancelled"] },
     });

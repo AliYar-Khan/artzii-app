@@ -42,16 +42,18 @@ exports.googleSignIn = async (req, res) => {
 
           const alreadyExist = await User.findOne({ email });
           if (alreadyExist) {
-            const payments = await Payment.find({
+            const payment = await Payment.findOne({
               userId: alreadyExist.id,
-              "subscription.status": { ne: "expired" },
+              "subscription.status": { $nin: ["expired", "cancelled"] },
             });
-            const subs = payments.map((item) => {
-              const { subscriptionId, sessionId, ...newSub } =
-                item.subscription;
-              item.subscription = newSub;
-              return item;
-            });
+
+            console.log("====================================");
+            console.log("payment --->", payment);
+            console.log("====================================");
+            const { subscription } = payment ? payment : { subscription: "" };
+            console.log("====================================");
+            console.log("planType ---->", subscription.planType);
+            console.log("====================================");
             const token = jwt.sign(
               { id: alreadyExist.id },
               process.env.JWTPRIVATEKEY,
@@ -72,7 +74,7 @@ exports.googleSignIn = async (req, res) => {
                 country: alreadyExist.country,
                 state: alreadyExist.state,
                 zipCode: alreadyExist.zipCode,
-                subscriptions: subs,
+                subscription: subscription.planType,
               },
             });
           } else {

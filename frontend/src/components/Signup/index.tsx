@@ -42,6 +42,7 @@ const Signup = () => {
       <Header
         handleSettingsClick={handleNavigation}
         handleUpgradeClick={handleNavigation}
+        handleAICreditClick={() => {}}
       />
       <Container>
         <Form

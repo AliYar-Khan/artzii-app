@@ -8,6 +8,7 @@ import Designer from "../components/Designer";
 import Home from "../components/Home";
 import Settings from "../components/Settings";
 import Upgrade from "../components/Upgrade";
+import AICredit from "../components/AICredit";
 import StoryAnswers from "../components/StoryAnswers";
 import ArtPrompt from "../components/ArtPrompt";
 import ArtPainting from "../components/ArtPainting";
@@ -48,6 +49,13 @@ const Dashboard = () => {
     setActiveSideBar(false);
     setActiveNavScreens(false);
     setActiveSettings(2);
+  };
+
+  const handleAICreditClick = () => {
+    setActiveTab(0);
+    setActiveSideBar(false);
+    setActiveNavScreens(false);
+    setActiveSettings(3);
   };
 
   const handleStoryNavigation = () => {
@@ -109,6 +117,8 @@ const Dashboard = () => {
         return <Settings />;
       case 2:
         return <Upgrade />;
+      case 3:
+        return <AICredit />;
       default:
         return null;
     }
@@ -134,6 +144,7 @@ const Dashboard = () => {
       <Header
         handleSettingsClick={handleSettingsClick}
         handleUpgradeClick={handleUpgradeClick}
+        handleAICreditClick={handleAICreditClick}
       />
       <LeftSideBar
         tabs={tabs}

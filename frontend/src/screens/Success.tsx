@@ -4,11 +4,17 @@ import { useStores } from "src/store/rootStore";
 import { Container, SuccessMessage } from "./style";
 import { client } from "src/apiClient/apiClient";
 import { toast } from "react-toastify";
+import queryString from "query-string";
 import "react-toastify/dist/ReactToastify.css";
 
 const Success = () => {
   const initialized = useRef(false);
   const store = useStores();
+  const parsed = queryString.parse(window.location.search);
+
+  console.log("====================================");
+  console.log("location --->", parsed.aicredits);
+  console.log("====================================");
 
   useEffect(() => {
     if (!initialized.current) {
@@ -16,7 +22,7 @@ const Success = () => {
       client
         .post(
           "/payment-stripe/payment-success",
-          {},
+          JSON.stringify({ credits: parsed.aicredits }),
           {
             headers: {
               "Content-Type": "application/json",

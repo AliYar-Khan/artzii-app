@@ -10,7 +10,7 @@ type User = {
   country: string;
   state: string;
   zipCode: string;
-  subscriptions: any;
+  subscription: any;
 };
 
 class AuthStore {

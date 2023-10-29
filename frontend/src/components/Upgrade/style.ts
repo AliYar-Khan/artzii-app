@@ -71,8 +71,8 @@ export const CancelSubscription = styled.a`
   position: absolute;
   width: 225px;
   height: 24px;
-  top: calc(50% + 550px);
-  left: 100px;
+  top: calc(12%);
+  right: 100px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
@@ -116,7 +116,8 @@ export const CardDescription = styled.h3`
   font-size: 16px;
 `;
 export const PricingImage = styled.img`
-  width: 100px;
+  width: 210px;
+  height: 90px;
   display: flex;
   margin-left: auto;
   margin-right: auto;
@@ -131,7 +132,6 @@ export const CardFeatures = styled.p`
 export const CurrentPlanHeading = styled.p`
   font-size: 12px;
   text-align: center;
-  margin-top: 30px;
   transform: rotate(-8.8deg);
 `;
 

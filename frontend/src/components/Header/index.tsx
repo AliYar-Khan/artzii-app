@@ -21,9 +21,14 @@ import { Avatar } from "antd";
 type Props = {
   handleSettingsClick: () => void;
   handleUpgradeClick: () => void;
+  handleAICreditClick: () => void;
 };
 
-const Header = ({ handleSettingsClick, handleUpgradeClick }: Props) => {
+const Header = ({
+  handleSettingsClick,
+  handleUpgradeClick,
+  handleAICreditClick,
+}: Props) => {
   const location = useLocation();
   const channelPath = location.pathname;
   return (
@@ -34,6 +39,9 @@ const Header = ({ handleSettingsClick, handleUpgradeClick }: Props) => {
         </Left>
         {channelPath === "/dashboard" && (
           <Right>
+            <UpgradeButton onClick={handleAICreditClick}>
+              + AI Credits
+            </UpgradeButton>
             <UpgradeButton onClick={handleUpgradeClick}>Upgrade</UpgradeButton>
             <BellIcon>
               <FontAwesomeIcon

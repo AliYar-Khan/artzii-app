@@ -42,7 +42,7 @@ const Upgrade = () => {
     setSubscription(!subscription);
   };
 
-  const checkout = (price: Number) => {
+  const checkout = (price: String) => {
     const data = JSON.stringify({
       planPrice: price,
     });
@@ -56,16 +56,10 @@ const Upgrade = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log("====================================");
-          console.log("response of subscription --->>>", response);
-          console.log("====================================");
-          window.location = response.data.session.url;
+          window.location = response.data.url;
         }
       })
       .catch(async (err) => {
-        console.log("====================================");
-        console.log("error -->>", err);
-        console.log("====================================");
         if (err.response.status === 401) {
           toast.error("Token Expired. Login Again!", {
             position: "top-right",
@@ -116,30 +110,28 @@ const Upgrade = () => {
               {pricingData.map((item) => (
                 <div
                   key={item.id}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
+                  style={{ display: "flex", flexDirection: "column" }}
                 >
-                  {store.authStore.user.subscriptions?.length ? (
-                    store.authStore.user.subscriptions[0].planType ===
-                    item.title.toLowerCase() ? (
-                      <>
-                        {" "}
-                        <CurrentPlanHeading>You are here</CurrentPlanHeading>
-                        <img
-                          src={ArrowDown}
-                          style={{
-                            width: "30px",
-                            display: "flex",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            marginTop: "-10px",
-                          }}
-                          alt="arrow"
-                        />{" "}
-                      </>
-                    ) : null
+                  {store.authStore.user.subscription ===
+                  item.title.toLowerCase() ? (
+                    <div
+                      style={{
+                        marginTop: "-40px",
+                      }}
+                    >
+                      <CurrentPlanHeading>You are here</CurrentPlanHeading>
+                      <img
+                        src={ArrowDown}
+                        style={{
+                          width: "30px",
+                          display: "flex",
+                          marginLeft: "auto",
+                          marginRight: "auto",
+                          marginTop: "-10px",
+                        }}
+                        alt="arrow"
+                      />
+                    </div>
                   ) : null}
                   <Card
                     style={{
@@ -158,7 +150,7 @@ const Upgrade = () => {
                     <AccessButton
                       onClick={() => {
                         if (item.monthlyPriceValue) {
-                          checkout(Number(item.monthlyPriceValue));
+                          checkout(item.monthlyPriceValue);
                         }
                       }}
                     >
