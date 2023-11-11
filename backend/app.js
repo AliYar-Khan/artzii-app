@@ -9,6 +9,8 @@ const connection = require("./config/db");
 const PORT = process.env.PORT;
 var app = express();
 connection();
+const bodyParser = require("body-parser");
+const PaymentStripeController = require("./controllers/PaymentStripeController");
 // const redis = require("redis");
 // async function start() {
 //   const client = redis.createClient();
@@ -48,6 +50,11 @@ app.get("/", function (req, res) {
 app.use("/api/users", userRoutes);
 app.use("/api/design", designerRoutes);
 app.use("/api/payment-stripe", paymentRoutes);
+app.post(
+  "/api/payment-stripe/webhook",
+  bodyParser.raw({ type: "application/json" }),
+  PaymentStripeController.webHookStripe
+);
 app.use("/api/ai", aiRoutes);
 
 app.listen(PORT, function () {

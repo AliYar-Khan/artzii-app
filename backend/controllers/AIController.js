@@ -1,28 +1,62 @@
 const axios = require("axios");
 const qs = require("qs");
 require("dotenv").config();
+const OpenAI = require("openai");
+var request = require("request");
+const Payment = require("../models/Payment");
+const mongoose = require("mongoose");
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 exports.generateStory = async (req, res) => {
   try {
-    let data = qs.stringify({
-      topic: req.body.topic,
-    });
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "https://api.hotpot.ai/story-generator",
-      headers: {
-        Authorization: process.env.HOTPOT_API_KEY,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
+    openai.chat.completions
+      .create({
+        messages: [
+          {
+            role: "user",
+            content: req.body.topic,
+          },
+        ],
+        model: "gpt-3.5-turbo",
+      })
+      .then(async (response) => {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        const payment = await Payment.findOne({
+          userId: req.user.id,
+          "subscription.status": { $nin: ["expired", "cancelled"] },
+        });
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log("story --->", response.data);
-        res.status(200).json({ success: true, story: response.data });
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+        const key = currentMonth + "/" + currentYear;
+        if (payment.subscription.usage) {
+          if (key in payment.subscription.usage) {
+            payment.subscription.usage[`${key}`].storyTokens =
+              payment.subscription.usage[`${key}`].storyTokens +
+              response.usage.total_tokens;
+          } else {
+            payment.subscription.usage[`${key}`].storyTokens =
+              response.usage.total_tokens;
+          }
+        } else {
+          payment.subscription.usage = {};
+          payment.subscription.usage[`${key}`] = {
+            storyTokens: response.usage.total_tokens,
+            artTokens: 0,
+          };
+        }
+        payment.markModified("subscription");
+        await payment.save();
+        await session.commitTransaction();
+        session.endSession();
+        res
+          .status(200)
+          .json({ success: true, story: response.choices[0].message.content });
       })
       .catch((error) => {
         console.log(error);
@@ -38,27 +72,44 @@ exports.generateImage = async (req, res) => {
     let data = qs.stringify({
       inputText: req.body.topic,
     });
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "https://api.hotpot.ai/make-art",
+    var options = {
+      method: "POST",
+      url: "https://stablediffusionapi.com/api/v3/text2img",
       headers: {
-        Authorization: process.env.HOTPOT_API_KEY,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      data: data,
+      body: JSON.stringify({
+        key: process.env.STABLE_DIFFUSION_API_KEY,
+        prompt: req.body.topic,
+        negative_prompt: null,
+        width: "512",
+        height: "512",
+        samples: "1",
+        num_inference_steps: "20",
+        seed: null,
+        guidance_scale: 7.5,
+        safety_checker: "yes",
+        multi_lingual: "no",
+        panorama: "no",
+        self_attention: "no",
+        upscale: "no",
+        embeddings_model: null,
+        webhook: null,
+        track_id: null,
+      }),
     };
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log("story --->", response.data);
-        res.status(200).json({ success: true, story: response.data });
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(200).json({ success: false, error: error.message });
-      });
+    request(options, function (error, response) {
+      if (error) {
+        res.status(200).json({ success: false, error: error });
+        // throw new Error(error)
+      }
+      res.status(200).json({ success: true, data: response.body });
+      // console.log(response.body);
+    }).catch((error) => {
+      console.log(error);
+      res.status(200).json({ success: false, error: error.message });
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

@@ -1,10 +1,15 @@
 require("dotenv").config();
 
 const Payment = require("../models/Payment");
+const {
+  handleSubscriptionCreated,
+  handleSubscriptionDeleted,
+  handleSubscriptionUpdated,
+  handleInvoicePaymentSucceeded,
+} = require("../utils/StripeWebhooks");
 const axios = require("axios");
 const stripe = require("stripe")(process.env.STRIPE_TEST_PRIVATE_KEY);
 const { DateTime, Duration } = require("luxon");
-const { createClient } = require("redis");
 
 const [lite, pro, business, ai_credit] = [
   "price_1O2EtpF5tWWOGM6I0szZirTo",
@@ -31,6 +36,60 @@ exports.addCustomer = async (req, res) => {
   }
 };
 
+exports.webHookStripe = async (req, res) => {
+  try {
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        req.header("Stripe-Signature"),
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.log(err);
+      console.log(`⚠️  Webhook signature verification failed.`);
+      console.log(
+        `⚠️  Check the env file and enter the correct webhook secret.`
+      );
+      return res.sendStatus(400);
+    }
+    console.log("====================================");
+    console.log("event.type ====>>>", event.type);
+    console.log("====================================");
+    const dataObject = event.data.object;
+    console.log("====================================");
+    console.log("dataObject --->", dataObject);
+    console.log("====================================");
+    switch (event.type) {
+      case "customer.subscription.created":
+        await handleSubscriptionCreated(dataObject);
+        res.json({ received: true });
+        break;
+      case "customer.subscription.deleted":
+        await handleSubscriptionDeleted(dataObject);
+        res.json({ received: true });
+        break;
+      case "customer.subscription.updated":
+        await handleSubscriptionUpdated(dataObject);
+        res.json({ received: true });
+        break;
+      case "invoice.payment_succeeded":
+        await handleInvoicePaymentSucceeded(dataObject);
+        res.json({ received: true });
+        break;
+      default:
+        break;
+    }
+  } catch (error) {
+    console.log("====================================");
+    console.log("error in webhook ===>", error);
+    console.log("====================================");
+    res.json({ received: false });
+  }
+  // Return a response to acknowledge receipt of the event
+};
+
 const stripeSessionForPackages = async (planId) => {
   try {
     const session = await stripe.checkout.sessions.create({
@@ -46,31 +105,6 @@ const stripeSessionForPackages = async (planId) => {
       cancel_url: "http://localhost:3000/cancel",
     });
 
-    return session;
-  } catch (error) {
-    return error;
-  }
-};
-
-const stripeSessionForPackagesUpgradeOrDowngrade = async (
-  newPlanId,
-  payment
-) => {
-  try {
-    const session = await stripe.subscriptions.update(
-      payment.subscription.subscriptionId,
-      {
-        items: [
-          {
-            id: payment.subscription.itemId,
-          },
-          {
-            plan: newPlanId,
-          },
-        ],
-        proration_behavior: "always_invoice",
-      }
-    );
     return session;
   } catch (error) {
     return error;
@@ -145,43 +179,8 @@ exports.subscribe = async (req, res) => {
   }
 };
 
-exports.upgradeOrDowngrade = async (req, res) => {
-  try {
-    const { planPrice } = req.body;
-    const user = req.user;
-    let planId = null;
-    let planType = "";
-    if (planPrice == "9.99") {
-      planId = lite_test;
-      planType = "lite";
-    } else if (planPrice == "23.99") {
-      planId = pro_test;
-      planType = "pro";
-    } else if (planPrice == "47.99") {
-      planId = business_test;
-      planType = "business";
-    }
-
-    let subscription = await Payment.findOne({
-      userId: req.user.id,
-      "subscription.status": { $nin: ["expired", "cancelled"] },
-    });
-    const session = await stripeSessionForPackagesUpgradeOrDowngrade(
-      planId,
-      subscription
-    );
-
-    return res.json({ url: session.url });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-
 exports.paymentSuccess = async (req, res) => {
   try {
-    const client = await createClient()
-      .on("error", (err) => console.log("Redis Client Error", err))
-      .connect();
     var payment = await Payment.findOne({ userId: req.user.id }, null, {
       sort: {
         _id: -1,
@@ -247,41 +246,32 @@ exports.paymentSuccess = async (req, res) => {
       } catch (error) {
         return res.status(503).json({ success: false, error: error.message });
       }
-    } else {
-      return res
-        .status(200)
-        .json({ success: false, message: "Payment Unsuccessfull" });
     }
-    // } else {
-    //   planType = "ai-credits";
-    //   const startDate = DateTime.now().toLocaleString("YYYY-MM-DD");
-    //   const endDate = DateTime.now()
-    //     .plus({ days: 365 })
-    //     .toLocaleString("YYYY-MM-DD");
-    // payment.subscription.sessionId = "";
-    // payment.subscription.status = "paid";
-    // payment.subscription.planId = "";
-    // payment.subscription.planType = planType;
-    // payment.subscription.startDate = startDate;
-    // payment.subscription.willExpireOn = endDate;
-    // payment.subscription.durationInDays = 365;
-    // payment.markModified("subscription");
-    // await payment.save();
+    // else {
+    //   return res
+    //     .status(200)
+    //     .json({ success: false, message: "Payment Unsuccessfull" });
     // }
-    // const subscriptionUser = await client.get(req.user.id);
-    // console.log("====================================");
-    // console.log("redis subscriptionUser --->", subscriptionUser);
-    // console.log("====================================");
-    // await client.set(
-    //   req.user.id,
-    //   JSON.stringify({
-    //     ...payment.subscription,
-    //   })
-    // );
+    else {
+      planType = "ai-credits";
+      const startDate = DateTime.now().toLocaleString("YYYY-MM-DD");
+      const endDate = DateTime.now()
+        .plus({ days: 365 })
+        .toLocaleString("YYYY-MM-DD");
+      payment.subscription.sessionId = "";
+      payment.subscription.status = "paid";
+      payment.subscription.planId = "";
+      payment.subscription.planType = planType;
+      payment.subscription.startDate = startDate;
+      payment.subscription.willExpireOn = endDate;
+      payment.subscription.durationInDays = 365;
+      payment.markModified("subscription");
+      await payment.save();
+    }
 
-    // return res
-    //   .status(200)
-    //   .json({ success: true, message: "Payment Successfull" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Payment Successfull" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

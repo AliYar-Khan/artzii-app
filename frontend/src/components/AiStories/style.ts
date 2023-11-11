@@ -73,32 +73,19 @@ export const LoaderContainer = styled.div`
 export const LoaderDiv = styled.div`
   border-width: 0.5rem;
   border-style: solid;
-  border-color: purple purple purple purple;
+  border-image: linear-gradient(
+      90deg,
+      rgba(255, 142, 165, 0.87) 25.21%,
+      rgba(204, 149, 255, 0.87) 51.28%,
+      rgba(136, 231, 255, 0.87) 75.62%
+    )
+    1 !important;
   width: 3.625rem;
   height: 3.625rem;
   border-radius: 50%;
   position: relative;
   -webkit-animation: spin 2s infinite;
   animation: spin 2s infinite;
-
-  &:before,
-  &:after {
-    content: "";
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: purple;
-    position: absolute;
-    left: 0.125rem;
-  }
-
-  &:before {
-    top: 0.063rem;
-  }
-
-  &:after {
-    bottom: 0.063rem;
-  }
 
   @keyframes spin {
     100% {

@@ -10,12 +10,6 @@ router.post("/addCustomer", auth, PaymentStripeController.addCustomer);
 // subscribe a package
 router.post("/subscribe-session", auth, PaymentStripeController.subscribe);
 
-router.post(
-  "/upgrade-downgrade-session",
-  auth,
-  PaymentStripeController.upgradeOrDowngrade
-);
-
 // buy credits
 router.post("/buy-credits-session", auth, PaymentStripeController.buyAICredits);
 

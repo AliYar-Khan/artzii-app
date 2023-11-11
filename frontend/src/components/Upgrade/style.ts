@@ -84,6 +84,26 @@ export const CancelSubscription = styled.a`
   text-align: center;
 `;
 
+export const ManageSubscription = styled.a`
+  text-decoration: none;
+  color: ${Theme.BLACK_COLOR};
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  top: calc(10%);
+  left: 100px;
+  font-family: "Poppins";
+  font-style: normal;
+  box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.12);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
+
 export const Billed = styled.div`
   display: flex;
   flex-direction: row;

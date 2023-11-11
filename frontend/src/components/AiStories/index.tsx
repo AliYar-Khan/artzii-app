@@ -57,6 +57,12 @@ const Stories = ({ handleNavigation, setActiveTab }: Props) => {
       )
       .then((response) => {
         setLoading(false);
+        if (response.status === 200) {
+          console.log("====================================");
+          console.log("response.data.story --->", response.data.story);
+          console.log("====================================");
+          setStory(response.data.story);
+        }
       })
       .catch((error) => {
         setLoading(false);
@@ -106,7 +112,7 @@ const Stories = ({ handleNavigation, setActiveTab }: Props) => {
               </CardContainer>
             ))}
           </>
-        ) : loading && story === null ? (
+        ) : loading ? (
           <LoaderContainer>
             <LoaderDiv></LoaderDiv>
           </LoaderContainer>

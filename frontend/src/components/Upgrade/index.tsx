@@ -3,6 +3,7 @@ import {
   AccessButton,
   AnnualHeading,
   Billed,
+  ManageSubscription,
   CancelSubscription,
   CardDescription,
   CardFeatures,
@@ -26,7 +27,7 @@ import { pricingData } from "../../services/PricingData";
 import Subscription from "../Subscription";
 import { client } from "../../apiClient/apiClient";
 import { useStores } from "src/store/rootStore";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Upgrade = () => {
@@ -38,8 +39,15 @@ const Upgrade = () => {
     setAnnualChecked(!annualChecked);
   };
 
-  const handleSubscription = () => {
-    setSubscription(!subscription);
+  // const handleSubscription = () => {
+  //   setSubscription(!subscription);
+  // };
+
+  const manageSubscription = () => {
+    window.open(
+      "https://billing.stripe.com/p/login/test_fZe9CacoegjIdheeUU",
+      "_blank"
+    );
   };
 
   const checkout = (price: String) => {
@@ -92,6 +100,18 @@ const Upgrade = () => {
 
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {!subscription ? (
         <>
           <Badge
@@ -150,7 +170,26 @@ const Upgrade = () => {
                     <AccessButton
                       onClick={() => {
                         if (item.monthlyPriceValue) {
-                          checkout(item.monthlyPriceValue);
+                          if (
+                            store.authStore.user.subscription === "lite" ||
+                            store.authStore.user.subscription === "pro" ||
+                            store.authStore.user.subscription === "enterprise"
+                          ) {
+                            toast.success(
+                              "Manage subscription from Top Left Button",
+                              {
+                                position: "top-right",
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "colored",
+                              }
+                            );
+                          } else {
+                            checkout(item.monthlyPriceValue);
+                          }
                         }
                       }}
                     >
@@ -209,13 +248,16 @@ const Upgrade = () => {
               ))}
             </Flex2>
           </FlexContainer>
-          <CancelSubscription onClick={handleSubscription}>
+          {/* <CancelSubscription onClick={handleSubscription}>
             Cancel Subscription?
-          </CancelSubscription>
+          </CancelSubscription> */}
+          <ManageSubscription onClick={manageSubscription}>
+            Manage Subscriptions
+          </ManageSubscription>
         </>
-      ) : (
-        <Subscription handleSubscription={handleSubscription} />
-      )}
+      ) : null
+      // <Subscription handleSubscription={handleSubscription} />
+      }
     </Container>
   );
 };
