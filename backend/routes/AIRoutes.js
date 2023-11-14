@@ -7,6 +7,6 @@ const ai = require("../middleware/checkAITokens");
 router.post("/generate-story", [auth, ai], AIController.generateStory);
 
 // Get all Design
-router.post("/generate-image", auth, AIController.generateImage);
+router.post("/generate-art", auth, AIController.generateImage);
 
 module.exports = router;

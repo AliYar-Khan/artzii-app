@@ -13,7 +13,7 @@ export const MessageContainer = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
   position: fixed;
-  bottom:0;
+  bottom: 0;
   margin-left: -56px;
   display: flex;
   justify-content: center;
@@ -23,7 +23,7 @@ export const MessageContainer = styled.div`
   padding-right: 100px;
   overflow-x: hidden;
   overflow-y: auto;
-  left:0px;
+  left: 0px;
 `;
 export const Para = styled.p`
   display: flex;
@@ -42,11 +42,11 @@ export const PromptsContainer = styled.div`
 `;
 
 export const FormulaPrompts = styled.div`
-    width: 50%;
+  width: 50%;
 `;
 
 export const ExamplePrompts = styled.div`
-    width: 50%;
+  width: 100%;
 `;
 
 export const FormulaHeading = styled.h2`
@@ -91,4 +91,13 @@ export const Heading = styled.h3`
   background: white;
   text-align: left;
   font-weight: 200;
+`;
+
+export const ArtContainer = styled.div`
+  width: 100%;
+  height: 1000px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;

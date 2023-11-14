@@ -69,9 +69,6 @@ exports.generateStory = async (req, res) => {
 
 exports.generateImage = async (req, res) => {
   try {
-    let data = qs.stringify({
-      inputText: req.body.topic,
-    });
     var options = {
       method: "POST",
       url: "https://stablediffusionapi.com/api/v3/text2img",
@@ -84,7 +81,7 @@ exports.generateImage = async (req, res) => {
         negative_prompt: null,
         width: "512",
         height: "512",
-        samples: "1",
+        samples: "4",
         num_inference_steps: "20",
         seed: null,
         guidance_scale: 7.5,
@@ -104,11 +101,11 @@ exports.generateImage = async (req, res) => {
         res.status(200).json({ success: false, error: error });
         // throw new Error(error)
       }
-      res.status(200).json({ success: true, data: response.body });
+      console.log("====================================");
+      console.log("response --->", JSON.parse(response.body));
+      console.log("====================================");
+      res.status(200).json({ success: true, data: JSON.parse(response.body) });
       // console.log(response.body);
-    }).catch((error) => {
-      console.log(error);
-      res.status(200).json({ success: false, error: error.message });
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
