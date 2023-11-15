@@ -11,8 +11,10 @@ import {
   StoryContainer,
   FlexContainer,
   Flex1,
+  DownloadButton,
   Para,
 } from "./style";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { storyData } from "../../services/Storydata";
 import TextArea, { TextAreaRef } from "antd/es/input/TextArea";
@@ -22,6 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { client } from "src/apiClient/apiClient";
 import { useStores } from "src/store/rootStore";
+import { Margin, usePDF } from "react-to-pdf";
 
 type Props = {
   handleNavigation: () => void;
@@ -33,7 +36,10 @@ const Stories = ({ handleNavigation, setActiveTab }: Props) => {
   const topicRef = useRef<TextAreaRef | null>(null);
   const [loading, setLoading] = useState(false);
   const [story, setStory] = useState(null);
-
+  const { toPDF, targetRef } = usePDF({
+    filename: "story.pdf",
+    page: { margin: Margin.MEDIUM },
+  });
   const generateStory = () => {
     setLoading(true);
     console.log("====================================");
@@ -67,6 +73,10 @@ const Stories = ({ handleNavigation, setActiveTab }: Props) => {
       .catch((error) => {
         setLoading(false);
       });
+  };
+
+  const downloadStory = () => {
+    toPDF();
   };
   return (
     <>
@@ -119,7 +129,8 @@ const Stories = ({ handleNavigation, setActiveTab }: Props) => {
         ) : (
           <StoryContainer>
             <FlexContainer>
-              <Para>{story}</Para>
+              <DownloadButton onClick={downloadStory}></DownloadButton>
+              <Para ref={targetRef}>{story}</Para>
             </FlexContainer>
           </StoryContainer>
         )}

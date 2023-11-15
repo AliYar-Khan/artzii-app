@@ -134,25 +134,32 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props) => {
             flexDirection: "row",
             justifyContent: "space-evenly",
             width: "100%",
-            height: "100%",
+            height: "100vh",
             flexWrap: "wrap",
             backgroundColor: "#ffffff",
           }}
         >
           {art?.output?.map((item: string | undefined, index: number) => (
-            <img
-              key={index}
-              src={item}
+            <div
               style={{
-                display: "flex",
-                flexDirection: "column",
                 width: 512,
-                flexWrap: "wrap",
                 height: 512,
-                paddingTop: 20,
-                paddingBottom: 20,
+                flexDirection: "column",
               }}
-            />
+            >
+              <img
+                key={index}
+                src={item}
+                style={{
+                  display: "flex",
+                  width: 512,
+                  height: 512,
+                  flexWrap: "wrap",
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                }}
+              />
+            </div>
           ))}
         </div>
       )}
