@@ -23,7 +23,13 @@ const PaymentStripeController = require("./controllers/PaymentStripeController")
 
 // start();
 
-app.use(express.json());
+app.use((req, res, next) => {
+  if (req.originalUrl === "/api/payment-stripe/webhook") {
+    next(); // Do nothing with the body because I need it in a raw state.
+  } else {
+    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+  }
+});
 app.use(
   cors({
     origin: "*",
@@ -52,7 +58,7 @@ app.use("/api/design", designerRoutes);
 app.use("/api/payment-stripe", paymentRoutes);
 app.post(
   "/api/payment-stripe/webhook",
-  bodyParser.raw({ type: "application/json" }),
+  express.raw({ type: 'application/json' }),
   PaymentStripeController.webHookStripe
 );
 app.use("/api/ai", aiRoutes);

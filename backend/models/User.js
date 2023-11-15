@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema({
   state: {
     type: String,
   },
+  customerId: {
+    type: String,
+  },
   country: {
     type: String,
   },

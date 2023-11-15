@@ -6,6 +6,7 @@ const {
   handleSubscriptionDeleted,
   handleSubscriptionUpdated,
   handleInvoicePaymentSucceeded,
+  handleCustomerCreated
 } = require("../utils/StripeWebhooks");
 const axios = require("axios");
 const stripe = require("stripe")(process.env.STRIPE_TEST_PRIVATE_KEY);
@@ -38,29 +39,19 @@ exports.addCustomer = async (req, res) => {
 
 exports.webHookStripe = async (req, res) => {
   try {
-    let event;
+    const sig = req.headers['stripe-signature'];
 
+    let event;
+  
     try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        req.header("Stripe-Signature"),
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
+      const body = req.body.toString('utf8');
+      event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
-      console.log(err);
-      console.log(`⚠️  Webhook signature verification failed.`);
-      console.log(
-        `⚠️  Check the env file and enter the correct webhook secret.`
-      );
-      return res.sendStatus(400);
+      console.log(`Webhook Error1: ${err.message}`);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-    console.log("====================================");
-    console.log("event.type ====>>>", event.type);
-    console.log("====================================");
+  
     const dataObject = event.data.object;
-    console.log("====================================");
-    console.log("dataObject --->", dataObject);
-    console.log("====================================");
     switch (event.type) {
       case "customer.subscription.created":
         await handleSubscriptionCreated(dataObject);
@@ -74,7 +65,11 @@ exports.webHookStripe = async (req, res) => {
         await handleSubscriptionUpdated(dataObject);
         res.json({ received: true });
         break;
-      case "invoice.payment_succeeded":
+      case "customer.created":
+        await handleCustomerCreated(dataObject);
+        res.json({ received: true });
+        break;
+      case "payment_intent.succeeded":
         await handleInvoicePaymentSucceeded(dataObject);
         res.json({ received: true });
         break;
