@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Theme from "../../constants/theme";
-
+import { ArrowDownSquare } from "@styled-icons/bootstrap/ArrowDownSquare";
 export const Container = styled.div`
   width: 86vw;
   height: 530px;
@@ -97,10 +97,10 @@ export const LoaderDiv = styled.div`
 export const StoryContainer = styled.div`
   margin-left: -100px;
   margin-right: auto;
-  margin-top: 40px;
+  margin-top: 70px;
   width: -webkit-fill-available;
   width: -moz-available;
-  height: 350px;
+  height: 70vh;
   position: fixed;
   overflow-x: hidden;
   padding-top: 20px;
@@ -121,6 +121,7 @@ export const FlexContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   width: 950px;
+  height: 90vh;
   background: ${Theme.WHITE_COLOR} !important;
 `;
 
@@ -135,4 +136,12 @@ export const Para = styled.p`
   margin-left: auto;
   margin-right: auto;
   background-color: white;
+`;
+
+export const DownloadButton = styled(ArrowDownSquare)`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 30px;
+  right: 250px;
 `;
