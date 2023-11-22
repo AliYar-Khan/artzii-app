@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios'
 
-console.log("====================================");
+console.log('====================================')
 console.log(
-  "process.env.REACT_APP_BACKEND_URL ----->>>>",
+  'process.env.REACT_APP_BACKEND_URL ----->>>>',
   process.env.REACT_APP_BACKEND_URL
-);
-console.log("====================================");
+)
+console.log('====================================')
 
 export const client = axios.create({
-  baseURL: "http://localhost:5000/api",
-});
+  baseURL: process.env.REACT_APP_BACKEND_URL
+})

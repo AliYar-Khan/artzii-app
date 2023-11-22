@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
-import { ArrowDownSquare } from "@styled-icons/bootstrap/ArrowDownSquare";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
+import { ArrowDownSquare } from '@styled-icons/bootstrap/ArrowDownSquare'
 export const Container = styled.div`
   width: 86vw;
   height: 530px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-`;
+`
 
 export const CardContainer = styled.div`
   width: 478px;
@@ -22,27 +22,29 @@ export const CardContainer = styled.div`
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   padding: 20px;
-`;
+`
 
 export const MainHeading = styled.h2`
   font-weight: 600;
   font-size: 20px;
   line-height: 30px;
   text-align: center;
-`;
+`
 
 export const Heading = styled.h3`
   font-size: 17px;
   background: white;
   text-align: left;
   font-weight: 300;
-`;
+`
+
 export const CloneIcon = styled.div`
   margin-top: -70px;
   margin-left: auto;
   cursor: pointer;
   background-color: white;
-`;
+`
+
 export const MessageContainer = styled.div`
   width: -webkit-fill-available;
   width: -moz-available;
@@ -62,13 +64,13 @@ export const MessageContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   left: 0px;
-`;
+`
 
 export const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`
 
 export const LoaderDiv = styled.div`
   border-width: 0.5rem;
@@ -92,7 +94,7 @@ export const LoaderDiv = styled.div`
       transform: rotate(360deg);
     }
   }
-`;
+`
 
 export const StoryContainer = styled.div`
   margin-left: -100px;
@@ -110,7 +112,7 @@ export const StoryContainer = styled.div`
   display: flex;
   flex-direction: row;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
-`;
+`
 
 export const FlexContainer = styled.div`
   display: flex;
@@ -123,12 +125,12 @@ export const FlexContainer = styled.div`
   width: 950px;
   height: 90vh;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 
 export const Flex1 = styled.div`
   width: auto;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 
 export const Para = styled.p`
   font-size: 14px;
@@ -136,7 +138,7 @@ export const Para = styled.p`
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-`;
+`
 
 export const DownloadButton = styled(ArrowDownSquare)`
   width: 30px;
@@ -144,4 +146,4 @@ export const DownloadButton = styled(ArrowDownSquare)`
   position: absolute;
   top: 30px;
   right: 250px;
-`;
+`
