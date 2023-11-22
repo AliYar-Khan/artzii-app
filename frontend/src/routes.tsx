@@ -1,11 +1,12 @@
-import { Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import Dashboard from "./screens/Dashboard";
-import Success from "./screens/Success";
-import Cancel from "./screens/Cancel";
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Login from './components/Login'
+import Signup from './components/Signup'
+import Dashboard from './screens/Dashboard'
+import Success from './screens/Success'
+import Cancel from './screens/Cancel'
 
-const AppRoutes = () => {
+const AppRoutes = (): JSX.Element => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -14,7 +15,7 @@ const AppRoutes = () => {
       <Route path="/success" element={<Success />} />
       <Route path="/cancel" element={<Cancel />} />
     </Routes>
-  );
-};
+  )
+}
 
-export default AppRoutes;
+export default AppRoutes
