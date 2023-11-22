@@ -1,16 +1,16 @@
-import React, {useState} from "react";
-import { Container, Flex1, Flex2, FlexContainer, Para } from "./style";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+import React, { useState } from 'react'
+import { Container, Flex1, Flex2, FlexContainer, Para } from './style'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { EditorState } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg'
 
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-const StoryEditor = () => {
+const StoryEditor = (): JSX.Element => {
   const [editorState, setEditorState] = useState(
-    () => EditorState.createEmpty(),
-  );
+    () => EditorState.createEmpty()
+  )
   return (
     <Container>
       <Editor
@@ -51,20 +51,20 @@ const StoryEditor = () => {
       </Flex1>
       <Flex2>
         <FontAwesomeIcon
-          icon={solid("clone")}
+          icon={solid('clone')}
           style={{
-            width: "17px",
-            backgroundColor: "white",
-            marginBottom: "20px",
-            marginTop: "20px",
-            marginLeft: "50px",
-            cursor: "pointer",
+            width: '17px',
+            backgroundColor: 'white',
+            marginBottom: '20px',
+            marginTop: '20px',
+            marginLeft: '50px',
+            cursor: 'pointer'
           }}
         />
       </Flex2>
     </FlexContainer>
     </Container>
-  );
-};
+  )
+}
 
-export default StoryEditor;
+export default StoryEditor

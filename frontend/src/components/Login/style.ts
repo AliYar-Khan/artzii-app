@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   width: 530px;
@@ -14,18 +14,18 @@ export const Container = styled.div`
   padding-top: 60px;
   padding-bottom: 10px;
   background-color: white;
-`;
+`
 
 export const SignUpPara = styled.p`
   text-align: center;
   margin-top: 15px;
   background-color: white;
-`;
+`
 
 export const Grids = styled.div`
   display: grid;
   background-color: white;
-`;
+`
 export const LoginButton = styled.button`
   cursor: pointer;
   height: 50px;
@@ -40,7 +40,7 @@ export const LoginButton = styled.button`
     )
     1 !important;
   color: ${Theme.BLACK_COLOR};
-`;
+`
 
 export const GoogleSigninBtn = styled.button`
   display: flex;
@@ -53,4 +53,4 @@ export const GoogleSigninBtn = styled.button`
   border-radius: 4px;
   color: ${Theme.BLACK_COLOR};
   border: 1px solid ${Theme.LIGHT_GREY_COLOR};
-`;
+`

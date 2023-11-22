@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
 margin-left: -60px;
@@ -14,7 +14,7 @@ padding-bottom: 10px;
 padding-left: 0px;
 margin-top: 30px;
 background-color: ${Theme.WHITE_COLOR};
-`;
+`
 export const AccountHeading = styled.h1`
   text-align: center;
   font-size: 20px;
@@ -25,27 +25,27 @@ export const AccountHeading = styled.h1`
   margin-top: 30px;
   color: ${Theme.BLACK_COLOR};
   background-color: ${Theme.WHITE_COLOR};
-`;
+`
 export const FlexContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding: 50px;
   overflow-x: hidden;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 
 export const Flex1 = styled.div`
   width: 200px;
   margin-right: auto;
   margin-left: 50px;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 export const Flex2 = styled.div`
   width: 200px;
   margin-left: auto;
   margin-right: auto;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 export const UpdateButton = styled.button`
   cursor: pointer;
   height: 46px;
@@ -61,7 +61,7 @@ export const UpdateButton = styled.button`
     1 !important;
   color: ${Theme.BLACK_COLOR};
   width: 66%;
-`;
+`
 
 export const CancelSubscription = styled.a`
   text-decoration: none;
@@ -78,4 +78,4 @@ export const CancelSubscription = styled.a`
   line-height: 18px;
   display: flex;
   align-items: center;
-`;
+`

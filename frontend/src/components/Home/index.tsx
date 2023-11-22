@@ -1,101 +1,101 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Container,
   DesignRow,
   Head1,
-  Head2,
+  // Head2,
   Head5,
-  IllustrationContainer,
+  // IllustrationContainer,
   IllustrationImg,
   ImageContainer,
-  DesignImage,
-  UploadButton,
-} from "./style";
-import "../../utils/style.css";
-import HeroBanner from "../../assets/HEROBANNER.png";
-import DFrame from "../../assets/DFrame.png";
-import AFrame from "../../assets/AFrame.png";
-import SFrame from "../../assets/SFrame.png";
-import { client } from "src/apiClient/apiClient";
-import { useStores } from "src/store/rootStore";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+  DesignImage
+  // UploadButton
+} from './style'
+import '../../utils/style.css'
+import HeroBanner from '../../assets/HEROBANNER.png'
+import DFrame from '../../assets/DFrame.png'
+import AFrame from '../../assets/AFrame.png'
+import SFrame from '../../assets/SFrame.png'
+import { client } from 'src/apiClient/apiClient'
+import { useStores } from 'src/store/rootStore'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-import Designer from "../Designer";
-import { Navigate } from "react-router-dom";
+// import Designer from '../Designer'
+// import { Navigate } from 'react-router-dom'
 interface Design {
-  name: String;
-  conver: String;
+  name: string
+  conver: string
 }
 
-const Home = (props: any) => {
-  const store = useStores();
-  const [designs, setDesigns] = useState<Design[]>([]);
-  const [itemsDisplay, setItemsDisplay] = useState<any>();
+const Home = (props: any): JSX.Element => {
+  const store = useStores()
+  const [designs, setDesigns] = useState<Design[]>([])
+  const [itemsDisplay, setItemsDisplay] = useState<any>()
 
   useEffect(() => {
     client
-      .get("/design/", {
+      .get('/design/', {
         headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": store.authStore.authToken,
-        },
+          'Content-Type': 'application/json',
+          'x-auth-token': store.authStore.authToken
+        }
       })
       .then(async (response) => {
         if (response.data.success === true) {
-          setDesigns(response.data.designs);
+          setDesigns(response.data.designs)
         }
       })
       .catch(async (err) => {
         if (err.response.status === 401) {
-          toast.error("Token Expired. Login Again!", {
-            position: "top-right",
+          toast.error('Token Expired. Login Again!', {
+            position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "colored",
-          });
-          await store.logout();
+            theme: 'colored'
+          })
+          await store.logout()
           setTimeout(() => {
-            window.location.href = "/";
-          }, 1000);
+            window.location.href = '/'
+          }, 1000)
         } else {
           toast.error(err.response.data.message, {
-            position: "top-right",
+            position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "colored",
-          });
+            theme: 'colored'
+          })
         }
-      });
-  }, []);
+      })
+  }, [])
 
-  function convertTo2DArray(arr: any[], columns: number) {
-    const result = [];
+  function convertTo2DArray (arr: any[], columns: number): any[][] {
+    const result = []
     for (let i = 0; i < arr.length; i += columns) {
-      result.push(arr.slice(i, i + columns));
+      result.push(arr.slice(i, i + columns))
     }
-    return result;
+    return result
   }
 
   useEffect(() => {
-    if (designs.length) {
-      const twoD = convertTo2DArray(designs, 4);
-      setItemsDisplay(twoD);
+    if (designs.length > 0) {
+      const twoD = convertTo2DArray(designs, 4)
+      setItemsDisplay(twoD)
     }
-  }, [designs]);
+  }, [designs])
 
-  const editDesign = (itemId: string) => {
-    store.designStore.updateDesignId(itemId);
-    props.setActiveTab(2);
-  };
+  const editDesign = (itemId: string): void => {
+    store.designStore.updateDesignId(itemId)
+    props.setActiveTab(2)
+  }
 
   return (
     <Container>
@@ -112,7 +112,7 @@ const Home = (props: any) => {
         theme="colored"
       />
       <ImageContainer>
-        <img src={HeroBanner} alt="hero" style={{ width: "inherit" }} />
+        <img src={HeroBanner} alt="hero" style={{ width: 'inherit' }} />
         <h2 className="heading">
           Create Stunning AI Illustrations For Your Books
         </h2>
@@ -137,16 +137,16 @@ const Home = (props: any) => {
               {row?.map(
                 (
                   item: {
-                    id: string;
-                    cover: string;
-                    name: string;
+                    id: string
+                    cover: string
+                    name: string
                   },
                   colIndex: React.Key | null | undefined
                 ) => (
                   <div
                     key={colIndex}
                     onClick={() => {
-                      editDesign(item.id);
+                      editDesign(item.id)
                     }}
                   >
                     <DesignImage
@@ -164,7 +164,7 @@ const Home = (props: any) => {
         )}
       </DesignRow>
     </Container>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

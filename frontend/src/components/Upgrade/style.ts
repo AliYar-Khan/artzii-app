@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   margin-left: -100px;
@@ -13,7 +13,7 @@ export const Container = styled.div`
   padding-bottom: 10px;
   padding-left: 0px;
   margin-top: 20px;
-`;
+`
 
 export const MainHeading = styled.h1`
   text-align: center;
@@ -24,20 +24,20 @@ export const MainHeading = styled.h1`
   justify-content: center;
   margin-top: 30px;
   color: ${Theme.BLACK_COLOR};
-`;
+`
 
 export const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 50px;
   overflow-x: hidden;
-`;
+`
 
 export const Flex1 = styled.div`
   width: auto;
   display: flex;
   flex-direction: row;
-`;
+`
 export const Flex2 = styled.div`
   width: -webkit-fill-available;
   width: -moz-available;
@@ -45,7 +45,7 @@ export const Flex2 = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
+`
 export const AccessButton = styled.button`
   cursor: pointer;
   height: 46px;
@@ -63,7 +63,7 @@ export const AccessButton = styled.button`
   width: -webkit-fill-available;
   width: -moz-available;
   margin-bottom: 15px;
-`;
+`
 
 export const CancelSubscription = styled.a`
   text-decoration: none;
@@ -82,7 +82,7 @@ export const CancelSubscription = styled.a`
   align-items: center;
   justify-content: center;
   text-align: center;
-`;
+`
 
 export const ManageSubscription = styled.a`
   text-decoration: none;
@@ -102,7 +102,7 @@ export const ManageSubscription = styled.a`
   align-items: center;
   justify-content: center;
   text-align: center;
-`;
+`
 
 export const Billed = styled.div`
   display: flex;
@@ -111,30 +111,30 @@ export const Billed = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-top: -35px;
-`;
+`
 export const MonthlyHeading = styled.h1<{ color: string }>`
   font-size: 16px;
   margin-right: 15px;
   color: ${(prop) => prop.color};
-`;
+`
 
 export const AnnualHeading = styled.h1<{ color: string }>`
   font-size: 16px;
   margin-left: 15px;
   color: ${(prop) => prop.color};
-`;
+`
 
 export const CardHeading = styled.h1`
   font-size: 30px;
   text-align: center;
   background-color: white;
-`;
+`
 export const CardDescription = styled.h3`
   text-align: center;
   background-color: white;
   color: rgba(0, 0, 0, 0.25);
   font-size: 16px;
-`;
+`
 export const PricingImage = styled.img`
   width: 210px;
   height: 90px;
@@ -142,18 +142,18 @@ export const PricingImage = styled.img`
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-`;
+`
 
 export const CardFeatures = styled.p`
   display: flex;
   align-items: center;
   background-color: white;
-`;
+`
 export const CurrentPlanHeading = styled.p`
   font-size: 12px;
   text-align: center;
   transform: rotate(-8.8deg);
-`;
+`
 
 export const AnnualPrice = styled.p`
   font-size: 12px;
@@ -161,4 +161,4 @@ export const AnnualPrice = styled.p`
   font-family: Poppins;
   font-style: italic;
   color: #121212;
-`;
+`

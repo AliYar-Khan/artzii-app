@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   AccountHeading,
   CancelSubscription,
@@ -6,22 +6,22 @@ import {
   Flex1,
   Flex2,
   FlexContainer,
-  UpdateButton,
-} from "./style";
-import { Form, Input } from "antd";
-import Theme from "../../constants/theme";
-import "../../utils/style.css";
-import Upgrade from "../Upgrade";
-import { useStores } from "src/store/rootStore";
+  UpdateButton
+} from './style'
+import { Form, Input } from 'antd'
+import Theme from '../../constants/theme'
+import '../../utils/style.css'
+// import Upgrade from '../Upgrade'
+import { useStores } from 'src/store/rootStore'
 
-const Settings = () => {
-  const store = useStores();
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
-  };
-  console.log("====================================");
-  console.log("store.authStore.user --->>", store.authStore.user);
-  console.log("====================================");
+const Settings = (): JSX.Element => {
+  const store = useStores()
+  const onFinish = (values: any): void => {
+    console.log('Received values of form: ', values)
+  }
+  console.log('====================================')
+  console.log('store.authStore.user --->>', store.authStore.user)
+  console.log('====================================')
   return (
     <Container>
       <AccountHeading>Account Settings</AccountHeading>
@@ -38,15 +38,15 @@ const Settings = () => {
               city: store.authStore.user.city,
               state: store.authStore.user.state,
               country: store.authStore.user.country,
-              zipCode: store.authStore.user.zipCode,
+              zipCode: store.authStore.user.zipCode
             }}
             wrapperCol={{ span: 16 }}
-            style={{ width: "600px", background: `${Theme.WHITE_COLOR}` }}
+            style={{ width: '600px', background: `${Theme.WHITE_COLOR}` }}
           >
             <Form.Item
               name="username"
               rules={[
-                { required: true, message: "Please input your Username!" },
+                { required: true, message: 'Please input your Username!' }
               ]}
             >
               <Input
@@ -58,7 +58,7 @@ const Settings = () => {
             <Form.Item
               name="address"
               rules={[
-                { required: true, message: "Please input your address!" },
+                { required: true, message: 'Please input your address!' }
               ]}
             >
               <Input
@@ -71,7 +71,7 @@ const Settings = () => {
             <Form.Item
               name="city"
               rules={[
-                { required: true, message: "Please input your city name!" },
+                { required: true, message: 'Please input your city name!' }
               ]}
             >
               <Input
@@ -83,7 +83,7 @@ const Settings = () => {
             </Form.Item>
             <Form.Item
               name="state"
-              rules={[{ required: true, message: "Please input your state!" }]}
+              rules={[{ required: true, message: 'Please input your state!' }]}
             >
               <Input
                 name="state"
@@ -99,10 +99,10 @@ const Settings = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your country name!",
-                  },
+                    message: 'Please input your country name!'
+                  }
                 ]}
-                style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+                style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
               >
                 <Input
                   name="country"
@@ -114,12 +114,12 @@ const Settings = () => {
               <Form.Item
                 name="zipCode"
                 rules={[
-                  { required: true, message: "Please input your zip code!" },
+                  { required: true, message: 'Please input your zip code!' }
                 ]}
                 style={{
-                  display: "inline-block",
-                  width: "calc(50% - 8px)",
-                  margin: "0 8px",
+                  display: 'inline-block',
+                  width: 'calc(50% - 8px)',
+                  margin: '0 8px'
                 }}
               >
                 <Input
@@ -134,9 +134,9 @@ const Settings = () => {
             <Form.Item
               name="phoneNumber"
               rules={[
-                { required: true, message: "Please input your phone number!" },
+                { required: true, message: 'Please input your phone number!' }
               ]}
-              style={{ marginTop: "-30px" }}
+              style={{ marginTop: '-30px' }}
             >
               <Input
                 name="phoneNumber"
@@ -157,32 +157,32 @@ const Settings = () => {
             wrapperCol={{ span: 16 }}
             initialValues={{
               email: store.authStore.user.email,
-              password: "",
-              card: "",
-              cardNumber: "",
-              expiration: "",
-              securityCode: "",
+              password: '',
+              card: '',
+              cardNumber: '',
+              expiration: '',
+              securityCode: ''
             }}
-            style={{ width: "600px", background: `${Theme.WHITE_COLOR}` }}
+            style={{ width: '600px', background: `${Theme.WHITE_COLOR}` }}
           >
             <Form.Item
               name="email"
-              rules={[{ required: true, message: "Please input your email!" }]}
+              rules={[{ required: true, message: 'Please input your email!' }]}
             >
               <Input
                 name="email"
                 placeholder="email"
-                style={{ color: "black" }}
+                style={{ color: 'black' }}
                 className="inputField"
                 value={
-                  store.authStore.user?.email ? store.authStore.user.email : ""
+                  store.authStore.user?.email ?? ''
                 }
               />
             </Form.Item>
             <Form.Item
               name="password"
               rules={[
-                { required: true, message: "Please input your password!" },
+                { required: true, message: 'Please input your password!' }
               ]}
             >
               <Input
@@ -195,7 +195,7 @@ const Settings = () => {
             <Form.Item
               name="card"
               rules={[
-                { required: true, message: "Please input your name on card!" },
+                { required: true, message: 'Please input your name on card!' }
               ]}
             >
               <Input
@@ -207,7 +207,7 @@ const Settings = () => {
             <Form.Item
               name="cardNumber"
               rules={[
-                { required: true, message: "Please input your card number!" },
+                { required: true, message: 'Please input your card number!' }
               ]}
             >
               <Input
@@ -223,10 +223,10 @@ const Settings = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your card's expiry date!",
-                  },
+                    message: "Please input your card's expiry date!"
+                  }
                 ]}
-                style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+                style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
               >
                 <Input
                   name="expiration"
@@ -239,13 +239,13 @@ const Settings = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your security code!",
-                  },
+                    message: 'Please input your security code!'
+                  }
                 ]}
                 style={{
-                  display: "inline-block",
-                  width: "calc(50% - 8px)",
-                  margin: "0 8px",
+                  display: 'inline-block',
+                  width: 'calc(50% - 8px)',
+                  margin: '0 8px'
                 }}
               >
                 <Input
@@ -262,7 +262,7 @@ const Settings = () => {
       </FlexContainer>
       <CancelSubscription>Cancel Subscription?</CancelSubscription>
     </Container>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { EyeInvisibleFilled, EyeFilled } from "@ant-design/icons";
-import { Form, Input } from "antd";
-import "../../utils/style.css";
+import React, { useState } from 'react'
+import { EyeInvisibleFilled, EyeFilled } from '@ant-design/icons'
+import { Form, Input } from 'antd'
+import '../../utils/style.css'
 import {
   Container,
   GoogleSigninBtn,
   Grids,
   SignupButton,
-  SignUpPara,
-} from "./style";
-import GoogleIcon from "../../assets/google.png";
-import Header from "../Header";
-import Theme from "../../constants/theme";
-import { useNavigate } from "react-router-dom";
-import { client } from "../../apiClient/apiClient";
+  SignUpPara
+} from './style'
+import GoogleIcon from '../../assets/google.png'
+import Header from '../Header'
+import Theme from '../../constants/theme'
+import { useNavigate } from 'react-router-dom'
+// import { client } from '../../apiClient/apiClient'
 
-const Signup = () => {
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+const Signup = (): JSX.Element => {
+  const onFinish = (values: any): void => {
+    console.log('Received values of form: ', values)
     // const data = JSON.stringify({
     //   email: values.username,
     //   password: values.password,
@@ -27,16 +27,16 @@ const Signup = () => {
     //     headers: { "Content-Type": "application/json" },
     //   })
     //   .then((response) => {});
-  };
+  }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const handleNavigation = () => {
-    navigate("/dashboard");
-  };
+  const handleNavigation = (): void => {
+    navigate('/dashboard')
+  }
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const [showPassword, setShowPassword] = useState(false)
+  const handleClickShowPassword = (): void => { setShowPassword(!showPassword) }
   return (
     <>
       <Header
@@ -50,7 +50,7 @@ const Signup = () => {
           className="login-form"
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          style={{ backgroundColor: "white" }}
+          style={{ backgroundColor: 'white' }}
         >
           <Form.Item>
             <Grids>
@@ -58,7 +58,7 @@ const Signup = () => {
                 <img
                   src={GoogleIcon}
                   alt="google icon"
-                  style={{ marginRight: "10px" }}
+                  style={{ marginRight: '10px' }}
                 />
                 Sign up with Google
               </GoogleSigninBtn>
@@ -67,30 +67,32 @@ const Signup = () => {
 
           <Form.Item
             name="username"
-            rules={[{ required: true, message: "Please input your Username!" }]}
+            rules={[{ required: true, message: 'Please input your Username!' }]}
           >
             <Input placeholder="email" className="inputField" />
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
+            rules={[{ required: true, message: 'Please input your Password!' }]}
           >
             <Input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               className="inputField"
               suffix={
-                showPassword ? (
+                showPassword
+                  ? (
                   <EyeInvisibleFilled
                     style={{ color: `${Theme.GREY_COLOR}` }}
                     onClick={handleClickShowPassword}
                   />
-                ) : (
+                    )
+                  : (
                   <EyeFilled
                     style={{ color: `${Theme.GREY_COLOR}` }}
                     onClick={handleClickShowPassword}
                   />
-                )
+                    )
               }
             />
           </Form.Item>
@@ -99,7 +101,7 @@ const Signup = () => {
             <Grids>
               <SignupButton>Sign up</SignupButton>
               <SignUpPara>
-                Already have an account?{" "}
+                Already have an account?{' '}
                 <a href="/" className="signupButton">
                   Log-in here
                 </a>
@@ -109,7 +111,7 @@ const Signup = () => {
         </Form>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

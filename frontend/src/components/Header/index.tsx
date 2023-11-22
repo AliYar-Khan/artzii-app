@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Container,
   Wrapper,
@@ -8,36 +8,36 @@ import {
   UpgradeButton,
   AvatarIcon,
   BellIcon,
-  SettingsIcon,
-} from "./style";
-import logo from "../../assets/artzLogo.png";
-// import avatarImg from '../../assets/avatarImg.png';
-import accountIcon from "../../assets/accountIcon.png";
-import { useLocation } from "react-router-dom";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar } from "antd";
+  SettingsIcon
+} from './style'
+import logo from '../../assets/artzLogo.png'
+// import avatarImg from '../../assets/avatarImg.png'
+import accountIcon from '../../assets/accountIcon.png'
+import { useLocation } from 'react-router-dom'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Avatar } from 'antd'
 
-type Props = {
-  handleSettingsClick: () => void;
-  handleUpgradeClick: () => void;
-  handleAICreditClick: () => void;
-};
+interface Props {
+  handleSettingsClick: () => void
+  handleUpgradeClick: () => void
+  handleAICreditClick: () => void
+}
 
 const Header = ({
   handleSettingsClick,
   handleUpgradeClick,
-  handleAICreditClick,
-}: Props) => {
-  const location = useLocation();
-  const channelPath = location.pathname;
+  handleAICreditClick
+}: Props): JSX.Element => {
+  const location = useLocation()
+  const channelPath = location.pathname
   return (
     <Container>
       <Wrapper>
         <Left>
           <Logo src={logo} />
         </Left>
-        {channelPath === "/dashboard" && (
+        {channelPath === '/dashboard' && (
           <Right>
             <UpgradeButton onClick={handleAICreditClick}>
               + AI Credits
@@ -45,14 +45,14 @@ const Header = ({
             <UpgradeButton onClick={handleUpgradeClick}>Upgrade</UpgradeButton>
             <BellIcon>
               <FontAwesomeIcon
-                icon={solid("bell")}
-                style={{ width: "17px", backgroundColor: "white" }}
+                icon={solid('bell')}
+                style={{ width: '17px', backgroundColor: 'white' }}
               />
             </BellIcon>
             <SettingsIcon onClick={handleSettingsClick}>
               <FontAwesomeIcon
-                icon={solid("gear")}
-                style={{ width: "17px", backgroundColor: "white" }}
+                icon={solid('gear')}
+                style={{ width: '17px', backgroundColor: 'white' }}
               />
             </SettingsIcon>
             <AvatarIcon>
@@ -65,7 +65,7 @@ const Header = ({
         )}
       </Wrapper>
     </Container>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
