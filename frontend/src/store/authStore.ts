@@ -15,18 +15,19 @@ interface User {
 
 class AuthStore {
   authToken!: string | null
-  user!: User | null
+  user: User | null
   navigation: any
   initialize: boolean = false
 
   constructor () {
     makeAutoObservable(this)
+    this.user = null
   }
 
   async init (): Promise<void> {
     this.authToken = await AsyncStorage.getItem('authToken')
     this.user =
-      await JSON.parse((await AsyncStorage.getItem('user'))) ?? null
+      await JSON.parse((await AsyncStorage.getItem('user') ?? '')) ?? null
     this.initialize = true
   }
 
