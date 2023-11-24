@@ -23,14 +23,14 @@ class AuthStore {
     makeAutoObservable(this)
   }
 
-  async init (): void {
+  async init (): Promise<void> {
     this.authToken = await AsyncStorage.getItem('authToken')
     this.user =
       await JSON.parse((await AsyncStorage.getItem('user'))) ?? null
     this.initialize = true
   }
 
-  async update (field: string, value: any): void {
+  async update (field: string, value: any): Promise<void> {
     if (field === 'authToken') {
       await AsyncStorage.setItem(field, value)
       this.authToken = value
@@ -40,7 +40,7 @@ class AuthStore {
     }
   }
 
-  async clear (): void {
+  async clear (): Promise<void> {
     await AsyncStorage.removeItem('authToken')
     await AsyncStorage.removeItem('user')
     this.authToken = null
