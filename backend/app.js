@@ -1,16 +1,16 @@
-require("dotenv").config();
-const cors = require("cors");
-var express = require("express");
-const userRoutes = require("./routes/UserRoutes");
-const designerRoutes = require("./routes/DesignRoutes");
-const paymentRoutes = require("./routes/PaymentRoutes");
-const aiRoutes = require("./routes/AIRoutes");
-const connection = require("./config/db");
-const PORT = process.env.PORT;
-var app = express();
-connection();
-const bodyParser = require("body-parser");
-const PaymentStripeController = require("./controllers/PaymentStripeController");
+require('dotenv').config()
+const cors = require('cors')
+const express = require('express')
+const userRoutes = require('./routes/UserRoutes')
+const designerRoutes = require('./routes/DesignRoutes')
+const paymentRoutes = require('./routes/PaymentRoutes')
+const aiRoutes = require('./routes/AIRoutes')
+const connection = require('./config/db')
+const PORT = process.env.PORT
+const app = express()
+connection()
+// const bodyParser = require('body-parser');
+const PaymentStripeController = require('./controllers/PaymentStripeController')
 // const redis = require("redis");
 // async function start() {
 //   const client = redis.createClient();
@@ -24,45 +24,46 @@ const PaymentStripeController = require("./controllers/PaymentStripeController")
 // start();
 
 app.use((req, res, next) => {
-  if (req.originalUrl === "/api/payment-stripe/webhook") {
-    next(); // Do nothing with the body because I need it in a raw state.
+  if (req.originalUrl === '/api/payment-stripe/webhook') {
+    next() // Do nothing with the body because I need it in a raw state.
   } else {
-    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+    express.json()(req, res, next) // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
   }
-});
+})
 app.use(
   cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
     allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Origin",
-      "x-auth-token",
-      "X-Requested-With",
-      "Accept",
-      "Access-Control-Allow-Headers",
-      "Access-Control-Request-Headers",
-      "Access-Control-Allow-Origin",
-      "Access-Control-Allow-Methods",
-      "Access-Control-Allow-Credentials",
-    ],
+      'Content-Type',
+      'Authorization',
+      'Origin',
+      'x-auth-token',
+      'X-Requested-With',
+      'Accept',
+      'Access-Control-Allow-Headers',
+      'Access-Control-Request-Headers',
+      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Allow-Credentials'
+    ]
   })
-);
-app.get("/", function (req, res) {
-  res.send("Hello World!");
-});
+)
 
-app.use("/api/users", userRoutes);
-app.use("/api/design", designerRoutes);
-app.use("/api/payment-stripe", paymentRoutes);
+app.get('/', function (req, res) {
+  res.send('Hello World!')
+})
+
+app.use('/api/users', userRoutes)
+app.use('/api/design', designerRoutes)
+app.use('/api/payment-stripe', paymentRoutes)
 app.post(
-  "/api/payment-stripe/webhook",
+  '/api/payment-stripe/webhook',
   express.raw({ type: 'application/json' }),
   PaymentStripeController.webHookStripe
-);
-app.use("/api/ai", aiRoutes);
+)
+app.use('/api/ai', aiRoutes)
 
 app.listen(PORT, function () {
-  console.log(`Artzii backend listening on port ${PORT}!`);
-});
+  console.log(`Artzii backend listening on port ${PORT}!`)
+})

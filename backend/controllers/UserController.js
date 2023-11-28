@@ -37,7 +37,7 @@ exports.googleSignIn = async (req, res) => {
           }
         })
         .then(async (response) => {
-          const name = `${response.data.given_name} ${response.data.family_name}`
+          // const name = `${response.data.given_name} ${response.data.family_name}`
           const email = response.data.email
 
           const alreadyExist = await User.findOne({ email })
@@ -78,40 +78,9 @@ exports.googleSignIn = async (req, res) => {
               }
             })
           } else {
-            const newUser = new User({
-              name: name || '',
-              address: '',
-              city: '',
-              state: '',
-              country: '',
-              zipCode: '',
-              phoneNumber: '',
-              email: response.data.email,
-              password: ''
-            })
-            const savedUser = await newUser.save()
-            const tokenV = jwt.sign(
-              { id: savedUser.id },
-              process.env.JWTPRIVATEKEY,
-              {
-                expiresIn: '8h'
-              }
-            )
-            return res.status(200).json({
-              success: true,
-              token: tokenV,
-              user: {
-                id: savedUser.id,
-                name: savedUser.name,
-                email: savedUser.email,
-                phoneNumber: savedUser.phoneNumber,
-                address: savedUser.address,
-                city: savedUser.city,
-                country: savedUser.country,
-                state: savedUser.state,
-                zipCode: savedUser.zipCode,
-                subscriptions: []
-              }
+            return res.status(404).json({
+              success: false,
+              message: 'User not found'
             })
           }
         })
@@ -214,12 +183,12 @@ exports.loginUser = async (req, res) => {
         .status(401)
         .json({ success: false, message: 'Invalid password' })
     } else {
-      const token = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
+      const tk = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
         expiresIn: '8h'
       })
       return res.json({
         success: true,
-        token: token,
+        token: tk,
         user: {
           name: user.name,
           email: user.email,
