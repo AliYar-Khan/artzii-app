@@ -1,5 +1,5 @@
 const Payment = require('../models/Payment')
-const stripe = require('stripe')(process.env.STRIPE_TEST_PRIVATE_KEY)
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const User = require('../models/User')
 const payment = require('../models/Payment')
 

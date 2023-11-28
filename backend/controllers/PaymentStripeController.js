@@ -10,7 +10,7 @@ const {
   handleCustomerCreated
 } = require('../utils/StripeWebhooks')
 // const axios = require('axios')
-const stripe = require('stripe')(process.env.STRIPE_TEST_PRIVATE_KEY)
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const { DateTime, Duration } = require('luxon')
 
 const [lite, pro, business
@@ -99,8 +99,8 @@ const stripeSessionForPackages = async (planId) => {
           quantity: 1
         }
       ],
-      success_url: 'http://app.artziii.com/success',
-      cancel_url: 'http://app.artziii.com/cancel'
+      success_url: `${process.env.FRONT_END}/success`,
+      cancel_url: `${process.env.FRONT_END}/cancel`
     })
 
     return session
@@ -126,8 +126,8 @@ const stripeSessionForAICredits = async (qty) => {
           quantity: qty
         }
       ],
-      success_url: 'http://app.artziii.com/success?aicredits=true',
-      cancel_url: 'http://app.artziii.com/cancel?aicredits=false'
+      success_url: `${process.env.FRONT_END}/success?aicredits=true`,
+      cancel_url: `${process.env.FRONT_END}/cancel?aicredits=false`
     })
     return session
   } catch (error) {
