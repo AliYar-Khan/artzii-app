@@ -1,0 +1,29 @@
+name: Deploy production
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_api:
+    if: success() && contains(github.ref, 'refs/heads/main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Generate deployment package
+        run: zip -r production-deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: artzii
+          environment_name: artzii-production
+          wait_for_environment_recovery: 1200
+          region: us-east-1
+          version_label: ${{ github.head_ref }}.${{ github.sha }}-${{ github.run_attempt }}-production
+          deployment_package: production-deploy.zip
