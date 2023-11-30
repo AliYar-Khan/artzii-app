@@ -10,6 +10,7 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   padding: 20px 20px
   display: flex
+  flex: 10
   align-items: center
   justify-content: space-between
   position: fixed
@@ -19,7 +20,7 @@ export const Wrapper = styled.div`
   width: -moz-available
   height: 89px
   box-shadow: 0px 5px 15px -2px grey
-  background-color: white
+  background-color: red
   ${mobile({ padding: '25px 0px' })}
 `
 

@@ -65,5 +65,8 @@ app.post(
 app.use('/api/ai', aiRoutes)
 
 app.listen(PORT, function () {
+  console.log('====================================')
+  console.log('process.env.MODE --->>', process.env.MODE)
+  console.log('====================================')
   console.log(`Artzii backend listening on port ${PORT}!`)
 })
