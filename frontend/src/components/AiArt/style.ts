@@ -46,7 +46,7 @@ export const FormulaPrompts = styled.div`
 `
 
 export const ExamplePrompts = styled.div`
-  width: 100%;
+  width: 50%;
 `
 
 export const FormulaHeading = styled.h2`
