@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   margin-left: -100px;
@@ -15,7 +15,7 @@ export const Container = styled.div`
   background: white;
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const ButtonsContainer = styled.div`
     display: flex;
@@ -25,7 +25,7 @@ export const ButtonsContainer = styled.div`
     margin-right: auto;
     margin-top: 100px;
     background-color: white;
-`;
+`
 
 export const CancelSubscription = styled.a`
   text-decoration: none;
@@ -41,7 +41,7 @@ export const CancelSubscription = styled.a`
   font-weight: 500;
   font-size: 16px;
   line-height: 18px;
-`;
+`
 
 export const YesButton = styled.button`
   cursor: pointer;
@@ -53,7 +53,7 @@ export const YesButton = styled.button`
   color: ${Theme.BLACK_COLOR};
   width: 100px;
   margin-right: 10px !important;
-`;
+`
 
 export const NoButton = styled.button`
   cursor: pointer;
@@ -65,4 +65,4 @@ export const NoButton = styled.button`
   color: ${Theme.BLACK_COLOR};
   width: 100px;
   margin-left: 10px !important;
-`;
+`

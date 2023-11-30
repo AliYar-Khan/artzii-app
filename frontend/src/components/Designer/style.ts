@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   margin-left: -53px;
@@ -17,7 +17,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   position: fixed;
-`;
+`
 
 export const SaveButton = styled.button`
   width: 80px;
@@ -38,7 +38,7 @@ export const SaveButton = styled.button`
   position: absolute;
   left: 355px;
   outline: transparent;
-`;
+`
 
 export const InputContainer = styled.input`
   cursor: pointer;
@@ -59,4 +59,4 @@ export const InputContainer = styled.input`
   position: absolute;
   left: 150px;
   outline: transparent;
-`;
+`

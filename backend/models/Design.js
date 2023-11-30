@@ -1,32 +1,32 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const designSchema = mongoose.Schema({
   name: {
-    type: String,
+    type: String
   },
   userId: {
-    type: String,
+    type: String
   },
   pages: {
-    type: [mongoose.Schema.Types.Mixed],
+    type: [mongoose.Schema.Types.Mixed]
   },
   width: {
-    type: mongoose.Schema.Types.Mixed,
+    type: mongoose.Schema.Types.Mixed
   },
   height: {
-    type: mongoose.Schema.Types.Mixed,
+    type: mongoose.Schema.Types.Mixed
   },
   scale: {
-    type: Number,
+    type: Number
   },
   unit: {
     type: String,
-    default: "px",
-    enum: ["px", "pt", "mm", "cm", "in"],
+    default: 'px',
+    enum: ['px', 'pt', 'mm', 'cm', 'in']
   },
   dpi: {
-    type: Number,
-  },
-});
+    type: Number
+  }
+})
 
-module.exports = mongoose.model("design", designSchema);
+module.exports = mongoose.model('design', designSchema)

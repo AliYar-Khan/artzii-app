@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Container,
   Flex1,
@@ -6,20 +6,20 @@ import {
   FlexContainer,
   Heading,
   MessageContainer,
-  Para,
-} from "./style";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TextArea from "antd/es/input/TextArea";
+  Para
+} from './style'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import TextArea from 'antd/es/input/TextArea'
 
-type Props = {
-  handleEditorNavigation: () => void;
+interface Props {
+  handleEditorNavigation: () => void
 }
 
-const StoryAnswers = ({handleEditorNavigation}:Props) => {
+const StoryAnswers = ({ handleEditorNavigation }: Props): JSX.Element => {
   return (
     <>
-      <Heading>Provide a creative protagonist for a children's story.</Heading>
+      <Heading>Provide a creative protagonist for a children&apos;s story.</Heading>
       <Container>
         <FlexContainer>
           <Flex1>
@@ -54,24 +54,24 @@ const StoryAnswers = ({handleEditorNavigation}:Props) => {
           </Flex1>
           <Flex2>
             <FontAwesomeIcon
-              icon={solid("clone")}
+              icon={solid('clone')}
               style={{
-                width: "17px",
-                backgroundColor: "white",
-                marginBottom: "20px",
-                marginTop: "20px",
-                marginLeft: "50px",
-                cursor: "pointer"
+                width: '17px',
+                backgroundColor: 'white',
+                marginBottom: '20px',
+                marginTop: '20px',
+                marginLeft: '50px',
+                cursor: 'pointer'
               }}
             />
             <FontAwesomeIcon
-              icon={solid("pen-to-square")}
+              icon={solid('pen-to-square')}
               style={{
-                width: "17px",
-                backgroundColor: "white",
-                marginTop: "20px",
-                marginLeft: "50px", 
-                cursor: "pointer"
+                width: '17px',
+                backgroundColor: 'white',
+                marginTop: '20px',
+                marginLeft: '50px',
+                cursor: 'pointer'
               }}
               onClick={handleEditorNavigation}
             />
@@ -85,12 +85,12 @@ const StoryAnswers = ({handleEditorNavigation}:Props) => {
           className="Textarea"
         />
         <FontAwesomeIcon
-          icon={solid("paper-plane")}
-          style={{ width: "17px", marginLeft: "-30px" }}
+          icon={solid('paper-plane')}
+          style={{ width: '17px', marginLeft: '-30px' }}
         />
       </MessageContainer>
     </>
-  );
-};
+  )
+}
 
-export default StoryAnswers;
+export default StoryAnswers

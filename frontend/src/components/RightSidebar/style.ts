@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Sidebar = styled.div`
   position: fixed;
@@ -11,12 +11,12 @@ export const Sidebar = styled.div`
   top: 90px;
   padding-top: 50px;
   z-index: 100;
-`;
+`
 
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-`;
+`
 export const UploadButton = styled.button`
   width: 90px;
   height: 50px;
@@ -38,7 +38,7 @@ export const UploadButton = styled.button`
   align-items: center;
   margin-top: 20px;
   cursor: pointer;
-`;
+`
 
 export const CoverButton = styled.button`
   width: 90px;
@@ -61,14 +61,14 @@ export const CoverButton = styled.button`
   align-items: center;
   margin-top: 0px;
   cursor: pointer;
-`;
+`
 
 export const PageTitle = styled.h5`
   text-align: left;
   margin-left: 10px;
   margin-top: 40px;
   font-size: 14px;
-`;
+`
 export const AddPageButton = styled.div`
   background: #ffffff;
   border: 1px solid #121212;
@@ -77,7 +77,7 @@ export const AddPageButton = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: auto;
-`;
+`
 
 export const AddPageButton2 = styled.div`
   background: #ffffff;
@@ -90,7 +90,7 @@ export const AddPageButton2 = styled.div`
   margin-top: 30px;
   justify-content: center;
   align-items: center;
-`;
+`
 
 export const WaterMarkRemover = styled.div`
   width: 116px;
@@ -100,4 +100,4 @@ export const WaterMarkRemover = styled.div`
   position: absolute;
   left: -116px;
   bottom: 95px;
-`;
+`

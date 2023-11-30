@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Container,
   Flex1,
@@ -7,17 +7,17 @@ import {
   MessageContainer,
   Para,
   Image
-} from "./style";
-import Art from '../../assets/Art.png';
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TextArea from "antd/es/input/TextArea";
+} from './style'
+import Art from '../../assets/Art.png'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import TextArea from 'antd/es/input/TextArea'
 
-type Props = {
-    handleArtPainting: () => void;
+interface Props {
+  handleArtPainting: () => void
 }
 
-const ArtPrompt = ({handleArtPainting}:Props) => {
+const ArtPrompt = ({ handleArtPainting }: Props): JSX.Element => {
   return (
     <>
       <Container>
@@ -32,37 +32,37 @@ const ArtPrompt = ({handleArtPainting}:Props) => {
           </Flex1>
           <Flex2>
             <FontAwesomeIcon
-              icon={solid("clone")}
+              icon={solid('clone')}
               style={{
-                width: "17px",
-                backgroundColor: "white",
-                marginBottom: "20px",
-                marginTop: "20px",
-                marginLeft: "50px",
-                cursor: "pointer",
+                width: '17px',
+                backgroundColor: 'white',
+                marginBottom: '20px',
+                marginTop: '20px',
+                marginLeft: '50px',
+                cursor: 'pointer'
               }}
               onClick={handleArtPainting}
             />
             <FontAwesomeIcon
-              icon={solid("clone")}
+              icon={solid('clone')}
               style={{
-                width: "17px",
-                backgroundColor: "white",
-                marginBottom: "20px",
-                marginTop: "20px",
-                marginLeft: "50px",
-                cursor: "pointer",
+                width: '17px',
+                backgroundColor: 'white',
+                marginBottom: '20px',
+                marginTop: '20px',
+                marginLeft: '50px',
+                cursor: 'pointer'
               }}
               onClick={handleArtPainting}
             />
             <FontAwesomeIcon
-              icon={solid("pen-to-square")}
+              icon={solid('pen-to-square')}
               style={{
-                width: "17px",
-                backgroundColor: "white",
-                marginTop: "20px",
-                marginLeft: "50px",
-                cursor: "pointer",
+                width: '17px',
+                backgroundColor: 'white',
+                marginTop: '20px',
+                marginLeft: '50px',
+                cursor: 'pointer'
               }}
               onClick={handleArtPainting}
             />
@@ -76,12 +76,12 @@ const ArtPrompt = ({handleArtPainting}:Props) => {
           className="Textarea"
         />
         <FontAwesomeIcon
-          icon={solid("paper-plane")}
-          style={{ width: "17px", marginLeft: "-30px" }}
+          icon={solid('paper-plane')}
+          style={{ width: '17px', marginLeft: '-30px' }}
         />
       </MessageContainer>
     </>
-  );
-};
+  )
+}
 
-export default ArtPrompt;
+export default ArtPrompt

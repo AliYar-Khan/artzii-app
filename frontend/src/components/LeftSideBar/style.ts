@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Sidebar = styled.div`
   position: fixed;
@@ -10,9 +10,9 @@ export const Sidebar = styled.div`
   top: 90px;
   padding-top: 50px;
   z-index: 1;
-`;
+`
 
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-`;
+`

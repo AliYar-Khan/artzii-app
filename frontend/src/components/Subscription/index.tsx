@@ -1,11 +1,11 @@
 import React from 'react'
-import { ButtonsContainer, CancelSubscription, Container, NoButton, YesButton } from './style';
+import { ButtonsContainer, CancelSubscription, Container, NoButton, YesButton } from './style'
 
-type Props = {
-    handleSubscription: () => void;
-};
+interface Props {
+  handleSubscription: () => void
+}
 
-const Subscription = ({handleSubscription}:Props) => {
+const Subscription = ({ handleSubscription }: Props): JSX.Element => {
   return (
     <Container>
         <CancelSubscription>Would you like to cancel your subscription?</CancelSubscription>
@@ -17,4 +17,4 @@ const Subscription = ({handleSubscription}:Props) => {
   )
 }
 
-export default Subscription;
+export default Subscription

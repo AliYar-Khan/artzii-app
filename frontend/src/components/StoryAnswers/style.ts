@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   margin-left: -100px;
@@ -17,7 +17,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
-`;
+`
 
 export const Heading = styled.h1`
     font-size: 17px;
@@ -35,18 +35,18 @@ export const FlexContainer = styled.div`
   margin-right: auto;
   width: 950px;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 
 export const Flex1 = styled.div`
   width: auto;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 export const Flex2 = styled.div`
   width: auto;
   display: flex;
   flex-direction: column;
   background: ${Theme.WHITE_COLOR} !important;
-`;
+`
 
 export const Para = styled.p`
     font-size: 14px;
@@ -54,7 +54,7 @@ export const Para = styled.p`
     margin-left: auto;
     margin-right: auto;
     background-color: white;
-`;
+`
 
 export const MessageContainer = styled.div`
   width: -webkit-fill-available;
@@ -75,4 +75,4 @@ export const MessageContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   left:0px;
-`;
+`

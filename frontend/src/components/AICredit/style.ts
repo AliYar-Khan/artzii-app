@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   margin-left: -60px;
@@ -14,7 +14,7 @@ export const Container = styled.div`
   padding-left: 0px;
   margin-top: 30px;
   background-color: ${Theme.WHITE_COLOR};
-`;
+`
 
 export const MainHeading = styled.h1`
   text-align: center;
@@ -25,7 +25,7 @@ export const MainHeading = styled.h1`
   justify-content: center;
   margin-top: 30px;
   color: ${Theme.BLACK_COLOR};
-`;
+`
 
 export const SubHeading = styled.h1`
   text-align: center;
@@ -36,7 +36,7 @@ export const SubHeading = styled.h1`
   justify-content: center;
   margin-top: 30px;
   color: ${Theme.BLACK_COLOR};
-`;
+`
 
 export const CreditButton = styled.button`
   width: 150px;
@@ -58,19 +58,19 @@ export const CreditButton = styled.button`
   color: ${Theme.BLACK_COLOR};
   margin-right: 50px;
   cursor: pointer;
-`;
+`
 
 export const CreditNumber = styled.div`
   font-size: 16;
   font-weight: bold;
   margin-bottom: 0px;
-`;
+`
 
 export const CreditText = styled.div`
   font-size: 10;
   font-weight: bold;
   margin-bottom: 0px;
-`;
+`
 
 export const Center = styled.div`
   flex: 1;
@@ -80,7 +80,7 @@ export const Center = styled.div`
   justify-content: center;
   cursor: pointer;
   margin-top: 30px;
-`;
+`
 
 export const Button = styled.button`
   width: 50px;
@@ -102,7 +102,7 @@ export const Button = styled.button`
   color: ${Theme.BLACK_COLOR};
   margin-right: 10px;
   cursor: pointer;
-`;
+`
 
 export const BuyNowButton = styled.button`
   width: 300px;
@@ -124,4 +124,4 @@ export const BuyNowButton = styled.button`
   color: ${Theme.BLACK_COLOR};
   margin-right: 50px;
   cursor: pointer;
-`;
+`

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+// import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   margin-left: 0px;
@@ -15,7 +15,7 @@ export const Container = styled.div`
   padding-left: 0px;
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const FlexContainer = styled.div`
   display: flex;
@@ -26,19 +26,19 @@ export const FlexContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   width: 950px;
-`;
+`
 
 export const Flex1 = styled.div`
   width: auto;
-`;
+`
 export const Flex2 = styled.div`
   width: auto;
   display: flex;
   flex-direction: column;
-`;
+`
 
-export const Para =  styled.p`
+export const Para = styled.p`
     font-size: 14px;
     text-align: left;
     width: 700px;
-`;
+`

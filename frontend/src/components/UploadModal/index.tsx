@@ -1,53 +1,53 @@
-import { Form, Input, Modal, Upload, UploadProps, message } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-import UploadIcon from "../../assets/uploadicon.png";
-import type { UploadFile } from "antd/es/upload/interface";
-import React from "react";
+import { Form, Input, Modal, Upload, type UploadProps, message } from 'antd'
+// import { InboxOutlined } from '@ant-design/icons'
+import UploadIcon from '../../assets/uploadicon.png'
+import type { UploadFile } from 'antd/es/upload/interface'
+import React from 'react'
 
-type Props = {
-  isModalOpen: boolean;
-  handleOk: () => void;
-  handleCancel: () => void;
-};
+interface Props {
+  isModalOpen: boolean
+  handleOk: () => void
+  handleCancel: () => void
+}
 
-const UploadModal = ({ isModalOpen, handleCancel, handleOk }: Props) => {
-  const onFinish = () => {
-    message.success("Submit success!");
-  };
+const UploadModal = ({ isModalOpen, handleCancel, handleOk }: Props): JSX.Element => {
+  const onFinish = (): void => {
+    void message.success('Submit success!')
+  }
 
-  const onFinishFailed = () => {
-    message.error("Submit failed!");
-  };
-  const { Dragger } = Upload;
+  const onFinishFailed = (): void => {
+    void message.error('Submit failed!')
+  }
+  const { Dragger } = Upload
 
   const props: UploadProps = {
-    name: "file",
+    name: 'file',
     multiple: true,
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    onChange(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange (info) {
+      const { status } = info.file
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList)
       }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
+      if (status === 'done') {
+        void message.success(`${info.file.name} file uploaded successfully.`)
+      } else if (status === 'error') {
+        void message.error(`${info.file.name} file upload failed.`)
       }
     },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
+    onDrop (e) {
+      console.log('Dropped files', e.dataTransfer.files)
+    }
+  }
 
   const fileList: UploadFile[] = [
     {
-      uid: "0",
-      name: "xxx.png",
-      status: "uploading",
-      percent: 33,
-    },
-  ];
+      uid: '0',
+      name: 'xxx.png',
+      status: 'uploading',
+      percent: 33
+    }
+  ]
   return (
     <Modal
       title="Utilize our Analysis Algorithm
@@ -67,8 +67,8 @@ const UploadModal = ({ isModalOpen, handleCancel, handleOk }: Props) => {
           name="url"
           label="Story Name"
           rules={[
-            { type: "url", warningOnly: true },
-            { type: "string", min: 6 },
+            { type: 'url', warningOnly: true },
+            { type: 'string', min: 6 }
           ]}
         >
           <Input placeholder="input your story name" />
@@ -89,7 +89,7 @@ const UploadModal = ({ isModalOpen, handleCancel, handleOk }: Props) => {
         ></Upload>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
-export default UploadModal;
+export default UploadModal

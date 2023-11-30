@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Theme from "../../constants/theme";
+import styled from 'styled-components'
+// import Theme from '../../constants/theme'
 
 export const Container = styled.div`
   margin-left: -100px;
@@ -15,7 +15,7 @@ export const Container = styled.div`
   padding-left: 0px;
   display: flex;
   flex-direction: row;
-`;
+`
 
 export const FlexContainer = styled.div`
   display: flex;
@@ -26,17 +26,16 @@ export const FlexContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   width: 950px;
-`;
+`
 
 export const Flex1 = styled.div`
   width: auto;
-`;
+`
 export const Flex2 = styled.div`
   width: auto;
   display: flex;
   flex-direction: column;
-`;
-
+`
 
 export const MessageContainer = styled.div`
   width: -webkit-fill-available;
@@ -57,7 +56,7 @@ export const MessageContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   left:0px;
-`;
+`
 
 export const Image = styled.img`
     width: 500px;
@@ -65,7 +64,7 @@ export const Image = styled.img`
     margin-left: auto;
     margin-right: auto;
     height: 300px;
-`;
+`
 
 export const Eraser = styled.div`
     width: 110px;
@@ -83,4 +82,4 @@ export const Eraser = styled.div`
       )
       1 !important;
     border-radius: 4px;
-`;
+`

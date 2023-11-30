@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   AddPageButton,
   AddPageButton2,
@@ -6,35 +6,35 @@ import {
   PageTitle,
   Sidebar,
   UploadButton,
-  WaterMarkRemover,
-} from "./style";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  WaterMarkRemover
+} from './style'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-type Props = {
-  store: any;
-  handleUpload: any;
-  handlePages: () => void;
-  handleCover: () => void;
-};
+interface Props {
+  store: any
+  handleUpload: any
+  handlePages: () => void
+  handleCover: () => void
+}
 
-type Page = {
-  background: string;
-  bleed: number;
-  children: any[];
-  custom: any;
-  duration: number;
-  height: any;
-  id: string;
-  width: any;
-};
+// interface Page {
+//   background: string
+//   bleed: number
+//   children: any[]
+//   custom: any
+//   duration: number
+//   height: any
+//   id: string
+//   width: any
+// }
 
 const RightSideBar = ({
   store,
   handleUpload,
   handlePages,
-  handleCover,
-}: Props) => {
+  handleCover
+}: Props): JSX.Element => {
   return (
     <Sidebar>
       <CoverButton onClick={handleCover}>Cover</CoverButton>
@@ -43,13 +43,13 @@ const RightSideBar = ({
       <AddPageButton onClick={handlePages}></AddPageButton>
       <AddPageButton2 onClick={handlePages}>
         <FontAwesomeIcon
-          icon={solid("add")}
-          style={{ width: "17px", backgroundColor: "white" }}
+          icon={solid('add')}
+          style={{ width: '17px', backgroundColor: 'white' }}
         />
       </AddPageButton2>
       <WaterMarkRemover></WaterMarkRemover>
     </Sidebar>
-  );
-};
+  )
+}
 
-export default RightSideBar;
+export default RightSideBar
