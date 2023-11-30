@@ -1,9 +1,12 @@
-const Dotenv = require("dotenv-webpack");
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   plugins: [
     new Dotenv({
-      path: "./.env",
-    }),
+      path: './.env'
+    })
   ],
-};
+  devServer: {
+    allowedHosts: 'all'
+  }
+}

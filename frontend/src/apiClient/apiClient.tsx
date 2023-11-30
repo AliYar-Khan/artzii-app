@@ -15,5 +15,5 @@ console.log(
 console.log('====================================')
 
 export const client = axios.create({
-  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`
+  baseURL: '/api'
 })
