@@ -13,7 +13,10 @@ const {
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const { DateTime, Duration } = require('luxon')
 
-const [lite, pro, business
+const [
+  lite,
+  pro,
+  business
   // ai_credit
 ] = [
   'price_1O2EtpF5tWWOGM6I0szZirTo',
@@ -48,7 +51,11 @@ exports.webHookStripe = async (req, res) => {
 
     try {
       const body = req.body.toString('utf8')
-      event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET)
+      event = stripe.webhooks.constructEvent(
+        body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      )
     } catch (err) {
       console.log(`Webhook Error1: ${err.message}`)
       return res.status(400).send(`Webhook Error: ${err.message}`)
@@ -194,9 +201,7 @@ exports.paymentSuccess = async (req, res) => {
     if (session.payment_status === 'paid' && session.subscription) {
       const subscriptionId = session.subscription
       try {
-        const subscription = await stripe.subscriptions.retrieve(
-          subscriptionId
-        )
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
         console.log('====================================')
         console.log('subscription ---->>', subscription)
@@ -223,8 +228,7 @@ exports.paymentSuccess = async (req, res) => {
           (subscription.current_period_end -
             subscription.current_period_start) *
           1000
-        const durationInDays =
-          Duration.fromMillis(durationInSeconds).as('days')
+        const durationInDays = Duration.fromMillis(durationInSeconds).as('days')
         payment.subscription.status = 'paid'
         payment.subscription.sessionId = ''
         payment.subscription.planId = plnId
