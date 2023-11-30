@@ -76,21 +76,19 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     name: 'custom1',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
-        {(props.active)
-          ? (
+        {props.active ? (
           <img
             src={bgColor}
-            alt="background"
+            alt='background'
             style={{ background: 'white', width: '36px' }}
           />
-            )
-          : (
+        ) : (
           <img
             src={BgIcon}
-            alt="background"
+            alt='background'
             style={{ background: 'white', width: '36px' }}
           />
-            )}
+        )}
         <p style={{ background: 'white', fontSize: '12px' }}>Backgrounds</p>
       </SectionTab>
     ),
@@ -108,21 +106,19 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     name: 'custom2',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
-        {props.active
-          ? (
+        {props.active ? (
           <img
             src={ObjectColor}
-            alt="character"
+            alt='character'
             style={{ background: 'white', width: '36px' }}
           />
-            )
-          : (
+        ) : (
           <img
             src={ObjectIcon}
-            alt="character"
+            alt='character'
             style={{ background: 'white', width: '36px' }}
           />
-            )}
+        )}
         <p style={{ background: 'white', fontSize: '12px' }}>Objects</p>
       </SectionTab>
     ),
@@ -140,21 +136,19 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     name: 'custom3',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
-        {props.active
-          ? (
+        {props.active ? (
           <img
             src={PhotoColor}
-            alt="animals"
+            alt='animals'
             style={{ background: 'white', width: '36px' }}
           />
-            )
-          : (
+        ) : (
           <img
             src={PhotoIcon}
-            alt="animals"
+            alt='animals'
             style={{ background: 'white', width: '36px' }}
           />
-            )}
+        )}
         <p style={{ background: 'white', fontSize: '12px' }}>Photos</p>
       </SectionTab>
     ),
@@ -172,13 +166,11 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     name: 'custom4',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
-        {props.active
-          ? (
-          <img src={uploadColor} alt="props" style={{ background: 'white' }} />
-            )
-          : (
-          <img src={UploadIcon} alt="props" style={{ background: 'white' }} />
-            )}
+        {props.active ? (
+          <img src={uploadColor} alt='props' style={{ background: 'white' }} />
+        ) : (
+          <img src={UploadIcon} alt='props' style={{ background: 'white' }} />
+        )}
         <p style={{ background: 'white', fontSize: '12px' }}>Upload</p>
       </SectionTab>
     ),
@@ -196,21 +188,19 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     name: 'custom5',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
-        {props.active
-          ? (
+        {props.active ? (
           <img
             src={TextColor}
-            alt="text"
+            alt='text'
             style={{ background: 'white', width: '36px' }}
           />
-            )
-          : (
+        ) : (
           <img
             src={TextIcon}
-            alt="text"
+            alt='text'
             style={{ background: 'white', width: '36px' }}
           />
-            )}
+        )}
         <p style={{ background: 'white', fontSize: '12px' }}>Text</p>
       </SectionTab>
     ),
@@ -228,21 +218,19 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     name: 'custom6',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
-        {props.active
-          ? (
+        {props.active ? (
           <img
             src={TemplateColor}
-            alt="text"
+            alt='text'
             style={{ background: 'white', width: '36px' }}
           />
-            )
-          : (
+        ) : (
           <img
             src={TemplateIcon}
-            alt="text"
+            alt='text'
             style={{ background: 'white', width: '36px' }}
           />
-            )}
+        )}
         <p style={{ background: 'white', fontSize: '12px' }}>Templates</p>
       </SectionTab>
     ),
@@ -260,21 +248,19 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     name: 'custom7',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
-        {props.active
-          ? (
+        {props.active ? (
           <img
             src={SizingColor}
-            alt="text"
+            alt='text'
             style={{ background: 'white', width: '36px' }}
           />
-            )
-          : (
+        ) : (
           <img
             src={SizingIcon}
-            alt="text"
+            alt='text'
             style={{ background: 'white', width: '36px' }}
           />
-            )}
+        )}
         <p style={{ background: 'white', fontSize: '12px' }}>Sizing</p>
       </SectionTab>
     ),
@@ -321,7 +307,11 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         name: designName.current.value,
         ...storePolotno.toJSON()
       }
-      if (store.designStore.designId !== null && store.designStore.designId !== '' && store.designStore.designId !== undefined) {
+      if (
+        store.designStore.designId !== null &&
+        store.designStore.designId !== '' &&
+        store.designStore.designId !== undefined
+      ) {
         client
           .post('/design/', JSON.stringify(jsonObject), {
             headers: {
@@ -331,7 +321,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           })
           .then(
             async (response: {
-              data: { success: boolean, designId: string }
+              data: { success: boolean; designId: string }
             }) => {
               console.log('====================================')
               console.log('response.data -->>', response.data)
@@ -361,7 +351,8 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                 })
               }
             }
-          ).catch((error) => {
+          )
+          .catch((error) => {
             toast.error(error.response.data.message, {
               position: 'top-right',
               autoClose: 5000,
@@ -387,7 +378,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           )
           .then(
             async (response: {
-              data: { success: boolean, designId: string }
+              data: { success: boolean; designId: string }
             }) => {
               console.log('====================================')
               console.log('response.data -->>', response.data)
@@ -449,7 +440,11 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   }
 
   useEffect(() => {
-    if (store.designStore.designId !== null && store.designStore.designId !== '' && store.designStore.designId !== undefined) {
+    if (
+      store.designStore.designId !== null &&
+      store.designStore.designId !== '' &&
+      store.designStore.designId !== undefined
+    ) {
       client
         .get(`/design/${store.designStore.designId}`, {
           headers: {
@@ -527,6 +522,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
       pg.clear()
       pg.addPage()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.designStore.designId])
 
   const ActionControls = ({ store }: Store): JSX.Element => {
@@ -536,8 +532,8 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         <SaveButton onClick={handleSave}>Save</SaveButton>
         <InputContainer
           ref={designName}
-          placeholder="untitled"
-          type="text"
+          placeholder='untitled'
+          type='text'
         ></InputContainer>
       </>
     )
@@ -546,7 +542,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   return (
     <Container>
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -555,7 +551,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme='colored'
       />
       <PolotnoContainer
         style={{
@@ -566,7 +562,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         }}
       >
         <SidePanelWrap>
-          <SidePanel store={pg} sections={Sections} defaultSection="custom1" />
+          <SidePanel store={pg} sections={Sections} defaultSection='custom1' />
         </SidePanelWrap>
         <WorkspaceWrap>
           <Toolbar

@@ -17,7 +17,7 @@ const Success = (): JSX.Element => {
   console.log('====================================')
 
   useEffect(() => {
-    if (!initialized.current && (parsed !== undefined && parsed !== null)) {
+    if (!initialized.current && parsed !== undefined && parsed !== null) {
       initialized.current = true
       let url = ''
       if (parsed.aicredits === 'false') {
@@ -63,12 +63,16 @@ const Success = (): JSX.Element => {
           })
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parsed])
 
-  if (store.authStore.initialize === true && (store.authStore.authToken === null ||
-    store.authStore.authToken === undefined ||
-    store.authStore.authToken === '')) {
-    return <Navigate to="/" replace />
+  if (
+    store.authStore.initialize === true &&
+    (store.authStore.authToken === null ||
+      store.authStore.authToken === undefined ||
+      store.authStore.authToken === '')
+  ) {
+    return <Navigate to='/' replace />
   }
   return (
     <Container>

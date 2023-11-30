@@ -75,9 +75,10 @@ const Home = (props: any): JSX.Element => {
           })
         }
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function convertTo2DArray (arr: any[], columns: number): any[][] {
+  function convertTo2DArray(arr: any[], columns: number): any[][] {
     const result = []
     for (let i = 0; i < arr.length; i += columns) {
       result.push(arr.slice(i, i + columns))
@@ -100,7 +101,7 @@ const Home = (props: any): JSX.Element => {
   return (
     <Container>
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -109,11 +110,11 @@ const Home = (props: any): JSX.Element => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme='colored'
       />
       <ImageContainer>
-        <img src={HeroBanner} alt="hero" style={{ width: 'inherit' }} />
-        <h2 className="heading">
+        <img src={HeroBanner} alt='hero' style={{ width: 'inherit' }} />
+        <h2 className='heading'>
           Create Stunning AI Illustrations For Your Books
         </h2>
       </ImageContainer>

@@ -30,7 +30,7 @@ interface Props {
   setActiveTab: any
 }
 
-const AiArt = ({ handleNavigation, setActiveTab }: Props): any => {
+const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
   const store = useStores()
 
   // [
@@ -108,8 +108,8 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): any => {
           style={{ width: '17px', marginLeft: '-30px' }}
         />
       </MessageContainer>
-      {!loading && art === null
-        ? <>
+      {!loading && art === null ? (
+        <>
           <Para>
             <span style={{ fontWeight: 'bold', display: 'contents' }}>
               Remember,
@@ -152,11 +152,12 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): any => {
             </ExamplePrompts>
           </PromptsContainer>
         </>
-        : loading
-          ? <LoaderContainer>
-            <LoaderDiv></LoaderDiv>
-          </LoaderContainer>
-          : <div
+      ) : loading ? (
+        <LoaderContainer>
+          <LoaderDiv></LoaderDiv>
+        </LoaderContainer>
+      ) : (
+        <div
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -179,6 +180,7 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): any => {
               <img
                 key={index}
                 src={item}
+                alt={'art generated'}
                 style={{
                   display: 'flex',
                   width: 512,
@@ -191,7 +193,7 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): any => {
             </div>
           ))}
         </div>
-      }
+      )}
       {/* <ArtContainer> */}
 
       {/* </ArtContainer> */}
