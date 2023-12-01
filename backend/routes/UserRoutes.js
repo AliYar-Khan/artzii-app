@@ -4,10 +4,10 @@ const router = express.Router()
 const UserController = require('../controllers/UserController')
 const auth = require('../middleware/authenticate')
 // Create a new user
-router.post('/', UserController.createUser)
+router.post('/register', UserController.createUser)
 
 // Get all users
-router.get('/', auth, UserController.getAllUsers)
+router.get('/all', auth, UserController.getAllUsers)
 
 // login a user
 router.post('/login', UserController.loginUser)
