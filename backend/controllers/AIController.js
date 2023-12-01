@@ -99,11 +99,36 @@ exports.generateImage = async (req, res) => {
         res.status(200).json({ success: false, error: err })
         // throw new Error(error)
       }
+      const responseParsed = JSON.parse(response.body)
       console.log('====================================')
       console.log('response --->', JSON.parse(response.body))
       console.log('====================================')
-      res.status(200).json({ success: true, data: JSON.parse(response.body) })
-      // console.log(response.body);
+      if (responseParsed.output.length) {
+        res.status(200).json({ success: true, data: JSON.parse(response.body) })
+      } else if (responseParsed.eta) {
+        setTimeout(() => {
+          var myHeaders = new Headers()
+          myHeaders.append('Content-Type', 'application/json')
+
+          var raw = JSON.stringify({
+            key: ''
+          })
+
+          var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw
+          }
+          fetch(responseParsed.fetch_result, requestOptions)
+            .then((res) => res.json())
+            .then((res) => {
+              console.log('====================================')
+              console.log('res after eta --->', res)
+              console.log('====================================')
+              res.status(200).json({ success: true, data: res })
+            })
+        }, responseParsed.eta)
+      }
     })
   } catch (error) {
     res.status(500).json({ success: false, error: error.message })

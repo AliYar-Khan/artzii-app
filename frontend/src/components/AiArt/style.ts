@@ -1,9 +1,12 @@
 import styled from 'styled-components'
+import Theme from '../../constants/theme'
 
 export const Container = styled.div`
-  width: 85vw;
-  height: 70vh;
-  overflow: auto;
+  width: 86vw;
+  height: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 export const MessageContainer = styled.div`
   width: -webkit-fill-available;
@@ -94,13 +97,37 @@ export const Heading = styled.h3`
 `
 
 export const ArtContainer = styled.div`
-  width: 100%;
-  height: 1000px;
-  background-color: #ffffff;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  padding: 0px;
+  overflow-x: hidden;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 950px;
+  background: ${Theme.WHITE_COLOR} !important;
 `
+
+export const ArtBox = styled.div`
+  width: auto;
+  background: ${Theme.WHITE_COLOR} !important;
+`
+
+export const Prompt = styled.p`
+  font-size: 17px;
+  text-align: center;
+  background-color: ${Theme.WHITE_COLOR};
+  width: 700px;
+`
+
+export const ArtImage = styled.img`
+  width: 500px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  height: 500px;
+`
+
 export const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;

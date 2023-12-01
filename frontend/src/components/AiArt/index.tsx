@@ -7,7 +7,10 @@ import {
   ExamplePrompts,
   FormulaHeading,
   FormulaPrompts,
-  // ArtContainer,
+  ArtContainer,
+  ArtBox,
+  ArtImage,
+  Prompt,
   MessageContainer,
   Para,
   Heading,
@@ -45,6 +48,7 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
   // const [upScaleArt, setUpScaleArt] = useState(null)
 
   const generateArt = (): void => {
+    setLoading(true)
     client
       .post(
         '/ai/generate-art',
@@ -60,7 +64,7 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
       )
       .then((response) => {
         setLoading(false)
-        if (response.status === 200) {
+        if (response.status === 200 && response.data.data.output) {
           console.log('====================================')
           console.log('response.data.story --->', response.data.data)
           console.log('====================================')
@@ -81,6 +85,21 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
         })
       })
   }
+
+  const copyTextToClipBoard = async (item: any): Promise<void> => {
+    await navigator.clipboard.writeText(item)
+    toast.success('Copied to Clipboard', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored'
+    })
+  }
+
   return (
     <Container>
       <ToastContainer
@@ -126,7 +145,7 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
               {formulaPrompts.map((item, index) => (
                 <CardContainer key={index}>
                   <Heading>{item.content}</Heading>
-                  <CloneIcon onClick={handleNavigation}>
+                  <CloneIcon onClick={() => copyTextToClipBoard(item.content)}>
                     <FontAwesomeIcon
                       icon={item.icon}
                       style={{ width: '17px', background: 'white' }}
@@ -141,7 +160,7 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
               {examplePrompts.map((item, index) => (
                 <CardContainer key={index}>
                   <Heading>{item.content}</Heading>
-                  <CloneIcon onClick={handleNavigation}>
+                  <CloneIcon onClick={() => copyTextToClipBoard(item.content)}>
                     <FontAwesomeIcon
                       icon={item.icon}
                       style={{ width: '17px', background: 'white' }}
@@ -157,42 +176,16 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
           <LoaderDiv></LoaderDiv>
         </LoaderContainer>
       ) : (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            width: '100%',
-            height: '100vh',
-            flexWrap: 'wrap',
-            backgroundColor: '#ffffff'
-          }}
-        >
+        <ArtContainer>
           {art?.output?.map((item: string | undefined, index: number) => (
-            <div
-              key={index}
-              style={{
-                width: 512,
-                height: 512,
-                flexDirection: 'column'
-              }}
-            >
-              <img
-                key={index}
-                src={item}
-                alt={'art generated'}
-                style={{
-                  display: 'flex',
-                  width: 512,
-                  height: 512,
-                  flexWrap: 'wrap',
-                  paddingTop: 20,
-                  paddingBottom: 20
-                }}
-              />
-            </div>
+            <ArtBox key={index}>
+              <Prompt>
+                {topicRef?.current?.resizableTextArea?.textArea.value}
+              </Prompt>
+              <ArtImage key={index} src={item} alt={'art generated'} />
+            </ArtBox>
           ))}
-        </div>
+        </ArtContainer>
       )}
       {/* <ArtContainer> */}
 

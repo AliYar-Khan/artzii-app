@@ -19,19 +19,23 @@ class AuthStore {
   navigation: any
   initialize: boolean = false
 
-  constructor () {
+  constructor() {
     makeAutoObservable(this)
     this.user = null
   }
 
-  async init (): Promise<void> {
+  async init(): Promise<void> {
     this.authToken = await AsyncStorage.getItem('authToken')
-    this.user =
-      await JSON.parse((await AsyncStorage.getItem('user') ?? '')) ?? null
+    const userAsync = (await AsyncStorage.getItem('user')) ?? ''
+    if (userAsync !== '') {
+      this.user = await JSON.parse(userAsync)
+    } else {
+      this.user = null
+    }
     this.initialize = true
   }
 
-  async update (field: string, value: any): Promise<void> {
+  async update(field: string, value: any): Promise<void> {
     if (field === 'authToken') {
       await AsyncStorage.setItem(field, value)
       this.authToken = value
@@ -41,14 +45,14 @@ class AuthStore {
     }
   }
 
-  async clear (): Promise<void> {
+  async clear(): Promise<void> {
     await AsyncStorage.removeItem('authToken')
     await AsyncStorage.removeItem('user')
     this.authToken = null
     this.user = null
   }
 
-  updateNavigation (value: any): void {
+  updateNavigation(value: any): void {
     this.navigation = value
   }
 }
