@@ -7,6 +7,11 @@ const axios = require('axios')
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
+    console.log('====================================')
+    console.log('req.body in create user --->', req.body)
+    console.log('====================================')
+    const salt = await bcrypt.genSalt(Number(process.env.SALT))
+    const hashedPassword = await bcrypt.hash(req.body.password, salt)
     const user = new User({
       name: req.body.name || '',
       address: req.body.address || '',
@@ -16,10 +21,8 @@ exports.createUser = async (req, res) => {
       zipCode: req.body.zipCode || '',
       phoneNumber: req.body.phoneNumber || '',
       email: req.body.email,
-      password: req.body.password
+      password: hashedPassword
     })
-    const salt = await bcrypt.genSalt(Number(process.env.SALT))
-    user.password = await bcrypt.hash(user.password, salt)
     await user.save()
     res.status(201).json(user)
   } catch (error) {
@@ -78,45 +81,45 @@ exports.googleSignIn = async (req, res) => {
               }
             })
           } else {
-            const newUser = new User({
-              name: name || '',
-              address: '',
-              city: '',
-              state: '',
-              country: '',
-              zipCode: '',
-              phoneNumber: '',
-              email: response.data.email,
-              password: ''
-            })
-            const savedUser = await newUser.save()
-            const tokenV = jwt.sign(
-              { id: savedUser.id },
-              process.env.JWTPRIVATEKEY,
-              {
-                expiresIn: '8h'
-              }
-            )
-            return res.status(200).json({
-              success: true,
-              token: tokenV,
-              user: {
-                id: savedUser.id,
-                name: savedUser.name,
-                email: savedUser.email,
-                phoneNumber: savedUser.phoneNumber,
-                address: savedUser.address,
-                city: savedUser.city,
-                country: savedUser.country,
-                state: savedUser.state,
-                zipCode: savedUser.zipCode,
-                subscriptions: []
-              }
-            })
-            // return res.status(404).json({
-            //   success: false,
-            //   message: 'User not found'
+            // const newUser = new User({
+            //   name: name || '',
+            //   address: '',
+            //   city: '',
+            //   state: '',
+            //   country: '',
+            //   zipCode: '',
+            //   phoneNumber: '',
+            //   email: response.data.email,
+            //   password: ''
             // })
+            // const savedUser = await newUser.save()
+            // const tokenV = jwt.sign(
+            //   { id: savedUser.id },
+            //   process.env.JWTPRIVATEKEY,
+            //   {
+            //     expiresIn: '8h'
+            //   }
+            // )
+            // return res.status(200).json({
+            //   success: true,
+            //   token: tokenV,
+            //   user: {
+            //     id: savedUser.id,
+            //     name: savedUser.name,
+            //     email: savedUser.email,
+            //     phoneNumber: savedUser.phoneNumber,
+            //     address: savedUser.address,
+            //     city: savedUser.city,
+            //     country: savedUser.country,
+            //     state: savedUser.state,
+            //     zipCode: savedUser.zipCode,
+            //     subscriptions: []
+            //   }
+            // })
+            return res.status(404).json({
+              success: false,
+              message: 'User not found'
+            })
           }
         })
         .catch((error) => {
