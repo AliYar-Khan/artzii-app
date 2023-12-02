@@ -7,20 +7,32 @@ const axios = require('axios')
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
+    const customer = req.body.billing
     console.log('====================================')
-    console.log('req.body in create user --->', req.body)
+    console.log('customer --->', customer)
+    console.log('====================================')
+    const passwordItem = req.body.meta_data.fiind(
+      (md) => md.key === '_billing_password'
+    )
+    var password = ''
+    if (passwordItem !== null && passwordItem !== undefined) {
+      password = passwordItem.value
+    }
+    console.log('====================================')
+    console.log('password --->', password)
     console.log('====================================')
     const salt = await bcrypt.genSalt(Number(process.env.SALT))
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    var hashedPassword =
+      password === '' ? '' : await bcrypt.hash(password, salt)
     const user = new User({
-      name: req.body.name || '',
-      address: req.body.address || '',
-      city: req.body.city || '',
-      state: req.body.state || '',
-      country: req.body.country || '',
-      zipCode: req.body.zipCode || '',
-      phoneNumber: req.body.phoneNumber || '',
-      email: req.body.email,
+      name: `${customer.first_name} ${customer.last_name}`,
+      address: `${customer.address_1} ${customer.address_2}`,
+      city: customer.city,
+      state: customer.state,
+      country: customer.country,
+      zipCode: customer.postcode,
+      phoneNumber: customer.phone,
+      email: customer.email,
       password: hashedPassword
     })
     await user.save()

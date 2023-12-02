@@ -7,7 +7,7 @@ exports.handleSubscriptionCreated = async (data) => {
   const currentPeriodEnd = data.current_period_end * 1000
   const currentPeriodStart = data.current_period_start * 1000
   const customer = await stripe.customers.retrieve(data?.customer)
-  const user = await User.findOne({ customerId: customer.id })
+  const user = await User.findOne({ email: customer.email })
   let savedUser = user
   if (!user && customer.email) {
     const userObject = new User({
@@ -40,7 +40,9 @@ exports.handleSubscriptionCreated = async (data) => {
 }
 
 exports.handleSubscriptionDeleted = async (data) => {
-  const findPyament = await payment.findOne({ 'subscription.subscriptionId': data.id })
+  const findPyament = await payment.findOne({
+    'subscription.subscriptionId': data.id
+  })
   if (findPyament) {
     await payment.deleteOne({ _id: findPyament.id })
   }
@@ -82,7 +84,7 @@ exports.handleInvoicePaymentSucceeded = async (data) => {}
 
 exports.handleCustomerCreated = async (data) => {
   const customer = data
-  const userFound = await User.findOne({ customerId: customer.id })
+  const userFound = await User.findOne({ customerId: customer.email })
   if (!userFound && customer.email) {
     const user = await User({
       name: customer.name,
