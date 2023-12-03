@@ -11,7 +11,7 @@ exports.createUser = async (req, res) => {
     console.log('====================================')
     console.log('customer --->', customer)
     console.log('====================================')
-    const passwordItem = req.body.meta_data.fiind(
+    const passwordItem = req.body.meta_data.find(
       (md) => md.key === '_billing_password'
     )
     var password = ''

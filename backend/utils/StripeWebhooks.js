@@ -12,10 +12,13 @@ exports.handleSubscriptionCreated = async (data) => {
   if (!user && customer.email) {
     const userObject = new User({
       name: customer.name,
-      email: customer.email,
-      address: customer.address,
+      address: `${customer.address.line1} ${customer.address.line2}`,
+      city: customer.address.city,
+      state: customer.address.state,
+      country: customer.address.country,
+      zipCode: customer.address.postal_code,
       phoneNumber: customer.phone,
-      customerId: customer.id
+      email: customer.email
     })
     savedUser = await userObject.save()
   }
@@ -23,7 +26,7 @@ exports.handleSubscriptionCreated = async (data) => {
     const payment = new Payment({
       userId: savedUser.id,
       subscription: {
-        sessionId: data?.session?.id,
+        sessionId: '',
         status: data.status,
         planId: data.plan.id,
         planType: data.plan.type,
@@ -40,11 +43,19 @@ exports.handleSubscriptionCreated = async (data) => {
 }
 
 exports.handleSubscriptionDeleted = async (data) => {
-  const findPyament = await payment.findOne({
-    'subscription.subscriptionId': data.id
-  })
-  if (findPyament) {
-    await payment.deleteOne({ _id: findPyament.id })
+  const findPyament = await payment.findOneAndUpdate(
+    { 'subscription.subscriptionId': data.id },
+    {
+      $set: {
+        'subscription.status': 'deleted'
+      }
+    },
+    { new: true }
+  )
+  if (paymentDocument) {
+    console.log('Payment updated successfully:', paymentDocument)
+  } else {
+    console.log('Payment not found for subscriptionId:', data.id)
   }
 }
 
@@ -84,14 +95,17 @@ exports.handleInvoicePaymentSucceeded = async (data) => {}
 
 exports.handleCustomerCreated = async (data) => {
   const customer = data
-  const userFound = await User.findOne({ customerId: customer.email })
+  const userFound = await User.findOne({ email: customer.email })
   if (!userFound && customer.email) {
     const user = await User({
       name: customer.name,
-      email: customer.email,
-      address: customer.address,
+      address: `${customer.address.line1} ${customer.address.line2}`,
+      city: customer.address.city,
+      state: customer.address.state,
+      country: customer.address.country,
+      zipCode: customer.address.postal_code,
       phoneNumber: customer.phone,
-      customerId: customer.id
+      email: customer.email
     })
     user.save()
   }

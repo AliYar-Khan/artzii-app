@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     type: String
   },
   zipCode: {
-    type: Number
+    type: String
   },
   phoneNumber: {
     type: String
