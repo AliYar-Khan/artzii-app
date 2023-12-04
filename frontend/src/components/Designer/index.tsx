@@ -47,7 +47,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const storePolotno = createStore({
   key: process.env.REACT_APP_POLOTNO_KEY ?? '',
-  showCredit: true
+  showCredit: false
 })
 storePolotno.addPage()
 
@@ -529,10 +529,10 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     return (
       <>
         <DownloadButton store={store} />
-        <SaveButton onClick={handleSave}>Save</SaveButton>
+        {/* <SaveButton onClick={handleSave}>Save</SaveButton> */}
         <InputContainer
           ref={designName}
-          placeholder='untitled'
+          placeholder='name'
           type='text'
         ></InputContainer>
       </>
@@ -579,12 +579,12 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         handleOk={handleOk}
         handleCancel={handleCancel}
       />
-      <RightSideBar
+      {/* <RightSideBar
         store={pg}
         handleUpload={handleUpload}
         handlePages={handlePages}
         handleCover={handleCover}
-      />
+      /> */}
     </Container>
   )
 }
