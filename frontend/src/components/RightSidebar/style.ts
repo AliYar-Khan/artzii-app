@@ -66,7 +66,7 @@ export const CoverButton = styled.button`
 export const PageTitle = styled.h5`
   text-align: left;
   margin-left: 10px;
-  margin-top: 40px;
+  margin-top: 0px;
   font-size: 14px;
 `
 export const AddPageButton = styled.div`
@@ -77,6 +77,7 @@ export const AddPageButton = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 30px;
 `
 
 export const AddPageButton2 = styled.div`
@@ -93,11 +94,11 @@ export const AddPageButton2 = styled.div`
 `
 
 export const WaterMarkRemover = styled.div`
-  width: 116px;
+  width: 160px;
   height: 20px;
   margin-right: 200px;
   background: #e8e8e8;
   position: absolute;
-  left: -116px;
+  left: -160px;
   bottom: 95px;
 `

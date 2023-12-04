@@ -37,10 +37,12 @@ const RightSideBar = ({
 }: Props): JSX.Element => {
   return (
     <Sidebar>
-      <CoverButton onClick={handleCover}>Cover</CoverButton>
-      <UploadButton onClick={handleUpload}>Upload</UploadButton>
+      {/* <CoverButton onClick={handleCover}>Cover</CoverButton>
+      <UploadButton onClick={handleUpload}>Upload</UploadButton> */}
       <PageTitle>Pages</PageTitle>
-      <AddPageButton onClick={handlePages}></AddPageButton>
+      {store.pages.map(() => (
+        <AddPageButton />
+      ))}
       <AddPageButton2 onClick={handlePages}>
         <FontAwesomeIcon
           icon={solid('add')}
