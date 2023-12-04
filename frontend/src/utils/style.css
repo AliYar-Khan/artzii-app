@@ -35,6 +35,7 @@
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: 'text';
 }
 .login-form-forgot {
   background: -webkit-linear-gradient(
@@ -55,7 +56,7 @@
     rgba(136, 231, 255, 0.87) 75.62%
   );
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: '#121212';
   background-clip: text;
 }
 

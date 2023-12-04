@@ -25,7 +25,9 @@ const Login = (): JSX.Element => {
   const [googleClicked, setGoogleClicked] = useState(false)
 
   const [showPassword, setShowPassword] = useState(false)
-  const handleClickShowPassword = (): void => { setShowPassword(!showPassword) }
+  const handleClickShowPassword = (): void => {
+    setShowPassword(!showPassword)
+  }
 
   const onFinish = (values: any): void => {
     if (googleClicked) return
@@ -43,7 +45,7 @@ const Login = (): JSX.Element => {
       })
       .then(
         async (response: {
-          data: { user: any, success: boolean, message: string, token: any }
+          data: { user: any; success: boolean; message: string; token: any }
         }) => {
           if (response.data.success) {
             await store.authStore.update('authToken', response.data.token)
@@ -89,14 +91,16 @@ const Login = (): JSX.Element => {
   }
   const navigate = useNavigate()
 
-  const handleGoogleLoginSuccess = (tokenResponse: { access_token: any }): void => {
+  const handleGoogleLoginSuccess = (tokenResponse: {
+    access_token: any
+  }): void => {
     const accessToken = tokenResponse.access_token
 
     client
       .post('/users/googleSignIn?gat=' + accessToken)
       .then(
         async (response: {
-          data: { user: any, success: boolean, token: any }
+          data: { user: any; success: boolean; token: any }
         }) => {
           console.log('====================================')
           console.log('googleSignIn ------>>>>', response)
@@ -119,7 +123,8 @@ const Login = (): JSX.Element => {
             }, 2000)
           }
         }
-      ).catch((error) => {
+      )
+      .catch((error) => {
         toast.error(error.response.data.message, {
           position: 'top-right',
           autoClose: 2000,
@@ -138,14 +143,18 @@ const Login = (): JSX.Element => {
     navigate('/dashboard')
   }
 
-  if (store.authStore.authToken !== null && store.authStore.authToken !== undefined && store.authStore.authToken === '') {
-    return <Navigate to="/dashboard" replace />
+  if (
+    store.authStore.authToken !== null &&
+    store.authStore.authToken !== undefined &&
+    store.authStore.authToken === ''
+  ) {
+    return <Navigate to='/dashboard' replace />
   }
 
   return (
     <>
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -154,7 +163,7 @@ const Login = (): JSX.Element => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme='colored'
       />
       <Header
         handleSettingsClick={handleNavigation}
@@ -163,8 +172,8 @@ const Login = (): JSX.Element => {
       />
       <Container>
         <Form
-          name="google_login"
-          className="google-form"
+          name='google_login'
+          className='google-form'
           onFinish={() => {}}
           style={{ backgroundColor: 'white' }}
         >
@@ -178,7 +187,7 @@ const Login = (): JSX.Element => {
               >
                 <img
                   src={GoogleIcon}
-                  alt="google icon"
+                  alt='google icon'
                   style={{ marginRight: '10px' }}
                 />
                 Sign in with Google
@@ -187,14 +196,14 @@ const Login = (): JSX.Element => {
           </Form.Item>
         </Form>
         <Form
-          name="normal_login"
-          className="login-form"
+          name='normal_login'
+          className='login-form'
           initialValues={{ remember: true }}
           onFinish={onFinish}
           style={{ backgroundColor: 'white' }}
         >
           <Form.Item
-            name="username"
+            name='username'
             rules={[
               {
                 required: !googleClicked,
@@ -202,10 +211,10 @@ const Login = (): JSX.Element => {
               }
             ]}
           >
-            <Input placeholder="email" className="inputField" />
+            <Input placeholder='email' className='inputField' />
           </Form.Item>
           <Form.Item
-            name="password"
+            name='password'
             rules={[
               {
                 required: !googleClicked,
@@ -215,11 +224,10 @@ const Login = (): JSX.Element => {
           >
             <Input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              className="inputField"
+              placeholder='Password'
+              className='inputField'
               suffix={
-                showPassword
-                  ? (
+                showPassword ? (
                   <EyeInvisibleFilled
                     style={{
                       color: `${Theme.GREY_COLOR}`,
@@ -227,24 +235,23 @@ const Login = (): JSX.Element => {
                     }}
                     onClick={handleClickShowPassword}
                   />
-                    )
-                  : (
+                ) : (
                   <EyeFilled
                     style={{ color: `${Theme.GREY_COLOR}` }}
                     onClick={handleClickShowPassword}
                   />
-                    )
+                )
               }
             />
           </Form.Item>
           <Form.Item style={{ marginTop: '-10px', marginBottom: '30px' }}>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox className="checkbox">Remember me</Checkbox>
+            <Form.Item name='remember' valuePropName='checked' noStyle>
+              <Checkbox className='checkbox'>Remember me</Checkbox>
             </Form.Item>
 
             <a
-              className="login-form-forgot"
-              href="#/"
+              className='login-form-forgot'
+              href='#/'
               style={{
                 position: 'absolute',
                 right: 0,
@@ -257,14 +264,14 @@ const Login = (): JSX.Element => {
 
           <Form.Item>
             <Grids>
-              <LoginButton type="submit">Login</LoginButton>
+              <LoginButton type='submit'>Login</LoginButton>
               <SignUpPara>
                 Need an account?{' '}
                 <a
-                  href="https://artziii.com/pricing-3/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="signupButton"
+                  href='https://artziii.com/pricing-3/'
+                  target='_blank'
+                  rel='noreferrer'
+                  className='signupButton'
                 >
                   sign-up here
                 </a>
