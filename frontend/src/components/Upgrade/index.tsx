@@ -132,8 +132,8 @@ const Upgrade = (): JSX.Element => {
               style={{ display: 'flex', flexDirection: 'column' }}
             >
               {store.authStore.user.subscription ===
-              item.title.toLowerCase()
-                ? <div
+              item.title.toLowerCase() ? (
+                <div
                   style={{
                     marginTop: '-40px'
                   }}
@@ -151,7 +151,7 @@ const Upgrade = (): JSX.Element => {
                     alt='arrow'
                   />
                 </div>
-                : null}
+              ) : null}
               <Card
                 style={{
                   width: 300,
@@ -229,19 +229,21 @@ const Upgrade = (): JSX.Element => {
                 <CardFeatures>
                   <img
                     style={{ background: 'white', marginRight: '5px' }}
-                    src={item.feature5 ?? CheckBox}
+                    src={item.feature5 && CheckBox}
                     alt={item.feature5 ?? 'checkbox'}
                   />
                   {item.feature5}
                 </CardFeatures>
-                <CardFeatures>
-                  <img
-                    style={{ background: 'white', marginRight: '5px' }}
-                    src={item.feature6 ?? CheckBox}
-                    alt={item.feature6 ?? 'checkbox'}
-                  />
-                  {item.feature6}
-                </CardFeatures>
+                {item.feature6 ? (
+                  <CardFeatures>
+                    <img
+                      style={{ background: 'white', marginRight: '5px' }}
+                      src={item.feature6 && CheckBox}
+                      alt={item.feature6 ?? 'checkbox'}
+                    />
+                    {item.feature6}
+                  </CardFeatures>
+                ) : null}
               </Card>
             </div>
           ))}
