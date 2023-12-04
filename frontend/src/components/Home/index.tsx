@@ -28,7 +28,11 @@ interface Design {
   conver: string
 }
 
-const Home = (props: any): JSX.Element => {
+interface Props {
+  setActiveTab: (tabId: any) => void
+}
+
+const Home = (props: Props): JSX.Element => {
   const store = useStores()
   const [designs, setDesigns] = useState<Design[]>([])
   const [itemsDisplay, setItemsDisplay] = useState<any>()
@@ -124,9 +128,9 @@ const Home = (props: any): JSX.Element => {
       </Head2>
       <UploadButton>Upload</UploadButton> */}
       <DesignRow>
-        <IllustrationImg src={DFrame} />
-        <IllustrationImg src={AFrame} />
-        <IllustrationImg src={SFrame} />
+        <IllustrationImg src={DFrame} onClick={() => props.setActiveTab(2)} />
+        <IllustrationImg src={AFrame} onClick={() => props.setActiveTab(3)} />
+        <IllustrationImg src={SFrame} onClick={() => props.setActiveTab(4)} />
       </DesignRow>
       <DesignRow>
         <Head1>Your Designs</Head1>

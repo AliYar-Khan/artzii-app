@@ -124,7 +124,7 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
         <FontAwesomeIcon
           onClick={generateArt}
           icon={solid('paper-plane')}
-          style={{ width: '17px', marginLeft: '-30px' }}
+          style={{ width: '17px', marginLeft: '-30px', cursor: 'pointer' }}
         />
       </MessageContainer>
       {!loading && art === null ? (

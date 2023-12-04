@@ -109,8 +109,8 @@ const Stories = ({ handleNavigation, setActiveTab }: Props): any => {
           pauseOnHover
           theme='colored'
         />
-        {!loading && story === null
-          ? <>
+        {!loading && story === null ? (
+          <>
             <MainHeading>Example Prompts</MainHeading>
             {storyData.map((item, index) => (
               <CardContainer key={index}>
@@ -138,17 +138,18 @@ const Stories = ({ handleNavigation, setActiveTab }: Props): any => {
               </CardContainer>
             ))}
           </>
-          : loading
-            ? <LoaderContainer>
+        ) : loading ? (
+          <LoaderContainer>
             <LoaderDiv></LoaderDiv>
           </LoaderContainer>
-            : <StoryContainer>
+        ) : (
+          <StoryContainer>
             <FlexContainer>
               <DownloadButton onClick={downloadStory}></DownloadButton>
               <Para ref={targetRef}>{story}</Para>
             </FlexContainer>
           </StoryContainer>
-        }
+        )}
       </Container>
       <MessageContainer>
         <TextArea
@@ -160,7 +161,7 @@ const Stories = ({ handleNavigation, setActiveTab }: Props): any => {
         <FontAwesomeIcon
           onClick={generateStory}
           icon={solid('paper-plane')}
-          style={{ width: '17px', marginLeft: '-30px' }}
+          style={{ width: '17px', marginLeft: '-30px', cursor: 'pointer' }}
         />
       </MessageContainer>
     </>
