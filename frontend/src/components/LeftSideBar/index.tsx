@@ -34,7 +34,7 @@ const LeftSideBar = ({
     <Row>
       <Col span={2}>
         <Sidebar>
-          <ul className="tabs">
+          <ul className='tabs'>
             {tabs.map((tab) => (
               <li
                 id={tab.id.toString()}
@@ -49,8 +49,8 @@ const LeftSideBar = ({
               >
                 <img
                   src={tab.id === activeTab ? tab.icon1 : tab.icon2}
-                  alt="icon"
-                  className="tabIcons"
+                  alt='icon'
+                  className='tabIcons'
                 />
                 <span style={{ backgroundColor: 'transparent' }}>
                   {tab.title}
@@ -58,13 +58,15 @@ const LeftSideBar = ({
               </li>
             ))}
           </ul>
-          <div className="logout"
+          <div
+            className='logout'
             onClick={(): void => {
               void handleNavigation()
-            }}>
+            }}
+          >
             <img
               src={Arrow}
-              alt="icon"
+              alt='icon'
               style={{ marginLeft: 'auto', marginRight: 'auto' }}
             />
             <span style={{ backgroundColor: 'transparent' }}>Logout</span>
@@ -72,7 +74,7 @@ const LeftSideBar = ({
         </Sidebar>
       </Col>
       <Col span={12}>
-        <div className="tab-content">{renderTabContent()}</div>
+        <div className='tab-content'>{renderTabContent()}</div>
       </Col>
     </Row>
   )

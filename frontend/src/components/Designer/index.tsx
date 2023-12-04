@@ -1,6 +1,6 @@
 /* eslint-disable no-labels */
-import React, { useState, useEffect } from 'react'
-import { Container, SaveButton, InputContainer } from './style'
+import React, { useState, useEffect, useRef } from 'react'
+import { Container, InputContainer } from './style'
 import { PolotnoContainer, SidePanelWrap, WorkspaceWrap } from 'polotno'
 import { observer } from 'mobx-react-lite'
 import { SectionTab, SidePanel } from 'polotno/side-panel'
@@ -37,7 +37,7 @@ import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/popover2/lib/css/blueprint-popover2.css'
 
 import { createStore } from 'polotno/model/store'
-import RightSideBar from '../RightSidebar'
+// import RightSideBar from '../RightSidebar'
 import UploadModal from '../UploadModal'
 import { type Store } from 'antd/es/form/interface'
 import { client } from '../../apiClient/apiClient'
@@ -51,11 +51,38 @@ const storePolotno = createStore({
 })
 storePolotno.addPage()
 
+function useKey(key: string, cb: any) {
+  const callback = useRef(cb)
+
+  useEffect(() => {
+    callback.current = cb
+  })
+
+  useEffect(() => {
+    function handle(event: {
+      code: string
+      key: string
+      ctrlKey: any
+      preventDefault: any
+    }) {
+      if (event.code === key) {
+        callback.current(event)
+      } else if (key === 'ctrls' && event.key === 's' && event.ctrlKey) {
+        event.preventDefault()
+        callback.current(event)
+      }
+    }
+
+    document.addEventListener('keydown', handle)
+    return () => document.removeEventListener('keydown', handle)
+  }, [key])
+}
+
 const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const store = useStores()
   const designName: any = React.useRef()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [showTemplates, setShowTemplates] = useState(false)
+  // const [showTemplates, setShowTemplates] = useState(false)
 
   const handleOk = (): void => {
     setIsModalOpen(false)
@@ -72,6 +99,9 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     active: boolean
     iconSize?: number
   }
+
+  useKey('ctrls', () => handleSave())
+
   const customSection: any = {
     name: 'custom1',
     Tab: (props: SectionTabProps) => (
@@ -274,9 +304,9 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     })
   }
 
-  const handleCover = (): void => {
-    setShowTemplates(!showTemplates)
-  }
+  // const handleCover = (): void => {
+  //   setShowTemplates(!showTemplates)
+  // }
 
   const Sections = [
     customSection,
@@ -293,18 +323,18 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   //   SizeSection
   // ];
 
-  const handleUpload = (): void => {
-    setIsModalOpen(true)
-  }
+  // const handleUpload = (): void => {
+  //   setIsModalOpen(true)
+  // }
 
-  const handlePages = (): void => {
-    pg.addPage()
-  }
+  // const handlePages = (): void => {
+  //   pg.addPage()
+  // }
 
   const handleSave = (): void => {
     try {
       const jsonObject = {
-        name: designName.current.value,
+        name: designName.current.value ?? `${new Date().getTime()}`,
         ...storePolotno.toJSON()
       }
       if (

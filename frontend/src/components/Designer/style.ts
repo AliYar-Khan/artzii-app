@@ -44,6 +44,7 @@ export const SaveButton = styled.button`
 export const InputContainer = styled.input`
   cursor: pointer;
   height: 30px;
+  width: 110px;
   background: #ffffff;
   box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
@@ -58,6 +59,6 @@ export const InputContainer = styled.input`
   margin-top: 0px;
   cursor: pointer;
   position: absolute;
-  left: 530px;
+  left: 53%;
   outline: transparent;
 `

@@ -2,10 +2,10 @@ import React from 'react'
 import {
   AddPageButton,
   AddPageButton2,
-  CoverButton,
+  // CoverButton,
   PageTitle,
   Sidebar,
-  UploadButton,
+  // UploadButton,
   WaterMarkRemover
 } from './style'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
@@ -29,12 +29,7 @@ interface Props {
 //   width: any
 // }
 
-const RightSideBar = ({
-  store,
-  handleUpload,
-  handlePages,
-  handleCover
-}: Props): JSX.Element => {
+const RightSideBar = ({ store, handlePages }: Props): JSX.Element => {
   return (
     <Sidebar>
       {/* <CoverButton onClick={handleCover}>Cover</CoverButton>
