@@ -21,7 +21,7 @@ export const Container = styled.div`
 
 export const SaveButton = styled.button`
   width: 80px;
-  height: 30px;
+  height: 25px;
   background: #ffffff;
   box-shadow: 0px 4px 4px #bdf4ff;
   border-radius: 4px;
@@ -37,12 +37,13 @@ export const SaveButton = styled.button`
   cursor: pointer;
   position: absolute;
   left: 355px;
+  font-size: 12px;
   outline: transparent;
 `
 
 export const InputContainer = styled.input`
   cursor: pointer;
-  height: 43px;
+  height: 35px;
   background: #ffffff;
   box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
