@@ -333,127 +333,140 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
 
   const handleSave = (): void => {
     try {
-      const jsonObject = {
-        name: designName.current.value ?? `${new Date().getTime()}`,
-        ...storePolotno.toJSON()
-      }
-      if (
-        store.designStore.designId !== null &&
-        store.designStore.designId !== '' &&
-        store.designStore.designId !== undefined
-      ) {
-        client
-          .post('/design/', JSON.stringify(jsonObject), {
-            headers: {
-              'Content-Type': 'application/json',
-              'x-auth-token': store.authStore.authToken
-            }
-          })
-          .then(
-            async (response: {
-              data: { success: boolean; designId: string }
-            }) => {
-              console.log('====================================')
-              console.log('response.data -->>', response.data)
-              console.log('====================================')
-              if (response.data.success) {
-                store.designStore.updateDesignId(response.data.designId)
-                toast.success('Saved successfully!', {
-                  position: 'top-right',
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: 'colored'
-                })
-              } else {
-                toast.error('Something went wrong !', {
-                  position: 'top-right',
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: 'colored'
-                })
-              }
-            }
-          )
-          .catch((error) => {
-            toast.error(error.response.data.message, {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'colored'
-            })
-          })
-      } else {
-        client
-          .put(
-            `/design/${store.designStore.designId}`,
-            JSON.stringify(jsonObject),
-            {
+      if (designName.current.value) {
+        const jsonObject = {
+          name: designName.current.value,
+          ...storePolotno.toJSON()
+        }
+        if (
+          store.designStore.designId === null ||
+          store.designStore.designId === '' ||
+          store.designStore.designId === undefined
+        ) {
+          client
+            .post('/design/', JSON.stringify(jsonObject), {
               headers: {
                 'Content-Type': 'application/json',
                 'x-auth-token': store.authStore.authToken
               }
-            }
-          )
-          .then(
-            async (response: {
-              data: { success: boolean; designId: string }
-            }) => {
-              console.log('====================================')
-              console.log('response.data -->>', response.data)
-              console.log('====================================')
-              if (response.data.success) {
-                store.designStore.updateDesignId(response.data.designId)
-                toast.success('Updated successfully!', {
-                  position: 'top-right',
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: 'colored'
-                })
-              } else {
-                toast.error('Something went wrong !', {
-                  position: 'top-right',
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: 'colored'
-                })
-              }
-            }
-          )
-          .catch((err) => {
-            console.log('====================================')
-            console.log('err updating design --->>', err)
-            console.log('====================================')
-            toast.error('Something went wrong !', {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'colored'
             })
-          })
+            .then(
+              async (response: {
+                data: { success: boolean; designId: string }
+              }) => {
+                console.log('====================================')
+                console.log('response.data -->>', response.data)
+                console.log('====================================')
+                if (response.data.success) {
+                  store.designStore.updateDesignId(response.data.designId)
+                  toast.success('Saved successfully!', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'colored'
+                  })
+                } else {
+                  toast.error('Something went wrong !', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'colored'
+                  })
+                }
+              }
+            )
+            .catch((error) => {
+              toast.error(error.response.data.message, {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored'
+              })
+            })
+        } else {
+          client
+            .put(
+              `/design/${store.designStore.designId}`,
+              JSON.stringify(jsonObject),
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-auth-token': store.authStore.authToken
+                }
+              }
+            )
+            .then(
+              async (response: {
+                data: { success: boolean; designId: string }
+              }) => {
+                console.log('====================================')
+                console.log('response.data -->>', response.data)
+                console.log('====================================')
+                if (response.data.success) {
+                  store.designStore.updateDesignId(response.data.designId)
+                  toast.success('Updated successfully!', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'colored'
+                  })
+                } else {
+                  toast.error('Something went wrong !', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'colored'
+                  })
+                }
+              }
+            )
+            .catch((err) => {
+              console.log('====================================')
+              console.log('err updating design --->>', err)
+              console.log('====================================')
+              toast.error('Something went wrong !', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored'
+              })
+            })
+        }
+      } else {
+        toast.error('Add a name to remember', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored'
+        })
       }
     } catch (err: any) {
       toast.error(err.message, {
