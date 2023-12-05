@@ -3,7 +3,7 @@ module.exports = async (req, res, next) => {
   try {
     const payment = await Payment.findOne({
       userId: req.user.id,
-      'subscription.status': { $nin: ['expired', 'cancelled'] }
+      'subscription.status': { $nin: ['expired', 'cancelled', 'deleted'] }
     })
     const currentDate = new Date()
     const currentYear = currentDate.getFullYear()
@@ -13,7 +13,9 @@ module.exports = async (req, res, next) => {
     console.log('key --->', key)
     console.log('====================================')
     if (!payment) {
-      return res.status(403).send('No Active Subscription')
+      return res
+        .status(403)
+        .send({ error: true, message: 'No Active Subscription' })
     } else if (payment.subscription.usage) {
       console.log('====================================')
       console.log('payment --->', JSON.stringify(payment))
@@ -34,7 +36,9 @@ module.exports = async (req, res, next) => {
         ) {
           next()
         } else {
-          return res.status(403).send('Monthly limit reach')
+          return res
+            .status(403)
+            .send({ error: true, message: 'Monthly limit reach' })
         }
       } else {
         next()
