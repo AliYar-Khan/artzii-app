@@ -12,15 +12,11 @@ const Success = (): JSX.Element => {
   const store = useStores()
   const parsed = queryString.parse(window.location.search)
 
-  console.log('====================================')
-  console.log('location --->', parsed.aicredits)
-  console.log('====================================')
-
   useEffect(() => {
-    if (!initialized.current && parsed !== undefined && parsed !== null) {
+    if (!initialized.current) {
       initialized.current = true
       let url = ''
-      if (parsed.aicredits === 'false') {
+      if (!parsed.aicredits) {
         url = '/payment-stripe/payment-success'
       } else {
         url = '/payment-stripe/payment-success-credits'

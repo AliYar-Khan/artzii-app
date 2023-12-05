@@ -23,22 +23,28 @@ exports.handleSubscriptionCreated = async (data) => {
     savedUser = await userObject.save()
   }
   if (savedUser) {
-    const payment = new Payment({
-      userId: savedUser.id,
-      subscription: {
-        sessionId: '',
-        status: data.status,
-        planId: data.plan.id,
-        planType: data.plan.type,
-        subscriptionId: data.id,
-        startDate: currentPeriodStart,
-        willExpireOn: currentPeriodEnd,
-        durationInDays: 365,
-        customer: data.customer,
-        itemId: data.items.data[0].id
-      }
+    const pay = await Payment.findOne({
+      userId: req.user.id,
+      'subscription.subscriptionId': data.id
     })
-    await payment.save()
+    if (!pay) {
+      const payment = new Payment({
+        userId: savedUser.id,
+        subscription: {
+          sessionId: '',
+          status: data.status,
+          planId: data.plan.id,
+          planType: data.plan.type,
+          subscriptionId: data.id,
+          startDate: currentPeriodStart,
+          willExpireOn: currentPeriodEnd,
+          durationInDays: 365,
+          customer: data.customer,
+          itemId: data.items.data[0].id
+        }
+      })
+      await payment.save()
+    }
   }
 }
 
