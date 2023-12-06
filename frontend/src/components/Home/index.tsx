@@ -129,8 +129,8 @@ const Home = (props: Props): JSX.Element => {
       <UploadButton>Upload</UploadButton> */}
       <DesignRow>
         <IllustrationImg src={DFrame} onClick={() => props.setActiveTab(2)} />
-        <IllustrationImg src={AFrame} onClick={() => props.setActiveTab(3)} />
-        <IllustrationImg src={SFrame} onClick={() => props.setActiveTab(4)} />
+        <IllustrationImg src={AFrame} onClick={() => props.setActiveTab(4)} />
+        <IllustrationImg src={SFrame} onClick={() => props.setActiveTab(3)} />
       </DesignRow>
       <DesignRow>
         <Head1>Your Designs</Head1>
