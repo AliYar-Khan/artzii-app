@@ -62,3 +62,9 @@ export const InputContainer = styled.input`
   left: 53%;
   outline: transparent;
 `
+export const SectionTab = styled.div`
+    display: flex,
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`

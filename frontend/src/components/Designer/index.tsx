@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Container, InputContainer } from './style'
 import { PolotnoContainer, SidePanelWrap, WorkspaceWrap } from 'polotno'
 import { observer } from 'mobx-react-lite'
-import { SectionTab, SidePanel } from 'polotno/side-panel'
-
+import { SidePanel } from 'polotno/side-panel'
+import { SectionTab } from './style'
 import { SizePanel } from 'polotno/side-panel/size-panel'
 import { Toolbar } from 'polotno/toolbar/toolbar'
 import { ZoomButtons } from 'polotno/toolbar/zoom-buttons'
@@ -105,22 +105,26 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const customSection: any = {
     name: 'custom1',
     Tab: (props: SectionTabProps) => (
-      <SectionTab {...props}>
+      <div {...props} style={{ display: 'flex', flexDirection: 'column' }}>
         {props.active ? (
           <img
             src={bgColor}
             alt='background'
-            style={{ background: 'white', width: '36px' }}
+            style={{ background: 'white', width: '36px', alignSelf: 'center' }}
           />
         ) : (
           <img
             src={BgIcon}
             alt='background'
-            style={{ background: 'white', width: '36px' }}
+            style={{ background: 'white', width: '36px', alignSelf: 'center' }}
           />
         )}
-        <p style={{ background: 'white', fontSize: '12px' }}>Backgrounds</p>
-      </SectionTab>
+        <p
+          style={{ background: 'white', fontSize: '12px', textAlign: 'center' }}
+        >
+          Backgrounds
+        </p>
+      </div>
     ),
     // we need observer to update component automatically on any store changes
     Panel: observer((store: any) => {
@@ -135,22 +139,26 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const customSection2: any = {
     name: 'custom2',
     Tab: (props: SectionTabProps) => (
-      <SectionTab {...props}>
+      <div {...props} style={{ display: 'flex', flexDirection: 'column' }}>
         {props.active ? (
           <img
             src={ObjectColor}
             alt='character'
-            style={{ background: 'white', width: '36px' }}
+            style={{ background: 'white', width: '36px', alignSelf: 'center' }}
           />
         ) : (
           <img
             src={ObjectIcon}
             alt='character'
-            style={{ background: 'white', width: '36px' }}
+            style={{ background: 'white', width: '36px', alignSelf: 'center' }}
           />
         )}
-        <p style={{ background: 'white', fontSize: '12px' }}>Objects</p>
-      </SectionTab>
+        <p
+          style={{ background: 'white', fontSize: '12px', textAlign: 'center' }}
+        >
+          Objects
+        </p>
+      </div>
     ),
     // we need observer to update component automatically on any store changes
     Panel: observer((store: any) => {
@@ -165,7 +173,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const customSection3: any = {
     name: 'custom3',
     Tab: (props: SectionTabProps) => (
-      <SectionTab {...props}>
+      <div {...props} style={{ display: 'flex', flexDirection: 'column' }}>
         {props.active ? (
           <img
             src={PhotoColor}
@@ -180,7 +188,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           />
         )}
         <p style={{ background: 'white', fontSize: '12px' }}>Photos</p>
-      </SectionTab>
+      </div>
     ),
     // we need observer to update component automatically on any store changes
     Panel: observer((store: any) => {
@@ -195,14 +203,22 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const customSection4: any = {
     name: 'custom4',
     Tab: (props: SectionTabProps) => (
-      <SectionTab {...props}>
+      <div {...props} style={{ display: 'flex', flexDirection: 'column' }}>
         {props.active ? (
-          <img src={uploadColor} alt='props' style={{ background: 'white' }} />
+          <img
+            src={uploadColor}
+            alt='props'
+            style={{ background: 'white', width: '36px' }}
+          />
         ) : (
-          <img src={UploadIcon} alt='props' style={{ background: 'white' }} />
+          <img
+            src={UploadIcon}
+            alt='props'
+            style={{ background: 'white', width: '36px' }}
+          />
         )}
         <p style={{ background: 'white', fontSize: '12px' }}>Upload</p>
-      </SectionTab>
+      </div>
     ),
     // we need observer to update component automatically on any store changes
     Panel: observer((store: any) => {
@@ -217,7 +233,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const customSection5: any = {
     name: 'custom5',
     Tab: (props: SectionTabProps) => (
-      <SectionTab {...props}>
+      <div {...props} style={{ display: 'flex', flexDirection: 'column' }}>
         {props.active ? (
           <img
             src={TextColor}
@@ -232,7 +248,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           />
         )}
         <p style={{ background: 'white', fontSize: '12px' }}>Text</p>
-      </SectionTab>
+      </div>
     ),
     // we need observer to update component automatically on any store changes
     Panel: observer((store: any) => {
@@ -247,7 +263,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const customSection6: any = {
     name: 'custom6',
     Tab: (props: SectionTabProps) => (
-      <SectionTab {...props}>
+      <div {...props} style={{ display: 'flex', flexDirection: 'column' }}>
         {props.active ? (
           <img
             src={TemplateColor}
@@ -262,7 +278,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           />
         )}
         <p style={{ background: 'white', fontSize: '12px' }}>Templates</p>
-      </SectionTab>
+      </div>
     ),
     // we need observer to update component automatically on any store changes
     Panel: observer((store: any) => {
@@ -277,7 +293,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const customSection7: any = {
     name: 'custom7',
     Tab: (props: SectionTabProps) => (
-      <SectionTab {...props}>
+      <div {...props} style={{ display: 'flex', flexDirection: 'column' }}>
         {props.active ? (
           <img
             src={SizingColor}
@@ -292,7 +308,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           />
         )}
         <p style={{ background: 'white', fontSize: '12px' }}>Sizing</p>
-      </SectionTab>
+      </div>
     ),
     // we need observer to update component automatically on any store changes
     Panel: observer((store: any) => {
