@@ -158,13 +158,9 @@ exports.subscribe = async (req, res) => {
       plnId = business
       plnType = 'business'
     }
-    console.log('====================================')
-    console.log('planPrice --->', planPrice)
-    console.log('====================================')
+
     const session = await stripeSessionForPackages(plnId)
-    console.log('====================================')
-    console.log('session --->', session)
-    console.log('====================================')
+
     const payment = new Payment({
       userId: user.id,
       subscription: {
@@ -195,27 +191,13 @@ exports.paymentSuccess = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(
       payment.subscription.sessionId
     )
-    console.log('====================================')
-    console.log('session --->', session)
-    console.log('====================================')
+
     if (session.payment_status === 'paid' && session.subscription) {
       const subscriptionId = session.subscription
       try {
         const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
-        console.log('====================================')
-        console.log('subscription ---->>', subscription)
-        console.log('====================================')
-
         const plnId = subscription.plan.id
-        // let plnType = ''
-        if (subscription.plan.amount === 11988) {
-          // plnType = 'lite'
-        } else if (subscription.plan.amount === 28788) {
-          // plnType = 'pro'
-        } else if (subscription.plan.amount === 57588) {
-          // plnType = 'business'
-        }
 
         const startDate = DateTime.fromSeconds(
           subscription.current_period_start

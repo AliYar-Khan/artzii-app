@@ -35,6 +35,16 @@ class AuthStore {
     this.initialize = true
   }
 
+  async updateSubscription(plan: string): Promise<void> {
+    if (this.user) {
+      this.user.subscription = plan
+      await AsyncStorage.setItem('user', JSON.stringify(this.user))
+    } else {
+      await this.init()
+      this.updateSubscription(plan)
+    }
+  }
+
   async update(field: string, value: any): Promise<void> {
     if (field === 'authToken') {
       await AsyncStorage.setItem(field, value)

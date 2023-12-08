@@ -14,6 +14,8 @@ router.post('/login', UserController.loginUser)
 
 router.post('/googleSignIn', UserController.googleSignIn)
 
+router.post('/googleSignUp', UserController.googleSignUp)
+
 // Get a specific user by ID
 router.get('/:id', auth, UserController.getUserById)
 

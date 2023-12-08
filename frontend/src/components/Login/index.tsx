@@ -34,7 +34,8 @@ const Login = (): JSX.Element => {
     console.log('Received values of form: ', values)
     const data = JSON.stringify({
       email: values.username,
-      password: values.password
+      password: values.password,
+      remember: values.remember
     })
 
     client
@@ -45,7 +46,13 @@ const Login = (): JSX.Element => {
       })
       .then(
         async (response: {
-          data: { user: any; success: boolean; message: string; token: any }
+          data: {
+            user: any
+            success: boolean
+            message: string
+            token: string
+            redirect: string
+          }
         }) => {
           if (response.data.success) {
             await store.authStore.update('authToken', response.data.token)
@@ -61,7 +68,7 @@ const Login = (): JSX.Element => {
               theme: 'colored'
             })
             setTimeout(() => {
-              handleNavigation()
+              handleNavigation(response.data.redirect)
             }, 2000)
           } else {
             console.log('====================================')
@@ -100,7 +107,7 @@ const Login = (): JSX.Element => {
       .post('/users/googleSignIn?gat=' + accessToken)
       .then(
         async (response: {
-          data: { user: any; success: boolean; token: any }
+          data: { user: any; success: boolean; token: string; redirect: string }
         }) => {
           console.log('====================================')
           console.log('googleSignIn ------>>>>', response)
@@ -119,7 +126,7 @@ const Login = (): JSX.Element => {
               theme: 'colored'
             })
             setTimeout(() => {
-              handleNavigation()
+              handleNavigation(response.data.redirect)
             }, 2000)
           }
         }
@@ -139,8 +146,8 @@ const Login = (): JSX.Element => {
   }
   const login = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess })
 
-  const handleNavigation = (): void => {
-    navigate('/dashboard')
+  const handleNavigation = (path: string): void => {
+    navigate(`${path}`)
   }
 
   if (
@@ -166,8 +173,8 @@ const Login = (): JSX.Element => {
         theme='colored'
       />
       <Header
-        handleSettingsClick={handleNavigation}
-        handleUpgradeClick={handleNavigation}
+        handleSettingsClick={() => {}}
+        handleUpgradeClick={() => {}}
         handleAICreditClick={() => {}}
       />
       <Container>
@@ -267,12 +274,7 @@ const Login = (): JSX.Element => {
               <LoginButton type='submit'>Login</LoginButton>
               <SignUpPara>
                 Need an account?{' '}
-                <a
-                  href='https://artziii.com/pricing-3/'
-                  target='_blank'
-                  rel='noreferrer'
-                  className='signupButton'
-                >
+                <a href='/signup' rel='noreferrer' className='signupButton'>
                   sign-up here
                 </a>
               </SignUpPara>
