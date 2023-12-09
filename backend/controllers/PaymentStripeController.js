@@ -106,6 +106,7 @@ const stripeSessionForPackages = async (planId) => {
           quantity: 1
         }
       ],
+      allow_promotion_codes: true,
       success_url: `${process.env.FRONT_END}/success`,
       cancel_url: `${process.env.FRONT_END}/cancel`
     })
