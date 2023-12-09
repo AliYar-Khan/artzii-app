@@ -141,7 +141,7 @@ exports.googleSignUp = async (req, res) => {
             await newUser.save()
             return res.status(200).json({
               success: true,
-              redirect: 'login',
+              redirect: '/',
               message: 'Successfully signed up'
             })
           }
