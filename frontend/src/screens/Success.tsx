@@ -28,8 +28,9 @@ const Success = (): JSX.Element => {
             'x-auth-token': store.authStore.authToken
           }
         })
-        .then((response) => {
+        .then(async (response) => {
           if (response.status === 200 && response.data.success === true) {
+            await store.authStore.updateSubscription(response.data.package)
             setTimeout(() => {
               window.location.href = '/dashboard'
             }, 2000)

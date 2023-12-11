@@ -7,36 +7,28 @@ const axios = require('axios')
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
-    const customer = req.body.billing
-    console.log('====================================')
-    console.log('customer --->', customer)
-    console.log('====================================')
-    const passwordItem = req.body.meta_data.find(
-      (md) => md.key === '_billing_password'
-    )
-    var password = ''
-    if (passwordItem !== null && passwordItem !== undefined) {
-      password = passwordItem.value
+    const { name, email, password } = req.body
+    const userA = await User.findOne({ email: email })
+    if (userA) {
+      return res
+        .status(303)
+        .json({ success: false, message: 'Account Already with same email' })
     }
-    console.log('====================================')
-    console.log('password --->', password)
-    console.log('====================================')
     const salt = await bcrypt.genSalt(Number(process.env.SALT))
-    var hashedPassword =
-      password === '' ? '' : await bcrypt.hash(password, salt)
+    var hashedPassword = await bcrypt.hash(password, salt)
     const user = new User({
-      name: `${customer.first_name} ${customer.last_name}`,
-      address: `${customer.address_1} ${customer.address_2}`,
-      city: customer.city,
-      state: customer.state,
-      country: customer.country,
-      zipCode: customer.postcode,
-      phoneNumber: customer.phone,
-      email: customer.email,
+      name: name,
+      address: '',
+      city: '',
+      state: '',
+      country: '',
+      zipCode: '',
+      phoneNumber: '',
+      email: email,
       password: hashedPassword
     })
     await user.save()
-    res.status(201).json(user)
+    res.status(201).json({ success: true, message: 'Signed up sucessfully' })
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
@@ -61,7 +53,10 @@ exports.googleSignIn = async (req, res) => {
               userId: alreadyExist.id,
               'subscription.status': { $nin: ['expired', 'cancelled'] }
             })
-
+            let redirect = 'dashboard'
+            if (!payment) {
+              redirect = 'subscription'
+            }
             console.log('====================================')
             console.log('payment --->', payment)
             console.log('====================================')
@@ -79,6 +74,7 @@ exports.googleSignIn = async (req, res) => {
             return res.status(200).json({
               success: true,
               token: tokenV,
+              redirect: redirect,
               user: {
                 id: alreadyExist.id,
                 name: alreadyExist.name,
@@ -93,44 +89,60 @@ exports.googleSignIn = async (req, res) => {
               }
             })
           } else {
-            // const newUser = new User({
-            //   name: name || '',
-            //   address: '',
-            //   city: '',
-            //   state: '',
-            //   country: '',
-            //   zipCode: '',
-            //   phoneNumber: '',
-            //   email: response.data.email,
-            //   password: ''
-            // })
-            // const savedUser = await newUser.save()
-            // const tokenV = jwt.sign(
-            //   { id: savedUser.id },
-            //   process.env.JWTPRIVATEKEY,
-            //   {
-            //     expiresIn: '8h'
-            //   }
-            // )
-            // return res.status(200).json({
-            //   success: true,
-            //   token: tokenV,
-            //   user: {
-            //     id: savedUser.id,
-            //     name: savedUser.name,
-            //     email: savedUser.email,
-            //     phoneNumber: savedUser.phoneNumber,
-            //     address: savedUser.address,
-            //     city: savedUser.city,
-            //     country: savedUser.country,
-            //     state: savedUser.state,
-            //     zipCode: savedUser.zipCode,
-            //     subscriptions: []
-            //   }
-            // })
             return res.status(404).json({
               success: false,
               message: 'User not found'
+            })
+          }
+        })
+        .catch((error) => {
+          return res
+            .status(404)
+            .json({ success: false, message: error.message })
+        })
+    } catch (error) {
+      return res.status(404).json({ success: false, message: error.message })
+    }
+  } else {
+    return res.status(404).json({ success: false, message: 'Invalid Account' })
+  }
+}
+
+exports.googleSignUp = async (req, res) => {
+  if (req.query.gat) {
+    try {
+      axios
+        .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${req.query.gat}`
+          }
+        })
+        .then(async (response) => {
+          const name = `${response.data.given_name} ${response.data.family_name}`
+          const email = response.data.email
+
+          const alreadyExist = await User.findOne({ email })
+          if (alreadyExist) {
+            return res
+              .status(303)
+              .json({ success: false, message: 'Account Already Exists' })
+          } else {
+            const newUser = new User({
+              name: name || '',
+              address: '',
+              city: '',
+              state: '',
+              country: '',
+              zipCode: '',
+              phoneNumber: '',
+              email: response.data.email,
+              password: ''
+            })
+            await newUser.save()
+            return res.status(200).json({
+              success: true,
+              redirect: '/',
+              message: 'Successfully signed up'
             })
           }
         })
@@ -234,11 +246,21 @@ exports.loginUser = async (req, res) => {
         .json({ success: false, message: 'Invalid password' })
     } else {
       const tk = jwt.sign({ id: user.id }, process.env.JWTPRIVATEKEY, {
-        expiresIn: '8h'
+        expiresIn: req.body.remember == true ? '7d' : '8h'
       })
+      const payment = await Payment.findOne({
+        userId: user.id,
+        'subscription.status': { $nin: ['expired', 'cancelled', 'deleted'] }
+      })
+      let redirect = 'dashboard'
+      if (!payment) {
+        redirect = 'subscription'
+      }
+      const { subscription } = payment ?? { subscription: '' }
       return res.json({
         success: true,
         token: tk,
+        redirect: redirect,
         user: {
           name: user.name,
           email: user.email,
@@ -247,7 +269,8 @@ exports.loginUser = async (req, res) => {
           city: user.city,
           country: user.country,
           state: user.state,
-          zipCode: user.zipCode
+          zipCode: user.zipCode,
+          subscription: payment ? payment.subscription.planType : ''
         }
       })
     }
