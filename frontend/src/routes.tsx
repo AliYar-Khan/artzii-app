@@ -15,7 +15,6 @@ const AppRoutes = (): JSX.Element => {
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/success' element={<Success />} />
       <Route path='/cancel' element={<Cancel />} />
-      <Route path='/subscription' element={<Subscription />} />
     </Routes>
   )
 }

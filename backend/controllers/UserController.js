@@ -4,10 +4,23 @@ const Payment = require('../models/Payment')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
+const { stripeSessionForPackages } = require('../utils/StripeSessions')
+
+const [
+  lite,
+  pro,
+  business
+  // ai_credit
+] = [
+  'price_1O2EtpF5tWWOGM6I0szZirTo',
+  'price_1O2EwjF5tWWOGM6IizCUqvut',
+  'price_1O2Ep3F5tWWOGM6IXCusa2VB'
+]
+
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password, packagePrice } = req.body
     const userA = await User.findOne({ email: email })
     if (userA) {
       return res
@@ -27,8 +40,59 @@ exports.createUser = async (req, res) => {
       email: email,
       password: hashedPassword
     })
-    await user.save()
-    res.status(201).json({ success: true, message: 'Signed up sucessfully' })
+    const savedUser = await user.save()
+    let plnId = null
+    let plnType = ''
+    if (packagePrice == '9.99') {
+      plnId = lite
+      plnType = 'lite'
+    } else if (packagePrice == '23.99') {
+      plnId = pro
+      plnType = 'pro'
+    } else if (packagePrice == '47.99') {
+      plnId = business
+      plnType = 'business'
+    }
+    console.log('====================================')
+    console.log('planId ===>', plnId)
+    console.log('====================================')
+    const session = await stripeSessionForPackages(plnId)
+    console.log('====================================')
+    console.log('session --->', session)
+    console.log('====================================')
+    const payment = new Payment({
+      userId: savedUser.id,
+      subscription: {
+        sessionId: session.id,
+        status: '',
+        planId: plnId,
+        planType: plnType,
+        startDate: '',
+        willExpireOn: '',
+        durationInDays: ''
+      }
+    })
+    await payment.save()
+    const tk = jwt.sign({ id: savedUser.id }, process.env.JWTPRIVATEKEY, {
+      expiresIn: '8h'
+    })
+    res.status(200).json({
+      success: true,
+      message: 'User signuped',
+      token: tk,
+      url: session.url,
+      user: {
+        name: savedUser.name,
+        email: savedUser.email,
+        phoneNumber: savedUser.phoneNumber,
+        address: savedUser.address,
+        city: savedUser.city,
+        country: savedUser.country,
+        state: savedUser.state,
+        zipCode: savedUser.zipCode,
+        subscription: ''
+      }
+    })
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
@@ -127,6 +191,7 @@ exports.googleSignUp = async (req, res) => {
               .status(303)
               .json({ success: false, message: 'Account Already Exists' })
           } else {
+            const { packagePrice } = req.body
             const newUser = new User({
               name: name || '',
               address: '',
@@ -138,11 +203,56 @@ exports.googleSignUp = async (req, res) => {
               email: response.data.email,
               password: ''
             })
-            await newUser.save()
+            let plnId = null
+            let plnType = ''
+            if (packagePrice == '9.99') {
+              plnId = lite
+              plnType = 'lite'
+            } else if (packagePrice == '23.99') {
+              plnId = pro
+              plnType = 'pro'
+            } else if (packagePrice == '47.99') {
+              plnId = business
+              plnType = 'business'
+            }
+            const savedUser = await newUser.save()
+            const session = await stripeSessionForPackages(plnId)
+            const payment = new Payment({
+              userId: savedUser.id,
+              subscription: {
+                sessionId: session.id,
+                status: '',
+                planId: plnId,
+                planType: plnType,
+                startDate: '',
+                willExpireOn: '',
+                durationInDays: ''
+              }
+            })
+            await payment.save()
+            const tk = jwt.sign(
+              { id: savedUser.id },
+              process.env.JWTPRIVATEKEY,
+              {
+                expiresIn: '8h'
+              }
+            )
             return res.status(200).json({
               success: true,
-              redirect: '/',
-              message: 'Successfully signed up'
+              message: 'User signuped',
+              token: tk,
+              url: session.url,
+              user: {
+                name: savedUser.name,
+                email: savedUser.email,
+                phoneNumber: savedUser.phoneNumber,
+                address: savedUser.address,
+                city: savedUser.city,
+                country: savedUser.country,
+                state: savedUser.state,
+                zipCode: savedUser.zipCode,
+                subscription: ''
+              }
             })
           }
         })
