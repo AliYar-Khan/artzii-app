@@ -17,7 +17,7 @@ export const MainHeading = styled.h1`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 20px;
   color: ${Theme.BLACK_COLOR};
 `
 

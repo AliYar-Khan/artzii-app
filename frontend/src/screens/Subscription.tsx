@@ -1,10 +1,8 @@
 import React from 'react'
 import {
-  Container,
   MainHeading,
   FlexContainer,
   Flex2,
-  CurrentPlanHeading,
   CardDescription,
   CardFeatures,
   CardHeading,
@@ -16,64 +14,20 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Badge, Card } from 'antd'
 import { pricingData } from '../services/PricingData'
-import ArrowDown from '../assets/Group.png'
 
-import { useStores } from 'src/store/rootStore'
-import { client } from 'src/apiClient/apiClient'
 import CheckBox from '../assets/Checkbox.png'
-const Subscription = (): JSX.Element => {
-  const store = useStores()
 
-  const checkout = (price: string): void => {
-    const data = JSON.stringify({
-      planPrice: price
-    })
+interface Props {
+  setGettingStarted: any
+  setPackagePrice: any
+}
 
-    client
-      .post('/payment-stripe/subscribe-session', data, {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': store.authStore.authToken
-        }
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          window.location = response.data.url
-        }
-      })
-      .catch(async (err) => {
-        if (err.response.status === 401) {
-          toast.error('Token Expired. Login Again!', {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored'
-          })
-          await store.logout()
-          setTimeout(() => {
-            window.location.href = '/'
-          }, 1000)
-        } else {
-          toast.error(err.response.data.message, {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored'
-          })
-        }
-      })
-  }
-
+const Subscription = ({
+  setGettingStarted,
+  setPackagePrice
+}: Props): JSX.Element => {
   return (
-    <Container>
+    <>
       <ToastContainer
         position='top-right'
         autoClose={4000}
@@ -91,7 +45,8 @@ const Subscription = (): JSX.Element => {
           display: 'flex',
           marginLeft: 'auto',
           marginRight: 'auto',
-          width: '60px'
+          width: '60px',
+          marginTop: '50px'
         }}
       >
         Pricing
@@ -104,27 +59,6 @@ const Subscription = (): JSX.Element => {
               key={item.id}
               style={{ display: 'flex', flexDirection: 'column' }}
             >
-              {store.authStore.user.subscription ===
-              item.title.toLowerCase() ? (
-                <div
-                  style={{
-                    marginTop: '-40px'
-                  }}
-                >
-                  <CurrentPlanHeading>You are here</CurrentPlanHeading>
-                  <img
-                    src={ArrowDown}
-                    style={{
-                      width: '30px',
-                      display: 'flex',
-                      marginLeft: 'auto',
-                      marginRight: 'auto',
-                      marginTop: '-10px'
-                    }}
-                    alt='arrow'
-                  />
-                </div>
-              ) : null}
               <Card
                 style={{
                   width: 300,
@@ -142,30 +76,12 @@ const Subscription = (): JSX.Element => {
                 <AccessButton
                   onClick={() => {
                     if (item.monthlyPriceValue.length > 0) {
-                      if (
-                        store.authStore.user.subscription === 'lite' ||
-                        store.authStore.user.subscription === 'pro' ||
-                        store.authStore.user.subscription === 'enterprise'
-                      ) {
-                        toast.success(
-                          'Manage subscription from Top Left Button',
-                          {
-                            position: 'top-right',
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'colored'
-                          }
-                        )
-                      } else {
-                        checkout(item.monthlyPriceValue)
-                      }
+                      setGettingStarted(false)
+                      setPackagePrice(item.monthlyPriceValue)
                     }
                   }}
                 >
-                  Access Now
+                  Get Started
                 </AccessButton>
                 <CardFeatures>
                   <img
@@ -222,7 +138,7 @@ const Subscription = (): JSX.Element => {
           ))}
         </Flex2>
       </FlexContainer>
-    </Container>
+    </>
   )
 }
 
