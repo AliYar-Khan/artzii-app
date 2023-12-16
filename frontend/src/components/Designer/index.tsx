@@ -29,7 +29,7 @@ import TemplateIcon from '../../assets/templatesIcon.png'
 import TemplateColor from '../../assets/templateColor.png'
 import SizingIcon from '../../assets/sizingIcon.png'
 import SizingColor from '../../assets/sizingColor.png'
-import { DownloadButton } from 'polotno/toolbar/download-button'
+import { DownloadButton } from '../DownloadButton'
 import '../../utils/style.css'
 
 import '@blueprintjs/icons/lib/css/blueprint-icons.css'

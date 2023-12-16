@@ -277,13 +277,28 @@
     )
     1 !important;
   border-radius: 4px !important;
-  height: 40px;
+  height: 30px;
   align-items: center;
   display: flex;
   box-shadow: 0px 4px 4px #BDF4FF;
 }
-.bp4-navbar-group span:nth-of-type(6) button:hover {
-  background-color: transparent !important;
+
+.span.bp4-popover-target:hover {
+  background-color: white;
+  color: #121212;
+}
+
+.bp4-popover .bp4-popover-content {
+  padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+ }
+
+.bp4-button.bp4-intent-primary {
+  width: 120px;
+  height: 45;
+  background-color: white;
+  color: #121212;
 }
 
 .bp4-navbar {
