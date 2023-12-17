@@ -19,6 +19,7 @@ export const Button = styled.button<{
     )
     1 !important;
   color: ${Theme.BLACK_COLOR};
+  font-weight: bold;
   margin-right: 50px;
   cursor: pointer;
 `

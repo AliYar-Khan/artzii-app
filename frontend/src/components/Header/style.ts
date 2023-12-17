@@ -108,6 +108,7 @@ export const UpgradeButton = styled.button`
   color: ${Theme.BLACK_COLOR};
   margin-right: 50px;
   cursor: pointer;
+  font-weight: bold;
 `
 
 export const BellIcon = styled.div`
