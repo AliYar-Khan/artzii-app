@@ -6,15 +6,19 @@ export const Button = styled.button<{
   width: number
   unit: string
 }>`
-  display: flex;
   width: ${(props) => (props.width ? props.width + props.unit : '120px')};
   height: ${(props) => props.height || 32}px;
-  padding: 9px 19px 9px 18px;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px #bdf4ff;
   border-radius: 4px;
-  border: 1px solid var(--NEW-Cutesy, #ff8ea5);
-  background: #fff;
-  box-shadow: 0px 4px 4px 0px #bdf4ff;
+  border-image: linear-gradient(
+      90deg,
+      rgba(255, 142, 165, 0.87) 25.21%,
+      rgba(204, 149, 255, 0.87) 51.28%,
+      rgba(136, 231, 255, 0.87) 75.62%
+    )
+    1 !important;
+  color: ${Theme.BLACK_COLOR};
+  margin-right: 50px;
+  cursor: pointer;
 `

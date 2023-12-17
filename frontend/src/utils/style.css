@@ -251,6 +251,13 @@
 .go4124332351 {
   overflow-y: auto;
 }
+
+.bp4-popover-target {
+  width: 120px;
+}
+.bp4-popover-wrapper {
+  width: 120px;
+}
 .bp4-input {
   border: 1.2px solid transparent !important;
   border-image: linear-gradient(
