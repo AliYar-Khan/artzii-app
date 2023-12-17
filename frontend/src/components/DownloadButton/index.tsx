@@ -97,16 +97,16 @@ export const DownloadButton = observer(({ store }: any) => {
                         px: store.width * pageSizeModifier,
                         dpi: store.dpi,
                         precious: 0,
-                        unit: 'mm'
+                        unit: 'px'
                       })}{' '}
                       x{' '}
                       {unit.pxToUnitRounded({
                         px: store.height * pageSizeModifier,
                         dpi: store.dpi,
                         precious: 0,
-                        unit: 'mm'
+                        unit: 'px'
                       })}{' '}
-                      mm
+                      px
                     </div>
                   </div>
                 </>
