@@ -245,6 +245,22 @@
 .go141666149 div{
   background: white;
 }
+
+.go2939300030 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
+}
+
+.go2941063172.active {
+  background-color: transparent !important;
+}
+
+.go2941063172:hover {
+  background-color: transparent !important;
+}
+
 .go141666149:hover, .go141666149.active {
   background: white !important;
 }
@@ -386,6 +402,17 @@ button:focus{
     rgba(136, 231, 255, 0.87) 75.62%
   )
 }
+
+@media screen and (min-width: 501px) {
+  .go1430256704 {
+    min-width: 100px !important;
+  }
+}
+
+.go1430256704 {
+  min-width: 100px !important;
+}
+
 @media only screen and (max-width: 800px) {
   .sentiments {
     height: auto;
