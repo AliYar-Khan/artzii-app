@@ -496,9 +496,6 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           }
         })
         .then(async (response) => {
-          console.log('====================================')
-          console.log('response of geting design --->', response)
-          console.log('====================================')
           if (response.data.success === true) {
             pg.loadJSON(response.data.design)
             designName.current.value = response.data.design.name
@@ -561,7 +558,8 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
             })
           }
         })
-    } else {
+    }
+    return () => {
       pg.clear()
       pg.addPage()
     }
