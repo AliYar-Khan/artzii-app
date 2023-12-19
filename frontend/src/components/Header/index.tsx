@@ -37,8 +37,8 @@ const Header = ({
         <Left>
           <Logo src={logo} />
         </Left>
-        {channelPath === '/dashboard'
-          ? <Right>
+        {channelPath === '/dashboard' ? (
+          <Right>
             <UpgradeButton onClick={handleAICreditClick}>
               + AI Credits
             </UpgradeButton>
@@ -62,7 +62,7 @@ const Header = ({
               />
             </AvatarIcon>
           </Right>
-          : null}
+        ) : null}
       </Wrapper>
     </Container>
   )

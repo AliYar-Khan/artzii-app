@@ -45,16 +45,10 @@ export const InputContainer = styled.input`
   cursor: pointer;
   height: 30px;
   width: 110px;
-  background: #ffffff;
-  box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
   border-radius: 4px;
-  border-image: linear-gradient(
-      90deg,
-      rgba(255, 142, 165, 0.87) 25.21%,
-      rgba(204, 149, 255, 0.87) 51.28%,
-      rgba(136, 231, 255, 0.87) 75.62%
-    )
-    1 !important;
+  border: 1px solid transparent;
   color: ${Theme.BLACK_COLOR};
   margin-top: 0px;
   cursor: pointer;
