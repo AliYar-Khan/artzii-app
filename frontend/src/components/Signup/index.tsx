@@ -135,6 +135,7 @@ const Signup = (): JSX.Element => {
         handleSettingsClick={() => {}}
         handleUpgradeClick={() => {}}
         handleAICreditClick={() => {}}
+        activeTab={-1}
       />
       <ToastContainer
         position='top-right'

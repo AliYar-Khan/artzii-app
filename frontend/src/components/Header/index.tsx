@@ -17,18 +17,22 @@ import { useLocation } from 'react-router-dom'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar } from 'antd'
-
+import { InputContainer } from '../Designer/style'
+import { useStores } from 'src/store/rootStore'
 interface Props {
   handleSettingsClick: () => void
   handleUpgradeClick: () => void
   handleAICreditClick: () => void
+  activeTab: number
 }
 
 const Header = ({
   handleSettingsClick,
   handleUpgradeClick,
-  handleAICreditClick
+  handleAICreditClick,
+  activeTab
 }: Props): JSX.Element => {
+  const store = useStores()
   const location = useLocation()
   const channelPath = location.pathname
   return (
@@ -61,6 +65,16 @@ const Header = ({
                 src={accountIcon}
               />
             </AvatarIcon>
+            {activeTab === 2 ? (
+              <InputContainer
+                value={store.designStore.designName}
+                onChange={(event) => {
+                  store.designStore.updateDesignName(event.target.value)
+                }}
+                placeholder='name'
+                type='text'
+              ></InputContainer>
+            ) : null}
           </Right>
         ) : null}
       </Wrapper>

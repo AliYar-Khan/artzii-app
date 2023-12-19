@@ -153,7 +153,7 @@ const Login = (): JSX.Element => {
   if (
     store.authStore.authToken !== null &&
     store.authStore.authToken !== undefined &&
-    store.authStore.authToken === ''
+    store.authStore.authToken !== ''
   ) {
     return <Navigate to='/dashboard' replace />
   }
@@ -176,6 +176,7 @@ const Login = (): JSX.Element => {
         handleSettingsClick={() => {}}
         handleUpgradeClick={() => {}}
         handleAICreditClick={() => {}}
+        activeTab={-1}
       />
       <Container>
         <Form

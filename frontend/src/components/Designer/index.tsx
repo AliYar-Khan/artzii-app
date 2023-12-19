@@ -333,16 +333,12 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
 
   const handleSave = (): void => {
     try {
-      if (designName.current.value) {
+      if (store.designStore.designName) {
         const jsonObject = {
-          name: designName.current.value,
+          name: store.designStore.designName,
           ...storePolotno.toJSON()
         }
-        if (
-          store.designStore.designId === null ||
-          store.designStore.designId === '' ||
-          store.designStore.designId === undefined
-        ) {
+        if (!store.designStore.designId) {
           client
             .post('/design/', JSON.stringify(jsonObject), {
               headers: {
@@ -354,9 +350,6 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
               async (response: {
                 data: { success: boolean; designId: string }
               }) => {
-                console.log('====================================')
-                console.log('response.data -->>', response.data)
-                console.log('====================================')
                 if (response.data.success) {
                   store.designStore.updateDesignId(response.data.designId)
                   toast.success('Saved successfully!', {
@@ -415,7 +408,6 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                 console.log('response.data -->>', response.data)
                 console.log('====================================')
                 if (response.data.success) {
-                  store.designStore.updateDesignId(response.data.designId)
                   toast.success('Updated successfully!', {
                     position: 'top-right',
                     autoClose: 5000,
@@ -498,35 +490,18 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         .then(async (response) => {
           if (response.data.success === true) {
             pg.loadJSON(response.data.design)
-            designName.current.value = response.data.design.name
+            store.designStore.updateDesignName(response.data.design.name)
           } else {
-            if (response.status === 401) {
-              toast.error('Token Expired. Login Again!', {
-                position: 'top-right',
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'colored'
-              })
-              await store.logout()
-              setTimeout(() => {
-                window.location.href = '/'
-              }, 1000)
-            } else {
-              toast.error(response.data.error, {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'colored'
-              })
-            }
+            toast.error(response.data.error, {
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored'
+            })
           }
         })
         .catch(async (err) => {
@@ -562,6 +537,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     return () => {
       pg.clear()
       pg.addPage()
+      store.designStore.clear()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.designStore.designId])
@@ -571,11 +547,11 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
       <>
         <DownloadButton store={store} />
         {/* <SaveButton onClick={handleSave}>Save</SaveButton> */}
-        <InputContainer
+        {/* <InputContainer
           ref={designName}
           placeholder='name'
           type='text'
-        ></InputContainer>
+        ></InputContainer> */}
       </>
     )
   }

@@ -99,6 +99,7 @@ export const UpgradeButton = styled.button`
     linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
   border-radius: 4px;
   border: 1px solid transparent;
+  box-shadow: 0px 4px 4px 0px #bdf4ff;
   color: ${Theme.BLACK_COLOR};
   margin-right: 50px;
   cursor: pointer;
@@ -120,7 +121,7 @@ export const SettingsIcon = styled.div`
 
 export const AvatarIcon = styled.div`
   margin-left: 30px;
-  margin-right: 0px;
+  margin-right: 30px;
   cursor: pointer;
   background: white !important;
 `

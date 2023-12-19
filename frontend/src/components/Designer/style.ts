@@ -44,7 +44,7 @@ export const SaveButton = styled.button`
 export const InputContainer = styled.input`
   cursor: pointer;
   height: 30px;
-  width: 110px;
+  width: 150px;
   background: linear-gradient(white, white) padding-box,
     linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
   border-radius: 4px;
@@ -52,7 +52,5 @@ export const InputContainer = styled.input`
   color: ${Theme.BLACK_COLOR};
   margin-top: 0px;
   cursor: pointer;
-  position: absolute;
-  left: 53%;
   outline: transparent;
 `
