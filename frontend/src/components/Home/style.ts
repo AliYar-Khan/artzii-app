@@ -23,7 +23,7 @@ export const Head1 = styled.h1`
   font-weight: 900;
   text-align: left;
   color: #121212;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 `
 
 export const Head2 = styled.h2`
@@ -40,10 +40,9 @@ export const Head2 = styled.h2`
 export const Head5 = styled.h5`
   font-size: 13px;
   font-weight: 600;
-  text-align: center;
-  line-height: 30px;
+  text-align: left;
+  line-height: 10px;
   width: 244px;
-  margin-top: 10px;
   margin-left: 50px;
 `
 
@@ -77,6 +76,15 @@ export const DesignRow = styled.div`
   width: inherit;
 `
 
+export const Designs = styled.div`
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
+  grid-auto-rows: 250px;
+  padding: 10px;
+`
+
 export const IllustrationContainer = styled.div`
   flex-direction: column;
 `
@@ -96,4 +104,15 @@ export const DesignImage = styled.img`
   margin-left: 50px;
   border-radius: 4px;
   cursor: pointer;
+  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.25);
+`
+
+export const Design = styled.div<{
+  background: string
+}>`
+  width: 244px;
+  height: 148px;
+  margin-left: 50px;
+  background-color: ${(props) => props.background};
+  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.25);
 `
