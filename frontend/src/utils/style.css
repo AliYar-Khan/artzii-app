@@ -349,6 +349,10 @@
   border-radius: 5px;
 }
 
+.go810943435 {
+  overflow-x: hidden !important;
+}
+
 .go810943435 ::-webkit-scrollbar-track {
 
   background: #f1f1f1;

@@ -638,7 +638,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
       />
       <PolotnoContainer
         style={{
-          width: '90vw',
+          width: '100vw',
           height: 'auto',
           overflowY: 'auto',
           overflowX: 'auto !important'
