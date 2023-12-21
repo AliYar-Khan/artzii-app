@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Container,
   DesignRow,
@@ -36,53 +36,72 @@ interface Props {
 
 const Home = (props: Props): JSX.Element => {
   const store = useStores()
+  const initialized = useRef(false)
+
   const [designs, setDesigns] = useState<Design[]>([])
   const [itemsDisplay, setItemsDisplay] = useState<any>()
 
   useEffect(() => {
-    client
-      .get('/design/', {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': store.authStore.authToken
-        }
-      })
-      .then(async (response) => {
-        if (response.data.success === true) {
-          setDesigns(response.data.designs)
-        }
-      })
-      .catch(async (err) => {
-        if (err.response.status === 401) {
-          toast.error('Token Expired. Login Again!', {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored'
-          })
-          await store.logout()
-          setTimeout(() => {
-            window.location.href = '/'
-          }, 1000)
-        } else {
-          toast.error(err.response.data.message, {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored'
-          })
-        }
-      })
+    if (!initialized.current) {
+      initialized.current = true
+      client
+        .get('/design/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': store.authStore.authToken
+          }
+        })
+        .then(async (response) => {
+          if (response.data.success === true) {
+            setDesigns(response.data.designs)
+          }
+        })
+        .catch(async (err) => {
+          if (err.response.status === 401) {
+            toast.error('Token Expired. Login Again!', {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
+              position: 'top-right',
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored'
+            })
+            await store.logout()
+            setTimeout(() => {
+              window.location.href = '/'
+            }, 1000)
+          } else {
+            toast.error(err.response.data.message, {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
+              position: 'top-right',
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored'
+            })
+          }
+        })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [designs])
 
   const editDesign = (itemId: string): void => {
     store.designStore.updateDesignId(itemId)

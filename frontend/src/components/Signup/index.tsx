@@ -46,6 +46,9 @@ const Signup = (): JSX.Element => {
           await store.authStore.update('authToken', response.data.token)
           await store.authStore.update('user', response.data.user)
           toast.success('Success! Proceed to payment', {
+            style: {
+              background: '#88E7FF'
+            },
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
@@ -62,6 +65,13 @@ const Signup = (): JSX.Element => {
       })
       .catch((err) => {
         toast.error(err.response.data.message, {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 2000,
           hideProgressBar: false,
@@ -92,6 +102,9 @@ const Signup = (): JSX.Element => {
         await store.authStore.update('authToken', response.data.token)
         await store.authStore.update('user', response.data.user)
         toast.success('Success! Proceed to payment', {
+          style: {
+            background: '#88E7FF'
+          },
           position: 'top-right',
           autoClose: 2000,
           hideProgressBar: false,
@@ -107,6 +120,13 @@ const Signup = (): JSX.Element => {
       })
       .catch((error) => {
         toast.error(error.response.data.message, {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 2000,
           hideProgressBar: false,

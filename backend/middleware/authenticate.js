@@ -6,7 +6,8 @@ module.exports = (req, res, next) => {
     console.log('req.url ----->', req.url)
     console.log('====================================')
     const token = req.header('x-auth-token')
-    if (!token) return res.status(403).send('Access denied.')
+    if (!token)
+      return res.status(403).send({ success: false, message: 'Access denied.' })
     const currentTime = Math.floor(Date.now() / 1000)
     const decoded = jwt.verify(token, process.env.JWTPRIVATEKEY)
     if (decoded.exp > currentTime) {

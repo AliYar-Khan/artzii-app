@@ -70,6 +70,13 @@ const Upgrade = (): JSX.Element => {
       .catch(async (err) => {
         if (err.response.status === 401) {
           toast.error('Token Expired. Login Again!', {
+            style: {
+              background: '#FFFFFF',
+              color: 'black'
+            },
+            progressStyle: {
+              background: 'black'
+            },
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
@@ -85,6 +92,13 @@ const Upgrade = (): JSX.Element => {
           }, 1000)
         } else {
           toast.error(err.response.data.message, {
+            style: {
+              background: '#FFFFFF',
+              color: 'black'
+            },
+            progressStyle: {
+              background: 'black'
+            },
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
@@ -177,6 +191,9 @@ const Upgrade = (): JSX.Element => {
                         toast.success(
                           'Manage subscription from Top Left Button',
                           {
+                            style: {
+                              background: '#88E7FF'
+                            },
                             position: 'top-right',
                             hideProgressBar: false,
                             closeOnClick: true,

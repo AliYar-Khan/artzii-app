@@ -58,6 +58,9 @@ const Login = (): JSX.Element => {
             await store.authStore.update('authToken', response.data.token)
             await store.authStore.update('user', response.data.user)
             toast.success('Logged in success. Redirecting', {
+              style: {
+                background: '#88E7FF'
+              },
               position: 'top-right',
               autoClose: 5000,
               hideProgressBar: false,
@@ -71,11 +74,22 @@ const Login = (): JSX.Element => {
               handleNavigation(response.data.redirect)
             }, 2000)
           } else {
-            console.log('====================================')
-            console.log('response.data --->>', response.data)
-            console.log('====================================')
             toast.error(response.data.message, {
-              position: toast.POSITION.TOP_RIGHT
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored'
             })
           }
         }
@@ -85,6 +99,13 @@ const Login = (): JSX.Element => {
         console.log('error --->>>', error.response.data.message)
         console.log('====================================')
         toast.error(error.response.data.message, {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -116,6 +137,9 @@ const Login = (): JSX.Element => {
             await store.authStore.update('authToken', response.data.token)
             await store.authStore.update('user', response.data.user)
             toast.success('Logged in success. Redirecting', {
+              style: {
+                background: '#88E7FF'
+              },
               position: 'top-right',
               autoClose: 2000,
               hideProgressBar: false,
@@ -133,6 +157,13 @@ const Login = (): JSX.Element => {
       )
       .catch((error) => {
         toast.error(error.response.data.message, {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 2000,
           hideProgressBar: false,

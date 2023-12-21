@@ -36,6 +36,13 @@ const Success = (): JSX.Element => {
             }, 2000)
           } else {
             toast.error('Something went wrong', {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
               position: 'top-right',
               autoClose: 2000,
               hideProgressBar: false,
@@ -49,6 +56,13 @@ const Success = (): JSX.Element => {
         })
         .catch((err) => {
           toast.error(err.response.data.message, {
+            style: {
+              background: '#FFFFFF',
+              color: 'black'
+            },
+            progressStyle: {
+              background: 'black'
+            },
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,

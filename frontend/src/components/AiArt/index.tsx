@@ -74,6 +74,13 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
       .catch((error) => {
         setLoading(false)
         toast.error(error.response.data.message, {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 2000,
           hideProgressBar: false,
@@ -89,6 +96,9 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
   const copyTextToClipBoard = async (item: any): Promise<void> => {
     await navigator.clipboard.writeText(item)
     toast.success('Copied to Clipboard', {
+      style: {
+        background: '#88E7FF'
+      },
       position: 'top-right',
       autoClose: 2000,
       hideProgressBar: false,

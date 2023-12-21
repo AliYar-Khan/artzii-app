@@ -57,6 +57,13 @@ const AICredit = (): any => {
       .catch(async (err) => {
         if (err.response.status === 401) {
           toast.error('Token Expired. Login Again!', {
+            style: {
+              background: '#FFFFFF',
+              color: 'black'
+            },
+            progressStyle: {
+              background: 'black'
+            },
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
@@ -72,6 +79,13 @@ const AICredit = (): any => {
           }, 1000)
         } else {
           toast.error(err.response.data.message, {
+            style: {
+              background: '#FFFFFF',
+              color: 'black'
+            },
+            progressStyle: {
+              background: 'black'
+            },
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,

@@ -353,6 +353,9 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                 if (response.data.success) {
                   store.designStore.updateDesignId(response.data.designId)
                   toast.success('Saved successfully!', {
+                    style: {
+                      background: '#88E7FF'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -364,6 +367,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                   })
                 } else {
                   toast.error('Something went wrong !', {
+                    style: {
+                      background: '#FFFFFF',
+                      color: 'black'
+                    },
+                    progressStyle: {
+                      background: 'black'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -378,6 +388,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
             )
             .catch((error) => {
               toast.error(error.response.data.message, {
+                style: {
+                  background: '#FFFFFF',
+                  color: 'black'
+                },
+                progressStyle: {
+                  background: 'black'
+                },
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -409,6 +426,9 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                 console.log('====================================')
                 if (response.data.success) {
                   toast.success('Updated successfully!', {
+                    style: {
+                      background: '#88E7FF'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -420,6 +440,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                   })
                 } else {
                   toast.error('Something went wrong !', {
+                    style: {
+                      background: '#FFFFFF',
+                      color: 'black'
+                    },
+                    progressStyle: {
+                      background: 'black'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -433,10 +460,14 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
               }
             )
             .catch((err) => {
-              console.log('====================================')
-              console.log('err updating design --->>', err)
-              console.log('====================================')
               toast.error('Something went wrong !', {
+                style: {
+                  background: '#FFFFFF',
+                  color: 'black'
+                },
+                progressStyle: {
+                  background: 'black'
+                },
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -450,6 +481,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         }
       } else {
         toast.error('Add a name to remember', {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -462,6 +500,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
       }
     } catch (err: any) {
       toast.error(err.message, {
+        style: {
+          background: '#FFFFFF',
+          color: 'black'
+        },
+        progressStyle: {
+          background: 'black'
+        },
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -493,6 +538,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
             store.designStore.updateDesignName(response.data.design.name)
           } else {
             toast.error(response.data.error, {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
               position: 'top-right',
               autoClose: 5000,
               hideProgressBar: false,
@@ -507,6 +559,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         .catch(async (err) => {
           if (err.response.status === 401) {
             toast.error('Token Expired. Login Again!', {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
               position: 'top-right',
               autoClose: 2000,
               hideProgressBar: false,
@@ -522,6 +581,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
             }, 1000)
           } else {
             toast.error(err.response.data.message, {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
               position: 'top-right',
               autoClose: 5000,
               hideProgressBar: false,
