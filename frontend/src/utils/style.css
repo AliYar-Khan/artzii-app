@@ -311,8 +311,17 @@
 
 .bp4-popover .bp4-popover-content {
   padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 10px;
+  padding-right: 5px;
+  padding-bottom: 10px;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0px 4px 4px 0px #bdf4ff;
+ }
+
+ .bp4-popover .bp4-popover-arrow {
+  display: none !important;
  }
 
 .bp4-button.bp4-intent-primary {
@@ -330,6 +339,82 @@
   width: 100%;
   z-index: 10;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.go1311524876 {
+  overflow-y: scroll;
+}
+
+.bp4-control.bp4-switch input ~ .bp4-control-indicator {
+  background: rgba(143, 153, 168, 0.3);
+  color: #1c2127;
+}
+.bp4-control.bp4-switch:hover input ~ .bp4-control-indicator {
+  background: rgba(143, 153, 168, 0.4);
+}
+.bp4-control.bp4-switch input:not(:disabled):active ~ .bp4-control-indicator {
+  background: rgba(143, 153, 168, 0.5);
+}
+.bp4-control.bp4-switch input:disabled ~ .bp4-control-indicator {
+  background: rgba(143, 153, 168, 0.15);
+  color: rgba(95, 107, 124, 0.6);
+}
+.bp4-control.bp4-switch input:disabled ~ .bp4-control-indicator::before {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: none;
+}
+.bp4-control.bp4-switch input:checked ~ .bp4-control-indicator {
+  background: #88E7FF !important;
+  color: #ffffff;
+}
+.bp4-control.bp4-switch:hover input:checked ~ .bp4-control-indicator {
+  background: #88E7FF !important;
+}
+.bp4-control.bp4-switch input:checked:not(:disabled):active ~ .bp4-control-indicator {
+  background: #88E7FF !important;
+}
+.bp4-control.bp4-switch input:checked:disabled ~ .bp4-control-indicator {
+  background: rgba(45, 114, 210, 0.5);
+  color: rgba(255, 255, 255, 0.6);
+}
+.bp4-control.bp4-switch input:checked:disabled ~ .bp4-control-indicator::before {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+.bp4-control.bp4-switch:not(.bp4-align-right) {
+  padding-left: 38px;
+}
+.bp4-control.bp4-switch:not(.bp4-align-right) .bp4-control-indicator {
+  margin-left: -38px;
+}
+.bp4-control.bp4-switch.bp4-align-right {
+  padding-right: 38px;
+}
+.bp4-control.bp4-switch.bp4-align-right .bp4-control-indicator {
+  margin-right: -38px;
+}
+
+.bp4-button.bp4-intent-primary {
+  background: #FFFFFF !important;
+  color: black !important;
+  background: linear-gradient(white, white) padding-box padding-box, 
+    linear-gradient(to right, rgb(255, 142, 165), rgb(204, 149, 255), rgb(136, 231, 255)) border-box border-box !important;
+  border: 1px solid transparent !important;
+  box-shadow: rgb(189, 244, 255) 0px 4px 4px 0px !important;
+}
+/* .bp4-intent-primary.bp4-button-text {
+  color: black;
+} */
+
+.bp4-tab[aria-selected=true], .bp4-tab:not([aria-disabled=true]):hover {
+  color: #88E7FF !important;
+}
+.bp4-tab-indicator-wrapper .bp4-tab-indicator {
+  background: #88E7FF !important;
+}
+
+label[for=polotno-font-upload] {
+  margin-top: 20px ;
 }
 
 .bp4-navbar div ::-webkit-scrollbar {

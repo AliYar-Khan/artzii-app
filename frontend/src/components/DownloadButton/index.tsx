@@ -1,18 +1,20 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { Position, Menu, HTMLSelect, Slider, Popover } from '@blueprintjs/core'
-import JSZip from 'jszip'
-import { downloadFile } from 'polotno/utils/download'
-import * as unit from 'polotno/utils/unit'
-
-import { Button } from './style'
+import { Position, Menu, Popover } from '@blueprintjs/core'
+// import { HTMLSelect, Slider } from '@blueprintjs/core'
+// import JSZip from 'jszip'
+// import { downloadFile } from 'polotno/utils/download'
+// import * as unit from 'polotno/utils/unit'
+import JPGICON from '../../assets/image_icon.png'
+import PDFICON from '../../assets/pdf_icon.png'
+import { Button, Row, Col, MenuHeading, MenuQuality } from './style'
 
 export const DownloadButton = observer(({ store }: any) => {
   const [saving, setSaving] = React.useState(false)
   const [quality, setQuality] = React.useState(1)
   const [pageSizeModifier, setPageSizeModifier] = React.useState(1)
-  const [fps, setFPS] = React.useState(10)
-  const [type, setType] = React.useState('png')
+  // const [fps, setFPS] = React.useState(10)
+  // const [type, setType] = React.useState('png')
 
   const getName = () => {
     const texts: String[] = []
@@ -27,11 +29,117 @@ export const DownloadButton = observer(({ store }: any) => {
     const words = allWords.slice(0, 6)
     return words.join(' ').replace(/\s/g, '-').toLowerCase() || 'polotno'
   }
+
   return (
     <Popover
       content={
         <Menu>
-          <li className='bp5-menu-header'>
+          <Row>
+            <Col flex={0}>
+              <img
+                src={JPGICON}
+                width={16}
+                height={20}
+                style={{ marginTop: 5 }}
+                alt='jpg web quality'
+              />
+            </Col>
+            <Col flex={3}>
+              <Row>
+                <MenuHeading>JPG</MenuHeading>
+              </Row>
+              <Row>
+                <MenuQuality>Web Quality</MenuQuality>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col flex={0}>
+              <img
+                src={JPGICON}
+                width={16}
+                height={20}
+                style={{ marginTop: 5 }}
+                alt='png web quality'
+              />
+            </Col>
+            <Col flex={3}>
+              <Row>
+                <MenuHeading>PNG</MenuHeading>
+              </Row>
+              <Row>
+                <MenuQuality>Web Quality</MenuQuality>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col flex={0}>
+              <img
+                src={JPGICON}
+                width={16}
+                height={20}
+                style={{ marginTop: 5 }}
+                alt='png print quality'
+              />
+            </Col>
+            <Col flex={3}>
+              <Row>
+                <MenuHeading>PNG</MenuHeading>
+              </Row>
+              <Row>
+                <MenuQuality>Print Quality</MenuQuality>
+              </Row>
+            </Col>
+          </Row>
+          <Row
+            onClick={async () => {
+              setSaving(true)
+              await store.saveAsPDF({
+                fileName: getName() + '.pdf',
+                dpi: store.dpi / pageSizeModifier,
+                pixelRatio: 2 * quality
+              })
+              setSaving(false)
+            }}
+          >
+            <Col flex={0}>
+              <img
+                src={PDFICON}
+                width={16}
+                height={20}
+                style={{ marginTop: 5 }}
+                alt='pdf web quality'
+              />
+            </Col>
+            <Col flex={3}>
+              <Row>
+                <MenuHeading>PDF</MenuHeading>
+              </Row>
+              <Row>
+                <MenuQuality>Web Quality</MenuQuality>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col flex={0}>
+              <img
+                src={PDFICON}
+                width={16}
+                height={20}
+                style={{ marginTop: 5 }}
+                alt='pdf print quality'
+              />
+            </Col>
+            <Col flex={3}>
+              <Row>
+                <MenuHeading>PDF</MenuHeading>
+              </Row>
+              <Row>
+                <MenuQuality>Print Quality</MenuQuality>
+              </Row>
+            </Col>
+          </Row>
+          {/* <li className='bp5-menu-header'>
             <h6 className='bp5-heading'>File type</h6>
           </li>
           <HTMLSelect
@@ -176,7 +284,7 @@ export const DownloadButton = observer(({ store }: any) => {
             ) : (
               `Download ${type.toUpperCase()}`
             )}
-          </Button>
+          </Button> */}
         </Menu>
       }
       position={Position.BOTTOM_RIGHT}

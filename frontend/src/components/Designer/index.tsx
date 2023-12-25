@@ -102,8 +102,8 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
 
   useKey('ctrls', () => handleSave())
 
-  const customSection: any = {
-    name: 'custom1',
+  const customSection3: any = {
+    name: 'custom3',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
         {props.active ? (
@@ -162,8 +162,8 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     })
   }
 
-  const customSection3: any = {
-    name: 'custom3',
+  const customSection: any = {
+    name: 'custom1',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
         {props.active ? (
@@ -612,12 +612,6 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     return (
       <>
         <DownloadButton store={store} />
-        {/* <SaveButton onClick={handleSave}>Save</SaveButton> */}
-        {/* <InputContainer
-          ref={designName}
-          placeholder='name'
-          type='text'
-        ></InputContainer> */}
       </>
     )
   }

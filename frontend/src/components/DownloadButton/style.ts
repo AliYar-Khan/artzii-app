@@ -18,3 +18,33 @@ export const Button = styled.button<{
   margin-right: 50px;
   cursor: pointer;
 `
+export const Row = styled.div`
+  display: flex;
+  flex: 3;
+  flex-direction: row;
+`
+
+export const Col = styled.div<{
+  flex: number
+}>`
+  display: flex;
+  flex: ${(props) => props.flex};
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+`
+export const MenuHeading = styled.span`
+  font-weight: bold;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  color: #121212;
+  text-align: left;
+`
+
+export const MenuQuality = styled.span`
+  font-weight: light;
+  font-size: 11px;
+  font-family: 'Poppins', sans-serif;
+  color: #121212;
+  text-align: left;
+`
