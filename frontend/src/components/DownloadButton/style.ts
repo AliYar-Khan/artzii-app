@@ -22,6 +22,7 @@ export const Row = styled.div`
   display: flex;
   flex: 3;
   flex-direction: row;
+  cursor: pointer;
 `
 
 export const Col = styled.div<{
