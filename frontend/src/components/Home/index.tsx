@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Container,
   DesignRow,
+  Designs,
   Head1,
   // Head2,
   Head5,
   // IllustrationContainer,
   IllustrationImg,
   ImageContainer,
-  DesignImage
+  DesignImage,
+  Design
   // UploadButton
 } from './style'
 import '../../utils/style.css'
@@ -34,72 +36,89 @@ interface Props {
 
 const Home = (props: Props): JSX.Element => {
   const store = useStores()
+  const initialized = useRef(false)
+
   const [designs, setDesigns] = useState<Design[]>([])
   const [itemsDisplay, setItemsDisplay] = useState<any>()
 
   useEffect(() => {
-    client
-      .get('/design/', {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': store.authStore.authToken
-        }
-      })
-      .then(async (response) => {
-        if (response.data.success === true) {
-          setDesigns(response.data.designs)
-        }
-      })
-      .catch(async (err) => {
-        if (err.response.status === 401) {
-          toast.error('Token Expired. Login Again!', {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored'
-          })
-          await store.logout()
-          setTimeout(() => {
-            window.location.href = '/'
-          }, 1000)
-        } else {
-          toast.error(err.response.data.message, {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored'
-          })
-        }
-      })
+    if (!initialized.current) {
+      initialized.current = true
+      client
+        .get('/design/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': store.authStore.authToken
+          }
+        })
+        .then(async (response) => {
+          if (response.data.success === true) {
+            setDesigns(response.data.designs)
+          }
+        })
+        .catch(async (err) => {
+          if (err.response.status === 401) {
+            toast.error('Token Expired. Login Again!', {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
+              position: 'top-right',
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored'
+            })
+            await store.logout()
+            setTimeout(() => {
+              window.location.href = '/'
+            }, 1000)
+          } else {
+            toast.error(err.response.data.message, {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
+              position: 'top-right',
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored'
+            })
+          }
+        })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  function convertTo2DArray(arr: any[], columns: number): any[][] {
-    const result = []
-    for (let i = 0; i < arr.length; i += columns) {
-      result.push(arr.slice(i, i + columns))
-    }
-    return result
-  }
-
-  useEffect(() => {
-    if (designs.length > 0) {
-      const twoD = convertTo2DArray(designs, 4)
-      setItemsDisplay(twoD)
-    }
   }, [designs])
 
   const editDesign = (itemId: string): void => {
     store.designStore.updateDesignId(itemId)
     props.setActiveTab(2)
+  }
+
+  const isValidUrl = (urlString: string) => {
+    var urlPattern = new RegExp(
+      '^(https?:\\/\\/)?' + // validate protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    ) // validate fragment locator
+    return !!urlPattern.test(urlString)
   }
 
   return (
@@ -135,39 +154,29 @@ const Home = (props: Props): JSX.Element => {
       <DesignRow>
         <Head1>Your Designs</Head1>
       </DesignRow>
-      <DesignRow>
-        {itemsDisplay?.map(
-          (row: any[], rowIndex: React.Key | null | undefined) => (
-            <div key={rowIndex}>
-              {row?.map(
-                (
-                  item: {
-                    id: string
-                    cover: string
-                    name: string
-                  },
-                  colIndex: React.Key | null | undefined
-                ) => (
-                  <div
-                    key={colIndex}
-                    onClick={() => {
-                      editDesign(item.id)
-                    }}
-                  >
-                    <DesignImage
-                      src={item.cover}
-                      width={244}
-                      height={148}
-                      alt={item.name}
-                    />
-                    <Head5>{item.name}</Head5>
-                  </div>
-                )
-              )}
-            </div>
-          )
-        )}
-      </DesignRow>
+      <Designs>
+        {designs?.map((design: any, rowIndex: React.Key | null | undefined) => (
+          <div
+            key={rowIndex}
+            onClick={() => {
+              editDesign(design.id)
+            }}
+          >
+            {isValidUrl(design.cover) ? (
+              <DesignImage
+                src={design.cover}
+                width={244}
+                height={148}
+                alt={design.name}
+              />
+            ) : (
+              <Design background={design.cover}></Design>
+            )}
+            <Head5>{design.name}</Head5>
+            <Head5>{design.size}</Head5>
+          </div>
+        ))}
+      </Designs>
     </Container>
   )
 }

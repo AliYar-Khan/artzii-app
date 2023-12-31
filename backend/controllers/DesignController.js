@@ -71,7 +71,8 @@ exports.getAllDesign = async (req, res) => {
     const result = de.map((item) => ({
       id: item._id,
       name: item.name,
-      cover: item.pages[0].background
+      cover: item.pages[0].background,
+      size: `${item.width}x${item.height}`
     }))
     return res.status(200).json({ success: true, designs: result })
   } catch (error) {

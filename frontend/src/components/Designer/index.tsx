@@ -29,7 +29,7 @@ import TemplateIcon from '../../assets/templatesIcon.png'
 import TemplateColor from '../../assets/templateColor.png'
 import SizingIcon from '../../assets/sizingIcon.png'
 import SizingColor from '../../assets/sizingColor.png'
-import { DownloadButton } from 'polotno/toolbar/download-button'
+import { DownloadButton } from '../DownloadButton'
 import '../../utils/style.css'
 
 import '@blueprintjs/icons/lib/css/blueprint-icons.css'
@@ -102,8 +102,8 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
 
   useKey('ctrls', () => handleSave())
 
-  const customSection: any = {
-    name: 'custom1',
+  const customSection3: any = {
+    name: 'custom3',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
         {props.active ? (
@@ -162,8 +162,8 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     })
   }
 
-  const customSection3: any = {
-    name: 'custom3',
+  const customSection: any = {
+    name: 'custom1',
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
         {props.active ? (
@@ -333,16 +333,12 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
 
   const handleSave = (): void => {
     try {
-      if (designName.current.value) {
+      if (store.designStore.designName) {
         const jsonObject = {
-          name: designName.current.value,
+          name: store.designStore.designName,
           ...storePolotno.toJSON()
         }
-        if (
-          store.designStore.designId === null ||
-          store.designStore.designId === '' ||
-          store.designStore.designId === undefined
-        ) {
+        if (!store.designStore.designId) {
           client
             .post('/design/', JSON.stringify(jsonObject), {
               headers: {
@@ -354,12 +350,12 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
               async (response: {
                 data: { success: boolean; designId: string }
               }) => {
-                console.log('====================================')
-                console.log('response.data -->>', response.data)
-                console.log('====================================')
                 if (response.data.success) {
                   store.designStore.updateDesignId(response.data.designId)
                   toast.success('Saved successfully!', {
+                    style: {
+                      background: '#88E7FF'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -371,6 +367,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                   })
                 } else {
                   toast.error('Something went wrong !', {
+                    style: {
+                      background: '#FFFFFF',
+                      color: 'black'
+                    },
+                    progressStyle: {
+                      background: 'black'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -385,6 +388,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
             )
             .catch((error) => {
               toast.error(error.response.data.message, {
+                style: {
+                  background: '#FFFFFF',
+                  color: 'black'
+                },
+                progressStyle: {
+                  background: 'black'
+                },
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -415,8 +425,10 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                 console.log('response.data -->>', response.data)
                 console.log('====================================')
                 if (response.data.success) {
-                  store.designStore.updateDesignId(response.data.designId)
                   toast.success('Updated successfully!', {
+                    style: {
+                      background: '#88E7FF'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -428,6 +440,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
                   })
                 } else {
                   toast.error('Something went wrong !', {
+                    style: {
+                      background: '#FFFFFF',
+                      color: 'black'
+                    },
+                    progressStyle: {
+                      background: 'black'
+                    },
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -441,10 +460,14 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
               }
             )
             .catch((err) => {
-              console.log('====================================')
-              console.log('err updating design --->>', err)
-              console.log('====================================')
               toast.error('Something went wrong !', {
+                style: {
+                  background: '#FFFFFF',
+                  color: 'black'
+                },
+                progressStyle: {
+                  background: 'black'
+                },
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -458,6 +481,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
         }
       } else {
         toast.error('Add a name to remember', {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -470,6 +500,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
       }
     } catch (err: any) {
       toast.error(err.message, {
+        style: {
+          background: '#FFFFFF',
+          color: 'black'
+        },
+        progressStyle: {
+          background: 'black'
+        },
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -496,45 +533,39 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
           }
         })
         .then(async (response) => {
-          console.log('====================================')
-          console.log('response of geting design --->', response)
-          console.log('====================================')
           if (response.data.success === true) {
             pg.loadJSON(response.data.design)
-            designName.current.value = response.data.design.name
+            store.designStore.updateDesignName(response.data.design.name)
           } else {
-            if (response.status === 401) {
-              toast.error('Token Expired. Login Again!', {
-                position: 'top-right',
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'colored'
-              })
-              await store.logout()
-              setTimeout(() => {
-                window.location.href = '/'
-              }, 1000)
-            } else {
-              toast.error(response.data.error, {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'colored'
-              })
-            }
+            toast.error(response.data.error, {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored'
+            })
           }
         })
         .catch(async (err) => {
           if (err.response.status === 401) {
             toast.error('Token Expired. Login Again!', {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
               position: 'top-right',
               autoClose: 2000,
               hideProgressBar: false,
@@ -550,6 +581,13 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
             }, 1000)
           } else {
             toast.error(err.response.data.message, {
+              style: {
+                background: '#FFFFFF',
+                color: 'black'
+              },
+              progressStyle: {
+                background: 'black'
+              },
               position: 'top-right',
               autoClose: 5000,
               hideProgressBar: false,
@@ -561,9 +599,11 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
             })
           }
         })
-    } else {
+    }
+    return () => {
       pg.clear()
       pg.addPage()
+      store.designStore.clear()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.designStore.designId])
@@ -572,12 +612,6 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     return (
       <>
         <DownloadButton store={store} />
-        {/* <SaveButton onClick={handleSave}>Save</SaveButton> */}
-        <InputContainer
-          ref={designName}
-          placeholder='name'
-          type='text'
-        ></InputContainer>
       </>
     )
   }
@@ -598,7 +632,7 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
       />
       <PolotnoContainer
         style={{
-          width: '90vw',
+          width: '100vw',
           height: 'auto',
           overflowY: 'auto',
           overflowX: 'auto !important'

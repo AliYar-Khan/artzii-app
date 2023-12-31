@@ -95,19 +95,15 @@ export const Link = styled.a<{ fontColor: string }>`
 export const UpgradeButton = styled.button`
   width: 100px;
   height: 50px;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px #bdf4ff;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
   border-radius: 4px;
-  border-image: linear-gradient(
-      90deg,
-      rgba(255, 142, 165, 0.87) 25.21%,
-      rgba(204, 149, 255, 0.87) 51.28%,
-      rgba(136, 231, 255, 0.87) 75.62%
-    )
-    1 !important;
+  border: 1px solid transparent;
+  box-shadow: 0px 4px 4px 0px #bdf4ff;
   color: ${Theme.BLACK_COLOR};
   margin-right: 50px;
   cursor: pointer;
+  font-weight: bold;
 `
 
 export const BellIcon = styled.div`
@@ -125,7 +121,7 @@ export const SettingsIcon = styled.div`
 
 export const AvatarIcon = styled.div`
   margin-left: 30px;
-  margin-right: 0px;
+  margin-right: 30px;
   cursor: pointer;
   background: white !important;
 `

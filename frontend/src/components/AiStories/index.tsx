@@ -65,15 +65,19 @@ const Stories = ({ handleNavigation, setActiveTab }: Props): any => {
       .then((response) => {
         setLoading(false)
         if (response.status === 200) {
-          console.log('====================================')
-          console.log('response.data.story --->', response.data.story)
-          console.log('====================================')
           setStory(response.data.story)
         }
       })
       .catch((error) => {
         setLoading(false)
         toast.error(error.response.data.message, {
+          style: {
+            background: '#FFFFFF',
+            color: 'black'
+          },
+          progressStyle: {
+            background: 'black'
+          },
           position: 'top-right',
           autoClose: 2000,
           hideProgressBar: false,
@@ -119,6 +123,9 @@ const Stories = ({ handleNavigation, setActiveTab }: Props): any => {
                   onClick={() => {
                     void copyTextToClipBoard(item.content)
                     toast.success('Copied to Clipboard', {
+                      style: {
+                        background: '#88E7FF'
+                      },
                       position: 'top-right',
                       autoClose: 2000,
                       hideProgressBar: false,

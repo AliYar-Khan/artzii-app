@@ -82,10 +82,12 @@ const Dashboard = (): JSX.Element => {
     setActiveNavigation(4)
   }
 
-  if (store.authStore.authToken === null ||
+  if (
+    store.authStore.authToken === null ||
     store.authStore.authToken === undefined ||
-    store.authStore.authToken === '') {
-    return <Navigate to="/" replace />
+    store.authStore.authToken === ''
+  ) {
+    return <Navigate to='/' replace />
   }
 
   const renderTabContent = (): JSX.Element => {
@@ -147,6 +149,7 @@ const Dashboard = (): JSX.Element => {
         handleSettingsClick={handleSettingsClick}
         handleUpgradeClick={handleUpgradeClick}
         handleAICreditClick={handleAICreditClick}
+        activeTab={activeTab}
       />
       <LeftSideBar
         tabs={tabs}
@@ -155,8 +158,8 @@ const Dashboard = (): JSX.Element => {
           activeSideBar
             ? renderTabContent
             : activeNavScreens
-              ? renderNavigations
-              : renderHeaderContent
+            ? renderNavigations
+            : renderHeaderContent
         }
         handleTabClick={handleTabClick}
       />
