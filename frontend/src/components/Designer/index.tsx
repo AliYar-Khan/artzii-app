@@ -1,6 +1,6 @@
 /* eslint-disable no-labels */
 import React, { useState, useEffect, useRef } from 'react'
-import { Container, InputContainer } from './style'
+import { Container } from './style'
 import { PolotnoContainer, SidePanelWrap, WorkspaceWrap } from 'polotno'
 import { observer } from 'mobx-react-lite'
 import { SectionTab, SidePanel } from 'polotno/side-panel'
@@ -80,7 +80,6 @@ function useKey(key: string, cb: any) {
 
 const Designer = (props: { setActiveTab: any }): JSX.Element => {
   const store = useStores()
-  const designName: any = React.useRef()
   const [isModalOpen, setIsModalOpen] = useState(false)
   // const [showTemplates, setShowTemplates] = useState(false)
 

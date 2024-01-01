@@ -23,6 +23,7 @@
     "mongoose": "^7.4.1",
     "nodemon": "^3.0.1",
     "openai": "^4.0.0",
+    "polotno-node": "^2.7.3",
     "qs": "^6.11.2",
     "request": "^2.88.2",
     "stripe": "^13.7.0",
