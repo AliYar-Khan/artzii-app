@@ -147,7 +147,7 @@ const BackgroundRemover = () => {
               marginBottom={0}
             >
               <UploadButton onClick={handleDownload}>Download</UploadButton>
-              <UploadButton>Designer</UploadButton>
+              {/* <UploadButton>Designer</UploadButton> */}
             </Column>
           </>
         ) : (
