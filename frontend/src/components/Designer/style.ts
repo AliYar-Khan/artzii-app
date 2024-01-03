@@ -5,6 +5,7 @@ export const Container = styled.div`
   margin-left: -53px;
   margin-right: auto;
   top: 45px;
+  background: #ffffff;
   width: -webkit-fill-available;
   width: -moz-available;
   height: 100vh;
@@ -17,6 +18,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   position: fixed;
+  z-index: 7;
+  box-shadow: -1px 4px 30px rgba(0, 0, 0, 0.25);
 `
 
 export const SaveButton = styled.button`
