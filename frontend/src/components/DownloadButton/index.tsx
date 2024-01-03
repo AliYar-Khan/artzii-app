@@ -81,101 +81,111 @@ export const DownloadButton = observer(({ store }: any) => {
     <Popover
       content={
         <Menu>
-          <Row onClick={() => saveImage('jpg', 72)}>
-            <Col flex={0}>
-              <img
-                src={JPGICON}
-                width={16}
-                height={20}
-                style={{ marginTop: 5 }}
-                alt='jpg web quality'
-              />
-            </Col>
-            <Col flex={3}>
-              <Row>
-                <MenuHeading>JPG</MenuHeading>
+          {!saving ? (
+            <>
+              <Row onClick={() => saveImage('jpg', 72)}>
+                <Col flex={0}>
+                  <img
+                    src={JPGICON}
+                    width={16}
+                    height={20}
+                    style={{ marginTop: 5 }}
+                    alt='jpg web quality'
+                  />
+                </Col>
+                <Col flex={3}>
+                  <Row>
+                    <MenuHeading>JPG</MenuHeading>
+                  </Row>
+                  <Row>
+                    <MenuQuality>Web Quality</MenuQuality>
+                  </Row>
+                </Col>
               </Row>
-              <Row>
-                <MenuQuality>Web Quality</MenuQuality>
+              <Row onClick={() => saveImage('png', 72)}>
+                <Col flex={0}>
+                  <img
+                    src={JPGICON}
+                    width={16}
+                    height={20}
+                    style={{ marginTop: 5 }}
+                    alt='png web quality'
+                  />
+                </Col>
+                <Col flex={3}>
+                  <Row>
+                    <MenuHeading>PNG</MenuHeading>
+                  </Row>
+                  <Row>
+                    <MenuQuality>Web Quality</MenuQuality>
+                  </Row>
+                </Col>
               </Row>
-            </Col>
-          </Row>
-          <Row onClick={() => saveImage('png', 72)}>
-            <Col flex={0}>
-              <img
-                src={JPGICON}
-                width={16}
-                height={20}
-                style={{ marginTop: 5 }}
-                alt='png web quality'
-              />
-            </Col>
-            <Col flex={3}>
-              <Row>
-                <MenuHeading>PNG</MenuHeading>
+              <Row onClick={() => saveImage('png', 300 / 72)}>
+                <Col flex={0}>
+                  <img
+                    src={JPGICON}
+                    width={16}
+                    height={20}
+                    style={{ marginTop: 5 }}
+                    alt='png print quality'
+                  />
+                </Col>
+                <Col flex={3}>
+                  <Row>
+                    <MenuHeading>PNG</MenuHeading>
+                  </Row>
+                  <Row>
+                    <MenuQuality>Print Quality</MenuQuality>
+                  </Row>
+                </Col>
               </Row>
-              <Row>
-                <MenuQuality>Web Quality</MenuQuality>
+              <Row onClick={() => savePDF(72)}>
+                <Col flex={0}>
+                  <img
+                    src={PDFICON}
+                    width={16}
+                    height={20}
+                    style={{ marginTop: 5 }}
+                    alt='pdf web quality'
+                  />
+                </Col>
+                <Col flex={3}>
+                  <Row>
+                    <MenuHeading>PDF</MenuHeading>
+                  </Row>
+                  <Row>
+                    <MenuQuality>Web Quality</MenuQuality>
+                  </Row>
+                </Col>
               </Row>
-            </Col>
-          </Row>
-          <Row onClick={() => saveImage('png', 300 / 72)}>
-            <Col flex={0}>
-              <img
-                src={JPGICON}
-                width={16}
-                height={20}
-                style={{ marginTop: 5 }}
-                alt='png print quality'
-              />
-            </Col>
-            <Col flex={3}>
-              <Row>
-                <MenuHeading>PNG</MenuHeading>
+              <Row onClick={() => savePDF(300)}>
+                <Col flex={0}>
+                  <img
+                    src={PDFICON}
+                    width={16}
+                    height={20}
+                    style={{ marginTop: 5 }}
+                    alt='pdf print quality'
+                  />
+                </Col>
+                <Col flex={3}>
+                  <Row>
+                    <MenuHeading>PDF</MenuHeading>
+                  </Row>
+                  <Row>
+                    <MenuQuality>Print Quality</MenuQuality>
+                  </Row>
+                </Col>
               </Row>
-              <Row>
-                <MenuQuality>Print Quality</MenuQuality>
-              </Row>
-            </Col>
-          </Row>
-          <Row onClick={() => savePDF(72)}>
-            <Col flex={0}>
-              <img
-                src={PDFICON}
-                width={16}
-                height={20}
-                style={{ marginTop: 5 }}
-                alt='pdf web quality'
-              />
-            </Col>
-            <Col flex={3}>
-              <Row>
-                <MenuHeading>PDF</MenuHeading>
-              </Row>
-              <Row>
-                <MenuQuality>Web Quality</MenuQuality>
-              </Row>
-            </Col>
-          </Row>
-          <Row onClick={() => savePDF(300)}>
-            <Col flex={0}>
-              <img
-                src={PDFICON}
-                width={16}
-                height={20}
-                style={{ marginTop: 5 }}
-                alt='pdf print quality'
-              />
-            </Col>
-            <Col flex={3}>
-              <Row>
-                <MenuHeading>PDF</MenuHeading>
-              </Row>
-              <Row>
-                <MenuQuality>Print Quality</MenuQuality>
-              </Row>
-            </Col>
-          </Row>
+            </>
+          ) : (
+            <div style={{ display: 'flex' }}>
+              <Col flex={4}>
+                <MenuHeading>Saving ...</MenuHeading>
+              </Col>
+            </div>
+          )}
         </Menu>
       }
       position={Position.BOTTOM_RIGHT}

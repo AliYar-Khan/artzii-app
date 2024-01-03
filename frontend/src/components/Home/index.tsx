@@ -25,7 +25,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 // import Designer from '../Designer'
 // import { Navigate } from 'react-router-dom'
-interface Design {
+interface DesignProps {
   name: string
   conver: string
 }
@@ -38,8 +38,7 @@ const Home = (props: Props): JSX.Element => {
   const store = useStores()
   const initialized = useRef(false)
 
-  const [designs, setDesigns] = useState<Design[]>([])
-  const [itemsDisplay, setItemsDisplay] = useState<any>()
+  const [designs, setDesigns] = useState<DesignProps[]>([])
 
   useEffect(() => {
     if (!initialized.current) {

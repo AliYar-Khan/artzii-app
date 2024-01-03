@@ -1,6 +1,7 @@
 import { type Tab } from '../types/tabs'
 import Home from '../components/Home'
 import Designer from '../components/Designer'
+import BackgroundRemover from '../components/BackgroundRemover'
 import Stories from '../components/AiStories'
 import AiArt from '../components/AiArt'
 import HomeIcon from '../assets/Home.png'
@@ -9,6 +10,8 @@ import StoryIcon from '../assets/StoryIcon.png'
 import ArtIcon from '../assets/ArtIcon.png'
 import HomeColor from '../assets/HomeColor.png'
 import BookColor from '../assets/BookColor.png'
+import BGIcon from '../assets/bg_remover_icon.png'
+import BGIconColor from '../assets/bg_remover_icon_color.png'
 import StoryColor from '../assets/StoryColor.png'
 import ArtColor from '../assets/ArtColor.png'
 
@@ -29,13 +32,20 @@ export const tabs: Tab[] = [
   },
   {
     id: 3,
+    title: 'BG Remover',
+    icon1: BGIconColor,
+    icon2: BGIcon,
+    component: () => BackgroundRemover
+  },
+  {
+    id: 4,
     title: 'Ai Stories',
     icon1: StoryColor,
     icon2: StoryIcon,
     component: Stories
   },
   {
-    id: 4,
+    id: 5,
     title: 'Ai Art',
     icon1: ArtColor,
     icon2: ArtIcon,

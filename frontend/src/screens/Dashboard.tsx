@@ -16,6 +16,7 @@ import StoryEditor from '../components/StoryEditor'
 import { useStores } from 'src/store/rootStore'
 import { Navigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
+import BackgroundRemover from '../components/BackgroundRemover'
 
 const Dashboard = (): JSX.Element => {
   const store = useStores()
@@ -97,13 +98,15 @@ const Dashboard = (): JSX.Element => {
       case 2:
         return <Designer setActiveTab={setActiveTab} />
       case 3:
+        return <BackgroundRemover />
+      case 4:
         return (
           <Stories
             handleNavigation={handleStoryNavigation}
             setActiveTab={setActiveTab}
           />
         )
-      case 4:
+      case 5:
         return (
           <AiArt
             handleNavigation={handleArtNavigation}

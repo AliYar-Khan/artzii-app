@@ -12,7 +12,7 @@ import {
 import GoogleIcon from '../../assets/google.png'
 import Header from '../Header'
 import Theme from '../../constants/theme'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { client } from '../../apiClient/apiClient'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -21,7 +21,7 @@ import Subscription from '../../screens/Subscription'
 import { useStores } from 'src/store/rootStore'
 const Signup = (): JSX.Element => {
   const store = useStores()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [googleClicked, setGoogleClicked] = useState(false)
   const [gettingStarted, setGettingStarted] = useState(true)
   const [packagePrice, setPackagePrice] = useState<String>('')
@@ -84,9 +84,9 @@ const Signup = (): JSX.Element => {
       })
   }
 
-  const handleNavigation = (path: string): void => {
-    navigate(`${path}`)
-  }
+  // const handleNavigation = (path: string): void => {
+  //   navigate(`${path}`)
+  // }
 
   const handleGoogleSignUpSuccess = (tokenResponse: {
     access_token: any
