@@ -43,18 +43,3 @@ export const SaveButton = styled.button`
   font-size: 12px;
   outline: transparent;
 `
-
-export const InputContainer = styled.input`
-  cursor: pointer;
-  height: 30px;
-  width: 150px;
-  background: linear-gradient(white, white) padding-box,
-    linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  box-shadow: 0px 4px 4px 0px #bdf4ff !important;
-  color: ${Theme.BLACK_COLOR};
-  margin-top: 0px;
-  cursor: pointer;
-  outline: transparent;
-`

@@ -8,7 +8,8 @@ import {
   UpgradeButton,
   AvatarIcon,
   BellIcon,
-  SettingsIcon
+  SettingsIcon,
+  InputContainer
 } from './style'
 import logo from '../../assets/artzLogo.png'
 // import avatarImg from '../../assets/avatarImg.png'
@@ -17,7 +18,6 @@ import { useLocation } from 'react-router-dom'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar } from 'antd'
-import { InputContainer } from '../Designer/style'
 import { useStores } from 'src/store/rootStore'
 interface Props {
   handleSettingsClick: () => void
