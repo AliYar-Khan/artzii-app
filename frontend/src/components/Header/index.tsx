@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Container,
   Wrapper,
@@ -32,9 +32,17 @@ const Header = ({
   handleAICreditClick,
   activeTab
 }: Props): JSX.Element => {
+  const [designName, setDesignName] = useState<any>('')
   const store = useStores()
   const location = useLocation()
   const channelPath = location.pathname
+
+  useEffect(() => {
+    if (designName) {
+      store.designStore.updateDesignName(designName)
+    }
+  }, [designName])
+
   return (
     <Container>
       <Wrapper>
@@ -67,9 +75,9 @@ const Header = ({
             </AvatarIcon>
             {activeTab === 2 ? (
               <InputContainer
-                value={store.designStore.designName}
+                value={designName}
                 onChange={(event) => {
-                  store.designStore.updateDesignName(event.target.value)
+                  setDesignName(event.target.value)
                 }}
                 placeholder='name'
                 type='text'
