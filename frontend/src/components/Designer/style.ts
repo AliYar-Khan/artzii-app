@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Theme from '../../constants/theme'
 
 export const Container = styled.div`
-  margin-left: -53px;
+  margin-left: -40px;
   margin-right: auto;
   top: 45px;
   background: #ffffff;

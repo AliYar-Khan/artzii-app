@@ -32,7 +32,7 @@ export const LeftContainer = styled.div`
   width: 290px;
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
-  left: 90px;
+  left: 110px;
   top: 90px;
   padding-top: 50px;
 `
