@@ -110,9 +110,6 @@ const BackgroundRemover = () => {
               <InfoText>Images file only (.png or .jpg)</InfoText>
             </BrowseDiv>
           </DottedBorder>
-          <UploadButton onClick={() => inputRef.current?.click()}>
-            Upload
-          </UploadButton>
         </UploadTitleContainer>
       </LeftContainer>
       <Container>
