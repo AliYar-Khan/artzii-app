@@ -13,11 +13,11 @@ export const Container = styled.div`
   position: fixed;
   display: flex;
   margin-top: 50px;
-  margin-left: 290px;
+  margin-left: 270px;
   height: 100vh;
   width: -webkit-fill-available;
   width: -moz-available;
-  top: 90px;
+  top: 40px;
   bottom: 20px;
   background: white;
   overflow: hidden;
@@ -32,7 +32,7 @@ export const LeftContainer = styled.div`
   width: 290px;
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
-  left: 100px;
+  left: 90px;
   top: 90px;
   padding-top: 50px;
 `
