@@ -33,13 +33,14 @@ exports.generateStory = async (req, res) => {
         const currentMonth = currentDate.getMonth() + 1
         const key = currentMonth + '/' + currentYear
         if (payment.subscription.usage) {
-          if (key in payment.subscription.usage) {
+          if (payment.subscription.usage[`${key}`]) {
             payment.subscription.usage[`${key}`].storyTokens =
               payment.subscription.usage[`${key}`].storyTokens +
               response.usage.total_tokens
           } else {
-            payment.subscription.usage[`${key}`].storyTokens =
-              response.usage.total_tokens
+            payment.subscription.usage[`${key}`] = {
+              storyTokens: response.usage.total_tokens
+            }
           }
         } else {
           payment.subscription.usage = {}

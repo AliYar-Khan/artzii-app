@@ -337,8 +337,26 @@
   padding: 0 15px;
   position: relative;
   width: 100%;
+  z-index: unset;
+}
+
+.go1311524876 {
+  position: relative;
   z-index: 10;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.go1534843754 {
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.go3456988929 {
+  z-index: 1 !important;
+  box-shadow: -1px 4px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.go1123280453 {
+  z-index: 100 !important;
 }
 
 .go1311524876 > div:first-child {

@@ -2,9 +2,10 @@ import styled from 'styled-components'
 import Theme from '../../constants/theme'
 
 export const Container = styled.div`
-  margin-left: -53px;
+  margin-left: -40px;
   margin-right: auto;
   top: 45px;
+  background: #ffffff;
   width: -webkit-fill-available;
   width: -moz-available;
   height: 100vh;
@@ -17,6 +18,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   position: fixed;
+  z-index: 7;
+  box-shadow: -1px 4px 30px rgba(0, 0, 0, 0.25);
 `
 
 export const SaveButton = styled.button`
@@ -38,20 +41,5 @@ export const SaveButton = styled.button`
   position: absolute;
   left: 580px;
   font-size: 12px;
-  outline: transparent;
-`
-
-export const InputContainer = styled.input`
-  cursor: pointer;
-  height: 30px;
-  width: 150px;
-  background: linear-gradient(white, white) padding-box,
-    linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  box-shadow: 0px 4px 4px 0px #bdf4ff !important;
-  color: ${Theme.BLACK_COLOR};
-  margin-top: 0px;
-  cursor: pointer;
   outline: transparent;
 `

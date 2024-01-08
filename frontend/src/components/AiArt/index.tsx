@@ -69,6 +69,24 @@ const AiArt = ({ handleNavigation, setActiveTab }: Props): JSX.Element => {
           console.log('response.data.story --->', response.data.data)
           console.log('====================================')
           setArt(response.data.data)
+        } else {
+          toast.error('Something went wrong', {
+            style: {
+              background: '#FFFFFF',
+              color: 'black'
+            },
+            progressStyle: {
+              background: 'black'
+            },
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored'
+          })
         }
       })
       .catch((error) => {

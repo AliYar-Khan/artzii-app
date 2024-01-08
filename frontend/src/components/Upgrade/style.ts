@@ -47,22 +47,18 @@ export const Flex2 = styled.div`
   align-items: center;
 `
 export const AccessButton = styled.button`
-  cursor: pointer;
-  height: 46px;
-  background: ${Theme.WHITE_COLOR};
-  box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-  border-image: linear-gradient(
-      90deg,
-      rgba(255, 142, 165, 0.87) 25.21%,
-      rgba(204, 149, 255, 0.87) 51.28%,
-      rgba(136, 231, 255, 0.87) 75.62%
-    )
-    1 !important;
-  color: ${Theme.BLACK_COLOR};
   width: -webkit-fill-available;
   width: -moz-available;
+  height: 50px;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #ff8ea5, #cc95ff, #88e7ff) border-box;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.12);
+  color: ${Theme.BLACK_COLOR};
   margin-bottom: 15px;
+  cursor: pointer;
+  font-weight: bold;
 `
 
 export const CancelSubscription = styled.a`
@@ -73,7 +69,7 @@ export const CancelSubscription = styled.a`
   height: 24px;
   top: calc(12%);
   right: 100px;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -92,7 +88,7 @@ export const ManageSubscription = styled.a`
   height: 50px;
   top: calc(10%);
   left: 100px;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   font-style: normal;
   box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.12);
   font-weight: 500;

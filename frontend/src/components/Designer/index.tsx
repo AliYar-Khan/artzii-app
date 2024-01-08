@@ -196,9 +196,17 @@ const Designer = (props: { setActiveTab: any }): JSX.Element => {
     Tab: (props: SectionTabProps) => (
       <SectionTab {...props}>
         {props.active ? (
-          <img src={uploadColor} alt='props' style={{ background: 'white' }} />
+          <img
+            src={uploadColor}
+            alt='props'
+            style={{ background: 'white', width: '36px' }}
+          />
         ) : (
-          <img src={UploadIcon} alt='props' style={{ background: 'white' }} />
+          <img
+            src={UploadIcon}
+            alt='props'
+            style={{ background: 'white', width: '36px' }}
+          />
         )}
         <p style={{ background: 'white', fontSize: '12px' }}>Upload</p>
       </SectionTab>
